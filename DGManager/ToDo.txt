@@ -1,0 +1,25 @@
+- Just after switching to GPS Mouse mode, you'll get two lines before the real GPS data :
+	$PSRFTXT,Version: GSW3.2.2_3.1.00.12-SDK003P1.01a ..
+	$PSRFTXT,Version2:F-GPS-03-0702021..
+- Another info I that I tracked down the command sent when in GPS mouse mode to activate and deactivate WAAS :
+	Set WAAS
+	$PSRF151,01*0F..   
+	UnSet WAAS
+	$PSRF151,00*0E..    
+- Cumulative Distance column in points grid http://www.movable-type.co.uk/scripts/latlong.html
+- export to CSV
+
+- Option to automatically load photos in same directory as GSD, or else extend the GSD spec to include photo paths
+- Make photo popups on google maps automatically relocate themselves to be visible in the viewport
+- Support multiple languages
+- Allow individual photos to be removed from grid
+- check compatibility of saved GSDs with GlobalSat software
+- option to specify URL location of photos in exported KML, ie "http://myserver.com/photos/" + filename
+  or maybe add a column to the photos grid to allow the user to enter the URL
+- add a column to the photos grid to show the reverse geocoded address
+- option to open multiple GPX files at once
+- preview tab (track editing etc)
+- If I save as KML and after that as Google map html, the prompt in the file chooser for the latter save still shows the .kml extension.
+- Option to specify own Google Maps API key
+- Reverse geocode existing geocoded images
+- Device configuration, distance between points off by a factor of 1.7 http://usglobalsat.com/forum/topic.asp?TOPIC_ID=821

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{33B1584D-4F72-463B-9C65-A9496385FCA3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DGManager.Backend</RootNamespace>
+    <AssemblyName>DGManager.Backend</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Nini, Version=1.1.0.0, Culture=neutral, PublicKeyToken=691faec150a7fa7b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rd Party\Nini\Nini.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BoundingBox.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="ColorGenerator.cs" />
+    <Compile Include="DeviceConfig.cs" />
+    <Compile Include="DistanceMeasurement.cs" />
+    <Compile Include="ElevationMeasurement.cs" />
+    <Compile Include="Exif\Exiv2Image.cs" />
+    <Compile Include="Exif\Exiv2MetaType.cs" />
+    <Compile Include="Exif\Exiv2Wrapper.cs" />
+    <Compile Include="GeoUtil.cs" />
+    <Compile Include="GroupedCoordinatesCalculator.cs" />
+    <Compile Include="IMeasurement.cs" />
+    <Compile Include="Jpeg.cs" />
+    <Compile Include="JpegHelper.cs" />
+    <Compile Include="MeasurementBase.cs" />
+    <Compile Include="NmeaParser.cs" />
+    <Compile Include="PointConverters\CsvPointConverter.cs" />
+    <Compile Include="PointConverters\Dialog\CsvFormatDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PointConverters\Dialog\CsvFormatDialog.designer.cs">
+      <DependentUpon>CsvFormatDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PointConverters\GmapPointConverter.cs" />
+    <Compile Include="PointConverters\GpxPointConverter.cs" />
+    <Compile Include="PointConverters\GsdPointConverter.cs" />
+    <Compile Include="PointConverters\KmlPointConverter.cs" />
+    <Compile Include="PointConverters\NmeaPointConverter.cs" />
+    <Compile Include="PointConverters\OsmPointConverter.cs" />
+    <Compile Include="PointConverters\OvlPointConverter.cs" />
+    <Compile Include="PointConverters\OziPltPointConverter.cs" />
+    <Compile Include="PointConverters\PolishPointConverter.cs" />
+    <Compile Include="PointConverters\Support\IPointReader.cs" />
+    <Compile Include="PointConverters\Support\IPointWriter.cs" />
+    <Compile Include="PointConverters\Support\PointConverter.cs" />
+    <Compile Include="PointConverters\Support\PointConverterAttribute.cs" />
+    <Compile Include="PointConverters\Support\PointReaderArgs.cs" />
+    <Compile Include="PointConverters\Support\PointWriterArgs.cs" />
+    <Compile Include="PointConverters\TxtPointConverter.cs" />
+    <Compile Include="ResourceExtractor.cs" />
+    <Compile Include="ReverseGeocoder.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="PointOfInterest.cs" />
+    <Compile Include="PointOfInterestList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoftwareVersion.cs" />
+    <Compile Include="SpeedMeasurement.cs" />
+    <Compile Include="Support.cs" />
+    <Compile Include="VersionChecker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PointConverters\Dialog\CsvFormatDialog.resx">
+      <DependentUpon>CsvFormatDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\exivsimple.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GPSMarkerRedDot.png" />
+    <EmbeddedResource Include="Resources\GPSNullDoc.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
