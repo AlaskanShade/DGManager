@@ -1329,8 +1329,8 @@ namespace DGManager
 		{
             if (e.Url.AbsolutePath.Contains("Null"))
             {
-                string latStr = ((mshtml.HTMLInputElementClass)(((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLat").DomElement)).IHTMLInputHiddenElement_value;
-                string lonStr = ((mshtml.HTMLInputElementClass)(((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLong").DomElement)).IHTMLInputHiddenElement_value;
+                string latStr = ((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLat").InnerText;
+                string lonStr = ((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLong").InnerText;
                 if (String.IsNullOrEmpty(latStr) || String.IsNullOrEmpty(lonStr)) return;
                 double lat = double.Parse(latStr);
                 double lon = double.Parse(lonStr);
