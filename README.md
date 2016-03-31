@@ -4,6 +4,7 @@ features such as allowing you to geocode / geotag photos. Requires the .NET Fram
 now be used with any GPX file!  Migrated from: https://sourceforge.net/projects/dgmanager-net/
 
 This program can also handle working with a number of different file formats of spatial data.  Most formats can also be written to.  It is also possible to create plugins with converters by putting a DLL in the same folder with a class that implements IPointReader and/or IPointWriter in the DGManager.Backend library.
+
 | Type/Extension | Support | Sample | Notes |
 | --- | --- | --- | --- |
 | GPS Exchange Format (.gpx) | Read/Write | [20120607_West_Glacier.gpx](Samples/20120607_West_Glacier.gpx) |  |
