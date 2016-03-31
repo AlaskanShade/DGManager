@@ -33,15 +33,15 @@ namespace DGManager
             this.txtStartIcon = new System.Windows.Forms.TextBox();
             this.ckEndIcon = new System.Windows.Forms.CheckBox();
             this.ckStartIcon = new System.Windows.Forms.CheckBox();
-            this.DifferentTrackColoursCheckBox = new System.Windows.Forms.CheckBox();
+            this.DifferentTrackColorsCheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.ColourButton = new System.Windows.Forms.Button();
+            this.ColorButton = new System.Windows.Forms.Button();
             this.OpacityUpDown = new System.Windows.Forms.NumericUpDown();
             this.OpacityCheckBox = new System.Windows.Forms.CheckBox();
             this.WidthCheckBox = new System.Windows.Forms.CheckBox();
             this.WidthUpDown = new System.Windows.Forms.NumericUpDown();
-            this.ColourCheckBox = new System.Windows.Forms.CheckBox();
+            this.ColorCheckBox = new System.Windows.Forms.CheckBox();
             this.CanclButton = new System.Windows.Forms.Button();
             this.OkButton = new System.Windows.Forms.Button();
             this.PerformanceGroupBox = new System.Windows.Forms.GroupBox();
@@ -73,15 +73,15 @@ namespace DGManager
             this.LineAppearanceGroupBox.Controls.Add(this.txtStartIcon);
             this.LineAppearanceGroupBox.Controls.Add(this.ckEndIcon);
             this.LineAppearanceGroupBox.Controls.Add(this.ckStartIcon);
-            this.LineAppearanceGroupBox.Controls.Add(this.DifferentTrackColoursCheckBox);
+            this.LineAppearanceGroupBox.Controls.Add(this.DifferentTrackColorsCheckBox);
             this.LineAppearanceGroupBox.Controls.Add(this.label2);
             this.LineAppearanceGroupBox.Controls.Add(this.label1);
-            this.LineAppearanceGroupBox.Controls.Add(this.ColourButton);
+            this.LineAppearanceGroupBox.Controls.Add(this.ColorButton);
             this.LineAppearanceGroupBox.Controls.Add(this.OpacityUpDown);
             this.LineAppearanceGroupBox.Controls.Add(this.OpacityCheckBox);
             this.LineAppearanceGroupBox.Controls.Add(this.WidthCheckBox);
             this.LineAppearanceGroupBox.Controls.Add(this.WidthUpDown);
-            this.LineAppearanceGroupBox.Controls.Add(this.ColourCheckBox);
+            this.LineAppearanceGroupBox.Controls.Add(this.ColorCheckBox);
             this.LineAppearanceGroupBox.Location = new System.Drawing.Point(12, 12);
             this.LineAppearanceGroupBox.Name = "LineAppearanceGroupBox";
             this.LineAppearanceGroupBox.Size = new System.Drawing.Size(335, 212);
@@ -123,15 +123,15 @@ namespace DGManager
             this.ckStartIcon.Text = "Display Start Icon";
             this.ckStartIcon.UseVisualStyleBackColor = true;
             // 
-            // DifferentTrackColoursCheckBox
+            // DifferentTrackColorsCheckBox
             // 
-            this.DifferentTrackColoursCheckBox.AutoSize = true;
-            this.DifferentTrackColoursCheckBox.Location = new System.Drawing.Point(12, 126);
-            this.DifferentTrackColoursCheckBox.Name = "DifferentTrackColoursCheckBox";
-            this.DifferentTrackColoursCheckBox.Size = new System.Drawing.Size(218, 17);
-            this.DifferentTrackColoursCheckBox.TabIndex = 8;
-            this.DifferentTrackColoursCheckBox.Text = "Use different colours for additional tracks";
-            this.DifferentTrackColoursCheckBox.UseVisualStyleBackColor = true;
+            this.DifferentTrackColorsCheckBox.AutoSize = true;
+            this.DifferentTrackColorsCheckBox.Location = new System.Drawing.Point(12, 126);
+            this.DifferentTrackColorsCheckBox.Name = "DifferentTrackColorsCheckBox";
+            this.DifferentTrackColorsCheckBox.Size = new System.Drawing.Size(212, 17);
+            this.DifferentTrackColorsCheckBox.TabIndex = 8;
+            this.DifferentTrackColorsCheckBox.Text = "Use different colors for additional tracks";
+            this.DifferentTrackColorsCheckBox.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -151,15 +151,15 @@ namespace DGManager
             this.label1.TabIndex = 6;
             this.label1.Text = "%";
             // 
-            // ColourButton
+            // ColorButton
             // 
-            this.ColourButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ColourButton.Location = new System.Drawing.Point(85, 31);
-            this.ColourButton.Name = "ColourButton";
-            this.ColourButton.Size = new System.Drawing.Size(25, 23);
-            this.ColourButton.TabIndex = 5;
-            this.ColourButton.UseVisualStyleBackColor = false;
-            this.ColourButton.Click += new System.EventHandler(this.ColourButton_Click);
+            this.ColorButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.ColorButton.Location = new System.Drawing.Point(85, 31);
+            this.ColorButton.Name = "ColorButton";
+            this.ColorButton.Size = new System.Drawing.Size(25, 23);
+            this.ColorButton.TabIndex = 5;
+            this.ColorButton.UseVisualStyleBackColor = false;
+            this.ColorButton.Click += new System.EventHandler(this.ColorButton_Click);
             // 
             // OpacityUpDown
             // 
@@ -205,15 +205,15 @@ namespace DGManager
             0,
             0});
             // 
-            // ColourCheckBox
+            // ColorCheckBox
             // 
-            this.ColourCheckBox.AutoSize = true;
-            this.ColourCheckBox.Location = new System.Drawing.Point(12, 34);
-            this.ColourCheckBox.Name = "ColourCheckBox";
-            this.ColourCheckBox.Size = new System.Drawing.Size(56, 17);
-            this.ColourCheckBox.TabIndex = 0;
-            this.ColourCheckBox.Text = "Colour";
-            this.ColourCheckBox.UseVisualStyleBackColor = true;
+            this.ColorCheckBox.AutoSize = true;
+            this.ColorCheckBox.Location = new System.Drawing.Point(12, 34);
+            this.ColorCheckBox.Name = "ColorCheckBox";
+            this.ColorCheckBox.Size = new System.Drawing.Size(50, 17);
+            this.ColorCheckBox.TabIndex = 0;
+            this.ColorCheckBox.Text = "Color";
+            this.ColorCheckBox.UseVisualStyleBackColor = true;
             // 
             // CanclButton
             // 
@@ -429,20 +429,20 @@ namespace DGManager
 
 		private System.Windows.Forms.GroupBox LineAppearanceGroupBox;
 		private System.Windows.Forms.Button CanclButton;
-		private System.Windows.Forms.Button OkButton;
-		private System.Windows.Forms.CheckBox ColourCheckBox;
+        private System.Windows.Forms.Button OkButton;
+		private System.Windows.Forms.CheckBox ColorCheckBox;
 		private System.Windows.Forms.CheckBox WidthCheckBox;
 		private System.Windows.Forms.NumericUpDown WidthUpDown;
 		private System.Windows.Forms.NumericUpDown OpacityUpDown;
 		private System.Windows.Forms.CheckBox OpacityCheckBox;
-		private System.Windows.Forms.Button ColourButton;
+		private System.Windows.Forms.Button ColorButton;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.GroupBox PerformanceGroupBox;
 		private System.Windows.Forms.CheckBox DropPointsCheckBox;
 		private System.Windows.Forms.NumericUpDown DropPointsThresholdUpDown;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.CheckBox DifferentTrackColoursCheckBox;
+		private System.Windows.Forms.CheckBox DifferentTrackColorsCheckBox;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TrackBar DropPointsMinDistanceTrackBar;

@@ -837,13 +837,13 @@ namespace DGManager
 
 		private void advancedGMapsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			AdvancedGMaps.LineColour = Settings.GMapsLineColour;
+			AdvancedGMaps.LineColor = Settings.GMapsLineColor;
 			AdvancedGMaps.LineWidth = Settings.GMapsLineWidth;
 			AdvancedGMaps.LineOpacity = Settings.GMapsLineOpacity;
-			AdvancedGMaps.SpecifyLineColour = Settings.GMapsSpecifyLineColour;
+			AdvancedGMaps.SpecifyLineColor = Settings.GMapsSpecifyLineColor;
 			AdvancedGMaps.SpecifyLineWidth = Settings.GMapsSpecifyLineWidth;
 			AdvancedGMaps.SpecifyLineOpacity = Settings.GMapsSpecifyLineOpacity;
-			AdvancedGMaps.DifferentTrackColours = Settings.GMapsDifferentTrackColours;
+			AdvancedGMaps.DifferentTrackColors = Settings.GMapsDifferentTrackColors;
 			AdvancedGMaps.DropPoints = Settings.GMapsDropPoints;
 			AdvancedGMaps.DropPointsThreshold = Settings.GMapsDropPointsThreshold;
 			AdvancedGMaps.DropPointsMinDistance = Settings.GMapsDropPointsMinDistance;
@@ -856,13 +856,13 @@ namespace DGManager
 
 			if (AdvancedGMaps.ShowDialog() == DialogResult.OK)
 			{
-				Settings.GMapsLineColour = AdvancedGMaps.LineColour;
+				Settings.GMapsLineColor = AdvancedGMaps.LineColor;
 				Settings.GMapsLineWidth = AdvancedGMaps.LineWidth;
 				Settings.GMapsLineOpacity = AdvancedGMaps.LineOpacity;
-				Settings.GMapsSpecifyLineColour = AdvancedGMaps.SpecifyLineColour;
+				Settings.GMapsSpecifyLineColor = AdvancedGMaps.SpecifyLineColor;
 				Settings.GMapsSpecifyLineWidth = AdvancedGMaps.SpecifyLineWidth;
 				Settings.GMapsSpecifyLineOpacity = AdvancedGMaps.SpecifyLineOpacity;
-				Settings.GMapsDifferentTrackColours = AdvancedGMaps.DifferentTrackColours;
+				Settings.GMapsDifferentTrackColors = AdvancedGMaps.DifferentTrackColors;
 				Settings.GMapsDropPoints = AdvancedGMaps.DropPoints;
 				Settings.GMapsDropPointsThreshold = AdvancedGMaps.DropPointsThreshold;
 				Settings.GMapsDropPointsMinDistance = AdvancedGMaps.DropPointsMinDistance;

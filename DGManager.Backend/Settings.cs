@@ -64,7 +64,7 @@ namespace DGManager.Backend
 		private static bool gMapsHybridButton = true;
 		private static bool gMapsTerrainButton = true;
 		private static GMapType gMapsDefaultMapType = GMapType.Street;
-		private static Color gMapsLineColour = Color.Blue;
+		private static Color gMapsLineColor = Color.Blue;
 		private static int gMapsLineWidth = 3;
 		private static int gMapsLineOpacity = 80;
 		private static int gMapsDropPointsThreshold = 1000;
@@ -295,39 +295,18 @@ namespace DGManager.Backend
 			}
 		}
 
-        [IniConfig("GMaps", "LineColourR", ReadOnly = true), Obsolete("Use GMapsLineColor")]
-        public static int GMapsLineColourR
-        {
-            get { return GMapsLineColour.R; }
-            set { GMapsLineColour = Color.FromArgb(value, GMapsLineColour.G, GMapsLineColour.B); }
-        }
-
-        [IniConfig("GMaps", "LineColourG", ReadOnly = true), Obsolete("Use GMapsLineColor")]
-        public static int GMapsLineColourG
-        {
-            get { return GMapsLineColour.G; }
-            set { GMapsLineColour = Color.FromArgb(GMapsLineColour.R, value, GMapsLineColour.B); }
-        }
-
-        [IniConfig("GMaps", "LineColourB", ReadOnly = true), Obsolete("Use GMapsLineColor")]
-        public static int GMapsLineColourB
-        {
-            get { return GMapsLineColour.B; }
-            set { GMapsLineColour = Color.FromArgb(GMapsLineColour.R, GMapsLineColour.G, value); }
-        }
-
-        [IniConfig("GMaps", "LineColour")]
-        public static Color GMapsLineColour
-        {
-            get
-            {
-                return gMapsLineColour;
-            }
-            set
-            {
-                gMapsLineColour = value;
-            }
-        }
+        [IniConfig("GMaps", "LineColor")]
+		public static Color GMapsLineColor
+		{
+			get
+			{
+				return gMapsLineColor;
+			}
+			set
+			{
+				gMapsLineColor = value;
+			}
+		}
 
         [IniConfig("GMaps", "LineWidth")]
 		public static int GMapsLineWidth
@@ -355,8 +334,8 @@ namespace DGManager.Backend
 			}
 		}
 
-        [IniConfig("GMaps", "SpecifyLineColour")]
-        public static bool GMapsSpecifyLineColour { get; set; }
+        [IniConfig("GMaps", "SpecifyLineColor")]
+        public static bool GMapsSpecifyLineColor { get; set; }
 
         [IniConfig("GMaps", "SpecifyLineWidth")]
         public static bool GMapsSpecifyLineWidth { get; set; }
@@ -393,8 +372,8 @@ namespace DGManager.Backend
 			}
 		}
 
-        [IniConfig("GMaps", "DifferentTrackColours")]
-        public static bool GMapsDifferentTrackColours { get; set; }
+        [IniConfig("GMaps", "DifferentTrackColors")]
+        public static bool GMapsDifferentTrackColors { get; set; }
 
         [IniConfig("GMaps", "ApiKey")]
 		public static string GMapsApiKey

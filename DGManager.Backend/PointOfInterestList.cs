@@ -16,6 +16,7 @@ namespace DGManager.Backend
         private ListType _type = ListType.Track;
 
         public string SourceFile { get; set; }
+
         public string ListName { get; set; }
 
         public string DisplayName

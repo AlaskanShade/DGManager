@@ -7,30 +7,30 @@ namespace DGManager
 {
 	public partial class AdvancedGMapsDialog : Form
 	{
-		private Color lineColour;
+		private Color lineColor;
 		private int lineWidth;
 		private int lineOpacity;
-		private bool specifyLineColour;
+		private bool specifyLineColor;
 		private bool specifyLineWidth;
 		private bool specifyLineOpacity;
-		private bool differentTrackColours;
+		private bool differentTrackColors;
 		private bool dropPoints;
 		private int dropPointsThreshold;
 		private double dropPointsMinDistance;
 		private string apiKey;
         private ColorPick.frmColorPicker colorPicker = new ColorPick.frmColorPicker(Color.Blue);
 
-		public Color LineColour
+		public Color LineColor
 		{
 			get
 			{
-				return lineColour;
+				return lineColor;
 			}
 			set
 			{
-				lineColour = value;
+				lineColor = value;
 
-				ColourButton.BackColor = value;
+				ColorButton.BackColor = value;
 			}
 		}
 
@@ -62,17 +62,17 @@ namespace DGManager
 			}
 		}
 
-		public bool SpecifyLineColour
+		public bool SpecifyLineColor
 		{
 			get
 			{
-				return specifyLineColour;
+				return specifyLineColor;
 			}
 			set
 			{
-				specifyLineColour = value;
+				specifyLineColor = value;
 
-				ColourCheckBox.Checked = value;
+				ColorCheckBox.Checked = value;
 			}
 		}
 
@@ -104,17 +104,17 @@ namespace DGManager
 			}
 		}
 
-		public bool DifferentTrackColours
+		public bool DifferentTrackColors
 		{
 			get
 			{
-				return differentTrackColours;
+				return differentTrackColors;
 			}
 			set
 			{
-				differentTrackColours = value;
+				differentTrackColors = value;
 
-				DifferentTrackColoursCheckBox.Checked = value;
+				DifferentTrackColorsCheckBox.Checked = value;
 			}
 		}
 
@@ -193,16 +193,16 @@ namespace DGManager
 
 		private void OkButton_Click(object sender, EventArgs e)
 		{
-			LineColour = ColourButton.BackColor;
+			LineColor = ColorButton.BackColor;
 			LineWidth = (int) WidthUpDown.Value;
 			LineOpacity = (int) OpacityUpDown.Value;
-			SpecifyLineColour = ColourCheckBox.Checked;
+			SpecifyLineColor = ColorCheckBox.Checked;
 			SpecifyLineWidth = WidthCheckBox.Checked;
 			SpecifyLineOpacity = OpacityCheckBox.Checked;
 			DropPoints = DropPointsCheckBox.Checked;
 			DropPointsThreshold = (int) DropPointsThresholdUpDown.Value;
 			DropPointsMinDistance = DropPointsMinDistanceTrackBar.Value;
-			DifferentTrackColours = DifferentTrackColoursCheckBox.Checked;
+			DifferentTrackColors = DifferentTrackColorsCheckBox.Checked;
 			ApiKey = ApiKeyTextBox.Text;
             StrictHtml = ckStrict.Checked;
 
@@ -210,11 +210,11 @@ namespace DGManager
 			Close();
 		}
 
-		private void ColourButton_Click(object sender, EventArgs e)
+		private void ColorButton_Click(object sender, EventArgs e)
 		{
-            colorPicker.PrimaryColor = ColourButton.BackColor;
+            colorPicker.PrimaryColor = ColorButton.BackColor;
             if (colorPicker.ShowDialog(this) == DialogResult.OK)
-                ColourButton.BackColor = colorPicker.PrimaryColor;
+                ColorButton.BackColor = colorPicker.PrimaryColor;
 		}
 
 		private void ResetApiKeyButton_Click(object sender, EventArgs e)

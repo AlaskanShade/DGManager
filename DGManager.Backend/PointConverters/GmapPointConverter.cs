@@ -245,7 +245,7 @@ namespace DGManager.Backend
                         dropPointsMinDistance = Settings.GMapsDropPointsMinDistance * 5;
                     }
 
-                    Color lineColor = isFirstTrack ? Settings.GMapsLineColour : ColorGenerator.GetColorForTrack(trackIndex);
+                    Color lineColor = isFirstTrack ? Settings.GMapsLineColor : ColorGenerator.GetColorForTrack(trackIndex);
                     string hexColor = String.Format("'#{0}{1}{2}'",
                                                     Convert.ToString(lineColor.R, 16).PadLeft(2, '0'),
                                                     Convert.ToString(lineColor.G, 16).PadLeft(2, '0'),
@@ -428,7 +428,7 @@ namespace DGManager.Backend
             sbLevels.Length--;
             sbLevels.Append(levelValues[0]);
 			sb.AppendFormat("map.addOverlay(new GPolyline.fromEncoded({{ color: {3}, weight: {4}, points: \"{0}\", levels: \"{1}\", zoomFactor: 32, numLevels: 5 }}));{2}", 
-							sbEncode, sbLevels, Environment.NewLine, (isFirstTrack && Settings.GMapsSpecifyLineColour) || (!isFirstTrack && Settings.GMapsDifferentTrackColours) ? hexColor : "null",
+							sbEncode, sbLevels, Environment.NewLine, (isFirstTrack && Settings.GMapsSpecifyLineColor) || (!isFirstTrack && Settings.GMapsDifferentTrackColors) ? hexColor : "null",
 							Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null");
             //todo: figure out opacity. Settings.GMapsSpecifyLineOpacity ? "," + ((double)Settings.GMapsLineOpacity / 100).ToString(CultureInfo.InvariantCulture) : "");
 

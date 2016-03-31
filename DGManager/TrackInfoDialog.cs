@@ -103,7 +103,6 @@ namespace DGManager
 				//foreach (PointOfInterest point in track)
 				{
 					PointOfInterest point = track[i];
-
 					if (!startDate.HasValue || point.When < startDate)
 					{
 						startDate = point.When;
