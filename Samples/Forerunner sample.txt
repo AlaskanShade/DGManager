@@ -1,0 +1,31 @@
+<Run>
+   <Notes></Notes>
+   <Lap>
+       <StartTime>2004-12-30T22:36:58Z</StartTime>
+
+       <Duration>PT1418.230S</Duration>
+       <Length>5144.500</Length>
+       <Calories>367</Calories>
+   </Lap>
+   <Track>
+       <Trackpoint>
+           <Position>
+
+               <Latitude>28.09127</Latitude>
+               <Longitude>-82.42928</Longitude>
+               <Altitude>12.154</Altitude>
+           </Position>
+           <Time>2004-12-30T22:36:58Z</Time>
+       </Trackpoint>
+       <Trackpoint>
+
+           <Position>
+               <Latitude>28.09125</Latitude>
+               <Longitude>-82.42928</Longitude>
+               <Altitude>8.789</Altitude>
+           </Position>
+           <Time>2004-12-30T22:37:00Z</Time>
+       </Trackpoint>
+
+     </Track>
+</Run>

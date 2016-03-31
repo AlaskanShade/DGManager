@@ -1,0 +1,65 @@
+32.52;-97.35;1001;6/25/2008 8:55:11 AM;True
+32.53;-97.36;1022;6/25/2008 8:56:13 AM;False
+
+
+Field Delimeter = {SEMI-COLON}
+Field Values Encloded in Quotes = False
+Decimal Character = {PERIOD}
+Record Delimeter = {CR/LF}
+Comments = 
+Ignore 1st Record = False
+Timestamp Format = UTC
+New Track Denotes True = True
+New Track Denotes False = False
+Latitude Field Number = 1
+Longitude Field Number = 2
+Timestamp Field Number = 4
+Altitude Field Number = 3
+New Track Field Number = 
+
+
+And here's another example: 
+
+"Lat","Lon","Elevation","Time";"Is New Tracklog Segment"
+# This is a comment and will be ignored by the parser
+"32.52","-97.35","1001";"2008-05-20T07:44:10Z","yep"
+"32.53","-97.36","1022";"2008-05-20T07:44:10Z","nope"
+
+
+Field Delimeter = {COMMA}
+Field Values Encloded in Quotes = True
+Decimal Character = {PERIOD}
+Record Delimeter = {CR/LF}
+Comments = #
+Ignore 1st Record = True
+Timestamp Format = UTC in GPX format
+New Track Denotes True = yep
+New Track Denotes False = nope
+Latitude Field Number = 1
+Longitude Field Number = 2
+Timestamp Field Number = 4
+Altitude Field Number = 3
+New Track Field Number = 5
+
+
+And another: 
+
+32,52|-97,35|6/25/2008 3:55:11 AM***32,53|-97,36|6/25/2008 3:56:13 AM
+
+
+Field Delimeter = {PIPE}
+Field Values Encloded in Quotes = False
+Decimal Character = {COMMA}
+Record Delimeter = ***
+Comments = 
+Ignore 1st Record = False
+Timestamp Format = UTC Local Time
+New Track Denotes True = 
+New Track Denotes False = 
+Latitude Field Number = 1
+Longitude Field Number = 2
+Timestamp Field Number = 3
+Altitude Field Number = 
+New Track Field Number = 
+
+

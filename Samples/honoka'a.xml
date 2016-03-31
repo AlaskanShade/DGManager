@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locations-file file-format-version="1.0">
+  <location>
+   <name>Mamane St.</name>
+   <point1>-155.467413288033,20.079204555230,454.21</point1>
+   <point2>-155.467503487160,20.079190428229,451.30</point2>
+  </location>
+  <location>
+   <name>Above Town</name>
+   <point1>-155.465946667403,20.080395028938,1216.43</point1>
+   <point2>-155.465955828736,20.080366117293,1207.01</point2>
+  </location>
+  <location>
+   <name>Hospital</name>
+   <point1>-155.468745357048,20.077492530123,480.41</point1>
+   <point2>-155.468828941688,20.077457520210,477.50</point2>
+  </location>
+  <location>
+   <name>Roadway view</name>
+   <point1>-155.465978168237,20.073545633976,484.43</point1>
+   <point2>-155.466043184479,20.073487013077,481.03</point2>
+  </location>
+</locations-file>

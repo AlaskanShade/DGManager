@@ -1,0 +1,20 @@
+Waypoint, waypoint name, latitude, longitude, date , time , waypoint description. 
+Example: 
+Waypoint,D,10X215,34.064531922,-117.2959507350,11/23/1995,19:29:00,I10 X1215 
+Waypoint,DM,10X215,34.06548,-117.80632,11/23/1995,19:29:00,I10 X I215 
+Waypoint,DMS,10X215,34.06453,-117.29595,11/23/1995,19:29:00,I10 X I215
+DM - 34.06548 = 34 6.548'
+DMS - 34.06453 = 34 6' 4.53"
+
+TrackPoint, latitude, longitude, date, time, first record (1=yes, 0=no) 
+Example: 
+TrackPoint,D,33.030250669,-117.1733040456,07/08/1996,04:12:30,0
+
+2 types of records. 
+RouteName, route number, route description 
+RoutePoint, latitude, longitude, date, time, waypoint description. 
+Route data should have the RouteName record followed by the RoutePoint records. 
+Examples: 
+RouteName,2,VIVIAN CREEK TRAIL 
+RoutePoint,D,TRAIL1,34.079917073,-116.8833143357,11/19/1995,06:01:00,TRAIL HEAD 
+RoutePoint,D,TRAIL2,34.085984230,-116.8862808589,11/19/1995,06:01:00,FALLS

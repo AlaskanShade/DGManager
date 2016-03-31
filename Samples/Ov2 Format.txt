@@ -1,0 +1,33 @@
+Deleted Record:
+1 byte: 0
+4 bytes: record length
+? bytes: unused?
+
+Skipper Record:
+1 byte: 1
+4 bytes: bytes in file
+4 bytes: West longitude
+4 bytes: South latitude
+4 bytes: East longitude
+4 bytes: North latitude
+
+Simple POI
+1 byte: 2
+4 bytes: record length
+4 bytes: longitude
+4 bytes: latitude
+string: name
+
+Extended POI
+1 byte: 3
+4 bytes: record length
+4 bytes: longitude
+4 bytes: latitude
+string: name
+string: unique id
+string: extra data
+
+9060	1.71436		57.50382	-5.15123	-1
+4615	-1.71843	57.50382	-5.15123	-1
+4594	-1.71843	57.50382	-5.15123	28.75191
+737		-3.43483	57.50382	-5.15123	28.75191

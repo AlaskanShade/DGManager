@@ -1,0 +1,40 @@
+mps format:
+0-5: MsRcd
+6-9: Record Length?
+10-12: String starting with 'D', second letter is version (subtract 'k' and add one?)
+13-16: Record length (-1)
+17+: Header (Should contain 'MapSource')
+
+Object header:
+0-3: Data length
+4:   Data type (W, R or T)
+
+Track:
+5+:  Name
+1byte	 Display?
+4byte	 Color
+4byte	 Number of waypoints (-1?)
+
+Waypoint:
+Lat  (Int32 / 1<<31) * 180
+Lon  (Int32 / 1<<31) * 180
+char x1 if altitude present
+Alt  (double in meters)
+char x1 if time present
+Time
+char x1 if depth present
+Depth
+char x1 if temp present
+Temp
+
+Records start at x44
+0-3    lat
+5-8    lon
+14-17  alt
+18-21  date/time
+
+lat1  00110011011110111001101000100111  664435507  55.69233482
+lat2  01100001011110111001101000100111  664435553  55.69233867
+lon1  448908629  37.62708255
+lon2  448432174  37.58714655
+factor 8.3819022664001007399503711351176
