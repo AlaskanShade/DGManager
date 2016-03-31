@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Generated on 2016/03/31 by DGManager.NET</title>
+    <style type="text/css">
+       img.gv_wpt_thumbnail { width:300px !important }
+    </style>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAgtxbRmpSCQrDxYbzDAjzaxRctizGfPJhWNUJARiLMd815LsJMxRLGwdcXgGDppEYczc9ENGJdPB-bA" type="text/javascript"></script>
+    <script type="text/javascript">
+   // <![CDATA[
+   // this will trigger a document loaded event upon completion
+   // useful for signaling to the parent container to query our state
+   function NullReload()
+   {
+   	var f = document.getElementById('nulldoc');
+   	f.src = f.src;
+   }
+    var map;
+    function load() {
+      if (GBrowserIsCompatible()) {
+       var map = new GMap2(document.getElementById("map"));
+       map.enableDoubleClickZoom();
+       map.enableContinuousZoom();
+       map.enableScrollWheelZoom();
+       map.addControl(new GLargeMapControl3D());
+       map.addControl(new GHierarchicalMapTypeControl());
+       map.addMapType(G_PHYSICAL_MAP);
+       var s = 58.327287;
+       var n = 58.439054;
+       var w = -134.59006;
+       var e = -134.462675;
+      var SW = new GLatLng(s,w);
+  	   var NE = new GLatLng(n,e);
+  	   var Bnd = new GLatLngBounds(SW,NE);
+  	   var Zoom = map.getBoundsZoomLevel(Bnd);
+        map.addControl(new GScaleControl());
+  	   map.setCenter(Bnd.getCenter(), Zoom);
+       var icon = new GIcon(); icon.iconSize = new GSize(16, 16); icon.iconAnchor = new GPoint(8, 8);
+       wpts = new Array();
+       var points = [];
+       	GEvent.addListener(map, "singlerightclick", function(pixel, tile, pin) {
+       			var pt = map.fromContainerPixelToLatLng(pixel)
+       			if (pin == null) {
+       			    map.addOverlay(new GMarker(new GLatLng(pt.lat(), pt.lng())));
+               		document.getElementById('hidLat').value = pt.lat();
+               		document.getElementById('hidLong').value = pt.lng();
+               		NullReload();
+          		}
+           	});
+map.addOverlay(new GPolyline.fromEncoded({ color: null, weight: null, points: "q`_cJtfusX_wP`zW?F?DBC@E??@BAHUDI?O_@KKGGKIMOKE_@cAYi@MIEECKSSc@e@_@_@[_@w@FICYFQHi@IMKE@[AOCMDWLe@No@HA?_@Ec@Om@_@Ok@IQGYMU]Oa@He@JWMSMe@Uc@G]De@\\e@L[S]c@]U]MWKQOk@Ko@QQO[]k@Ua@Qa@i@_@k@GYUW]_Au@s@Q]We@]EUa@Qq@]u@Ik@Y[c@{@e@y@Wo@Ms@c@cAKi@SUg@UMS@k@B_@Im@K[W{@Yi@M_@QOKYs@QYgAUMi@YYa@So@MKUc@]_@My@Y[a@KWMe@]g@q@AgAF}@@w@JoA@i@Fc@@a@HUHUHWB_@OC@GFg@?K`@[@a@?m@EcA[cBPW`@Y]k@QiAUU[_@I[NC", levels: "C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?C", zoomFactor: 32, numLevels: 5 }));
+map.addOverlay(new GPolyline.fromEncoded({ color: null, weight: null, points: "kjscJvsjtXEAA@EFUNSKW_@OOCQAa@B]CWAKASEY_@q@EK?[[a@Da@G]IOI[WW@AMISMCm@FK?EDOJOSGA@Ko@AOJWJIQYMIAISYCCAc@Ee@?E@_@Mg@@KC[IWOWK]Ic@GOKOIg@G_@Ie@A?QUGWIEQGU]GOCAQOIQEECCMDi@XAASDCOGSCDAc@Ig@KQG[Ai@?S?YBy@DS?QIQD]B]No@BYNc@LW@EHK??FAHSFOZk@FMDc@CE@AZMFYHWN[DIFIDC?ATSHGJCCU?YHo@J]J_A@ECH?BK?E]CWGGEEBO?I@MGGII@WBEBEAWAE?K@QLGCAGSEWIYIY?BEJA?CGQKECEWDKCMCIM[BCBICOF??@?@@M?FFDB@FCJCAAEFFE@M?E?I???UA??I?QGSKICCCU?ICKAE@M@EC?@E?KSSGCEWACI[Ck@?EGJCIAS??AWMGCAEBQHKBOBGGMACCSOC?UFAEMAIJORa@^ADEDICC@KJGFIIEFO@CGOFQBA@OAG@MRA@G@O@OXEBORCFEBADGBE@OJYKCAOBE?MHCFCFO@IFEAEIE?MHABHKHEAA?@@AK@MKCFC@ECO?O@I@KJI?I?KEC?CDCHADBSCUCBABIEO?IEA@C?ACAAQECAKN?IIIEKCGKOEACAQMA?IUCEG@A??ECICEA?OU?MOIKS?SFo@JGBGAOBOBWLQKCMKIGEK?AIBSIK]AKFE@KJHJ_@BQBa@BAFQBEJ]NYHKFC?DHCJECCTOCc@DQ?H@AB@HQSLGJQADGG@GFS]CEAD?BAA@E??FLFHFPD@B@D?LGBCBQBB@?@FILCRILENCFC@IH?L?@GL@H?NHHPCDAPKLGJNHVB?@F?C?ACC?NTNFD@?FJFNDHFIDDJZNTF`@D^DV@NDJLBJSXITH@LFNNPCTAD@LDLADG@ADId@ATEXCT@FDNDC?EB?GAFFCACBANDVAH@RLD@BDC@@@CBJJDD?D@\\ILGLAHMDCH?NWLEHIBIJMHKFMRBJ?@@NMDLB@ZADELE@EDDHGPQLKTSBEXMVKF@RFTIDEPTP?b@_@LAHJFD@JEVFNFHJJBRCRBB^`@@BBBFJHLBC?MBEGXCH@T?JKTAH@NFDB`@@BFT?DEDEIEBHLD?CDA?ABCHADGD??@A?NDHD@?N@HB@AF?HADDJ?BB@NN@?DBJCA`@?R?JFn@@HCPCHBH@RCBA?BJLJ?RBL?D@B@VDFBAADBBDb@AFKf@EPCn@?j@KROLOHMDCHGZQPCLCNENUNO\\AXIPEHG\\ALEFOJMNS^S\\Cf@M^Gf@PZCVAZ?`@C\\M^FB@PF^Ff@J^D\\DNHZBHL@PGFBFAF?FHV^N?^V\\f@FTf@`@HhAN\\NLHTJLLZL\\Nz@CT?BAr@Lr@NBHVB^FHEDAFO^DRF^FFGPC^IZJRLTLJFFD?DHNDAAJ`@B@Hh@TbAFVHRLFBPNd@Cb@@\\FLBNHp@DHLh@b@EAL@GLEFR?CCU@HBR?BAMAD@PCOCOCHDPZZLVNDNXTl@Iz@?@EFGXC`@@d@AXMn@?V?tAA@CR@^Bb@J@ALAHEh@?BAHICMVKLAh@ETEb@Id@CH?rABn@PrANb@RPVXBCRJHJN\\F^LVJNJ@XZHPFHLTFLLn@ZFf@d@^^NNVXNDHHTn@LXPLJTJh@DR@j@?DBRCv@@R\\^@BHFFFTTV`@Zp@^n@Tr@Np@Xn@^t@FLR\\RTXt@RX@Jb@j@Tf@ZJZ`@b@l@LTXh@\\j@T`AV^p@Lb@d@d@h@TLLDR@LH^?`@Pb@L^\\RXd@PXQVO\\Cb@?^BVRd@J|@G`@Hb@h@n@jAZ^d@L^Hd@IPGf@]b@Gh@Tf@B`@G\\Bv@E^NTZH?LRf@b@f@fAFNHEXVJTXVPRPNXPRHAC", levels: "C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@A@?@C@?@A@?@B@?@A@?@B@?@AC", zoomFactor: 32, numLevels: 5 }));
+        map.setMapType(G_NORMAL_MAP);
+      }
+    }
+    //]]>
+    </script>
+  </head>
+  <body style="width: 100%; height: 100%; margin: 0; padding: 0;" onload="load()" onunload="GUnload()">
+    <div id="map"  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+    <input type="hidden" id='hidLat' />
+    <input type="hidden" id='hidLong' />
+    	<iframe id="nulldoc" src="GPSNullDoc.html" style="width:0px;height:0px;display:none;">
+    	</iframe>
+  </body>
+</html>

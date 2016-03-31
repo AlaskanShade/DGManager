@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace DGManager.Backend
 {
-    [PointConverter(Description="NMEA File(s)", Extensions=".nmea")]
+    [PointConverter(Description="NMEA File(s)", Extensions=".nmea,.log", DefaultExtension = ".log")]
     public class NmeaPointConverter : IPointReader, IPointWriter
     {
         #region IPointReader Members
