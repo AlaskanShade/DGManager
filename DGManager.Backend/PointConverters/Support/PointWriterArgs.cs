@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace DGManager.Backend
 {
@@ -9,6 +10,7 @@ namespace DGManager.Backend
         private LogHandler _log;
         private ProgressHandler _progress;
         public string Filename;
+		public Stream OutputStream { get; set; }
         public Collection<PointOfInterestList> Tracks;
         public List<Jpeg> Photos;
         /// <summary>

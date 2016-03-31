@@ -357,11 +357,17 @@ namespace DGManager.Backend
                 }
             }
 
-            using (StreamWriter sw = new StreamWriter(args.Filename))
-            {
-                sw.Write(sb.ToString());
-                sw.Close();
-            }
+			if (!String.IsNullOrEmpty(args.Filename))
+				using (StreamWriter sw = new StreamWriter(args.Filename))
+				{
+					sw.Write(sb.ToString());
+					sw.Close();
+				}
+			else
+			{
+				byte[] output = ASCIIEncoding.ASCII.GetBytes(sb.ToString());
+				args.OutputStream.Write(output, 0, output.Length);
+			}
         }
 
         private static string ListToGoogleMaps(PointOfInterestList list, bool isFirstTrack, bool dropPoints, double minDistanceBtwPoints, string hexColor, out int droppedPoints, out int trimmedPoints)

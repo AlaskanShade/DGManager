@@ -92,6 +92,7 @@
     <Compile Include="JpegHelper.cs" />
     <Compile Include="MeasurementBase.cs" />
     <Compile Include="NmeaParser.cs" />
+    <Compile Include="PointConverters\AscPointConverter.cs" />
     <Compile Include="PointConverters\CsvPointConverter.cs" />
     <Compile Include="PointConverters\Dialog\CsvFormatDialog.cs">
       <SubType>Form</SubType>
@@ -103,11 +104,15 @@
     <Compile Include="PointConverters\GpxPointConverter.cs" />
     <Compile Include="PointConverters\GsdPointConverter.cs" />
     <Compile Include="PointConverters\KmlPointConverter.cs" />
+    <Compile Include="PointConverters\LocPointConverter.cs" />
     <Compile Include="PointConverters\NmeaPointConverter.cs" />
     <Compile Include="PointConverters\OsmPointConverter.cs" />
+    <Compile Include="PointConverters\Ov2PointConverter.cs" />
     <Compile Include="PointConverters\OvlPointConverter.cs" />
     <Compile Include="PointConverters\OziPltPointConverter.cs" />
+    <Compile Include="PointConverters\PoiPointConverter.cs" />
     <Compile Include="PointConverters\PolishPointConverter.cs" />
+    <Compile Include="PointConverters\Support\BinaryReader.cs" />
     <Compile Include="PointConverters\Support\IPointReader.cs" />
     <Compile Include="PointConverters\Support\IPointWriter.cs" />
     <Compile Include="PointConverters\Support\PointConverter.cs" />
@@ -115,6 +120,7 @@
     <Compile Include="PointConverters\Support\PointReaderArgs.cs" />
     <Compile Include="PointConverters\Support\PointWriterArgs.cs" />
     <Compile Include="PointConverters\TxtPointConverter.cs" />
+    <Compile Include="PointConverters\WptPointConverter.cs" />
     <Compile Include="ResourceExtractor.cs" />
     <Compile Include="ReverseGeocoder.cs" />
     <Compile Include="Settings.cs" />
