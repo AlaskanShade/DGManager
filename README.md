@@ -18,7 +18,7 @@ This program can also handle working with a number of different file formats of 
 | OpenLayers File (.osm) | Read | [display-osm.osm](Samples/display-osm.osm) |  |
 | Polish Map Format (.mp) | Read |  |  |
 | POI File (.poi) | Write |  |  |
-| TomTom POI File (.ov2) | Read/Write | [aplant.OV2](Samples/aplant.OV2) |  |
+| TomTom POI File (.ov2) | Read/Write | [aplant.ov2](Samples/aplant.ov2) |  |
 | MapExpert 2.0 (.ovl) | Read/Write | [sample.ovl](Samples/sample.ovl) |  |
 | Comma Separated Values (.csv) | Read/Write | [2012-06-07.csv](Samples/2012-06-07.csv) | Works with these columns: Record Number,Date,Time,Latitude,Longitude,Speed(km/h),Altitude(meters) |
 | Text File (.txt) | Write |  | Tab delimited data similar to the CSV format |
