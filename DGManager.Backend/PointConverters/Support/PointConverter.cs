@@ -23,9 +23,9 @@ namespace DGManager.Backend
         static PointConverter()
         {
             //ScanAssembly(Assembly.GetExecutingAssembly());
-            foreach (string file in Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
+            foreach (string file in Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.dll"))
             {
-                if ((Path.GetExtension(file) != ".dll" && Path.GetExtension(file) != ".exe") || file.Contains("exivsimple")) continue;
+                if (file.Contains("exivsimple")) continue;
                 try
                 {
                     ScanAssembly(Assembly.LoadFile(file));
