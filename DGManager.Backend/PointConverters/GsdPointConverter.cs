@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Nini.Config;
 using System.Globalization;
+using System.Linq;
+using IniParser;
+using IniParser.Model;
+
 //TODO Test GSD reading/writing
 namespace DGManager.Backend
 {
@@ -16,8 +19,9 @@ namespace DGManager.Backend
 			int trackCount = 0;
 			List<PointOfInterestList> tracks = new List<PointOfInterestList>();
 
-			IConfigSource ini = new IniConfigSource(filename);
-			trackCount += ini.Configs[Constants.GSD_TRACKS_CATEGORY].GetValues().Length;
+            var parser = new FileIniDataParser();
+            var ini = parser.ReadFile(filename);
+            trackCount += ini[Constants.GSD_TRACKS_CATEGORY].Count;
 
 			args.Log(String.Format("{0} tracks found", trackCount));
 
@@ -29,7 +33,7 @@ namespace DGManager.Backend
 			int poiCount = 0;
 			//int currentTrackNumber = 0;
 
-			IList<string> trackDateStrings = ini.Configs[Constants.GSD_TRACKS_CATEGORY].GetValues();
+			var trackDateStrings = ini[Constants.GSD_TRACKS_CATEGORY].Select(c => c.Value);
 			
 			foreach (string trackDate in trackDateStrings)
 			{
@@ -39,9 +43,9 @@ namespace DGManager.Backend
                     track.SourceFile = Path.GetFileName(filename);
                     int j = 1;
 
-					while (!String.IsNullOrEmpty(ini.Configs[trackDate].Get(j.ToString())))
+					while (!String.IsNullOrEmpty(ini[trackDate][j.ToString()]))
 					{
-						PointOfInterest poi = GsdToPoint(ini.Configs[trackDate].Get(j.ToString()));
+						PointOfInterest poi = GsdToPoint(ini[trackDate][j.ToString()]);
 						track.Add(poi);
 
 						j++;
@@ -125,15 +129,17 @@ namespace DGManager.Backend
                 File.Delete(args.Filename);
             }
 
-            IniConfigSource outputFile = new IniConfigSource();
+            var parser = new FileIniDataParser();
+            var ini = new IniData();
 
             args.Log("Saving data to GSD...");
 
             DateTime now = DateTime.Now;
-            outputFile.AddConfig(Constants.GSD_DATE_CATEGORY);
-            outputFile.Configs[Constants.GSD_DATE_CATEGORY].Set("1", String.Format("{0:yyyy}-{0:MM}-{0:dd}-{1}:{0:mm}:{0:ss} {0:tt}", now, now.Hour));
+            ini.Sections.Add(new SectionData(Constants.GSD_DATE_CATEGORY));
+            ini[Constants.GSD_DATE_CATEGORY]["1"] = String.Format("{0:yyyy}-{0:MM}-{0:dd}-{1}:{0:mm}:{0:ss} {0:tt}", now, now.Hour);
 
-            IConfig tracksConfig = outputFile.AddConfig(Constants.GSD_TRACKS_CATEGORY);
+            //IConfig tracksConfig = outputFile.AddConfig(Constants.GSD_TRACKS_CATEGORY);
+            ini.Sections.Add(new SectionData(Constants.GSD_TRACKS_CATEGORY));
 
             for (int i = 0; i < args.Tracks.Count; i++)
             {
@@ -143,7 +149,8 @@ namespace DGManager.Backend
                 string whenString = null;
                 int pointNum = 1;
 
-                IConfig thisTrackConfig = null;
+                //IConfig thisTrackConfig = null;
+                string currentTrackName = null;
 
                 for (int j = 0; j < poiList.Count; j++)
                 {
@@ -157,23 +164,20 @@ namespace DGManager.Backend
                             if (when != DateTime.MinValue)
                                 when = when.AddHours(Settings.UtcShift);
                             whenString = String.Format("{0:000},{1:yyyy}-{1:MM}-{1:dd}:{1:HH}:{1:mm}:{1:ss}", i + 1, when);
-                            tracksConfig.Set((i + 1).ToString(), whenString);
-                            thisTrackConfig = outputFile.AddConfig(whenString);
+                            ini[Constants.GSD_TRACKS_CATEGORY][(i + 1).ToString()] = whenString;
+                            currentTrackName = whenString;
+                            ini.Sections.Add(new SectionData(whenString));
                             writtenHeader = true;
                         }
 
-                        thisTrackConfig.Set((pointNum++).ToString(), PointToGSD(poi));
+                        ini[currentTrackName][(pointNum++).ToString()] = PointToGSD(poi);
                     }
                 }
 
                 args.ReportProgress(i + 1);
             }
 
-            using (FileStream outputFileStream = new FileStream(args.Filename, FileMode.Create, FileAccess.Write))
-            {
-                outputFile.Save(outputFileStream);
-                outputFileStream.Close();
-            }
+            parser.WriteFile(args.Filename, ini);
 
             args.Log(String.Format("{0} saved", args.Filename));
         }

@@ -1,6 +1,6 @@
+using IniParser;
 using System;
 using System.Drawing;
-using Nini.Config;
 using System.IO;
 using System.Reflection;
 
@@ -742,31 +742,32 @@ namespace DGManager.Backend
         public static void LoadSettings(string path)
         {
             if (!File.Exists(Path.Combine(path, Constants.CONFIG_FILENAME))) return;
-            IConfigSource ini = new IniConfigSource(Path.Combine(path, Constants.CONFIG_FILENAME));
+            var parser = new FileIniDataParser();
+            var ini = parser.ReadFile(Path.Combine(path, Constants.CONFIG_FILENAME));
             Array.ForEach(typeof(Settings).GetProperties(), pi =>
             {
                 object[] att = pi.GetCustomAttributes(typeof(IniConfigAttribute), true);
                 if (att.Length > 0)
                 {
                     IniConfigAttribute iniAt = att[0] as IniConfigAttribute;
-                    IConfig config = ini.Configs[iniAt.Category];
+                    var config = ini[iniAt.Category];
                     if (config != null)
                     {
                         string iniName = (String.IsNullOrEmpty(iniAt.Name) ? pi.Name : iniAt.Name);
-                        if (config.Contains(iniName))
+                        if (config.ContainsKey(iniName))
                             if (pi.PropertyType == typeof(int))
-                                pi.SetValue(null, config.GetInt(iniName), null);
+                                pi.SetValue(null, int.Parse(config[iniName]), null);
                             else if (pi.PropertyType == typeof(double))
-                                pi.SetValue(null, config.GetDouble(iniName), null);
+                                pi.SetValue(null, double.Parse(config[iniName]), null);
                             else if (pi.PropertyType == typeof(bool))
-                                pi.SetValue(null, config.GetBoolean(iniName), null);
+                                pi.SetValue(null, bool.Parse(config[iniName]), null);
                             else if (pi.PropertyType == typeof(string))
-                                pi.SetValue(null, config.Get(iniName), null);
+                                pi.SetValue(null, config[iniName], null);
                             else if (pi.PropertyType == typeof(Color))
-                                pi.SetValue(null, DeserializeColor(config.GetString(iniName)), null);
+                                pi.SetValue(null, DeserializeColor(config[iniName]), null);
                             else if (pi.PropertyType.IsEnum)
                             {
-                                string sVal = config.GetString(iniName);
+                                string sVal = config[iniName];
                                 int iVal;
                                 if (int.TryParse(sVal, out iVal))
                                     pi.SetValue(null, iVal, null);
@@ -782,7 +783,8 @@ namespace DGManager.Backend
 
         public static void SaveSettings(string path)
         {
-            IniConfigSource ini = new IniConfigSource();
+            var parser = new FileIniDataParser();
+            var ini = parser.ReadFile(Path.Combine(path, Constants.CONFIG_FILENAME));
             foreach (PropertyInfo pi in typeof(Settings).GetProperties())
             {
                 object[] att = pi.GetCustomAttributes(typeof(IniConfigAttribute), true);
@@ -790,33 +792,18 @@ namespace DGManager.Backend
                 {
                     IniConfigAttribute iniAt = att[0] as IniConfigAttribute;
                     if (iniAt.ReadOnly) continue;
-                    IConfig config = ini.Configs[iniAt.Category];
-                    if (config == null)
-                        config = ini.AddConfig(iniAt.Category);
                     string iniName = (String.IsNullOrEmpty(iniAt.Name) ? pi.Name : iniAt.Name);
                     object val = pi.GetValue(null, null);
                     if (val != null)
                     {
-                        if (pi.PropertyType.IsEnum)
-                        {
-                            if (iniAt.IsNumericEnum)
-                                config.Set(iniName, (int)val);
-                            else
-                                config.Set(iniName, val.ToString());
-                        }
-                        else if (pi.PropertyType == typeof(Color))
-                            config.Set(iniName, SerializeColor((Color)val));
+                        if (pi.PropertyType == typeof(Color))
+                            ini[iniAt.Category][iniName] = SerializeColor((Color)val);
                         else
-                            config.Set(iniName, val);
+                            ini[iniAt.Category][iniName] = val.ToString();
                     }
                 }
             }
-
-            using (FileStream iniFileStream = new FileStream(Path.Combine(path, Constants.CONFIG_FILENAME), FileMode.Create, FileAccess.Write))
-            {
-                ini.Save(iniFileStream);
-                iniFileStream.Close();
-            }
+            parser.WriteFile(Path.Combine(path, Constants.CONFIG_FILENAME), ini);
         }
 
         public static string SerializeColor(Color color)
