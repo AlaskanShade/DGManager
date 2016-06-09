@@ -12,13 +12,16 @@ using System.Windows.Forms;
 using DGManager.Backend;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
+using CefSharp.WinForms;
+using CefSharp;
 
 namespace DGManager
 {
 	public partial class MainForm : Form
     {
         #region Fields
-		private byte[] lastAnswer = new byte[2097];
+        private ChromiumWebBrowser browser;
+        private byte[] lastAnswer = new byte[2097];
 		private byte[] lastSentence = new byte[2097];
 		private byte[] trackData = new byte[2097];
 		private int lastAnswerSize;
@@ -265,6 +268,11 @@ namespace DGManager
         public MainForm()
 		{
 			InitializeComponent();
+            MapTabPage.Controls.Remove(GMapsWebBrowser);
+            Cef.Initialize(new CefSettings());
+            browser = new ChromiumWebBrowser("");
+            MapTabPage.Controls.Add(browser);
+            browser.Dock = DockStyle.Fill;
         }
 
         #region Event Handlers
@@ -2164,7 +2172,8 @@ namespace DGManager
 
 			Log("Loading Google Maps HTML File");
 
-			GMapsWebBrowser.Navigate(htmlFilePath);
+            //GMapsWebBrowser.Navigate(htmlFilePath);
+            browser.Load(htmlFilePath);
             _timerRefreshGoogle.Stop();
 		}
 
