@@ -1454,6 +1454,24 @@ namespace DGManager
 			RefreshSelectedTabPage();
 		}
 
+        private void trimTrackButton_Click(object sender, EventArgs e)
+        {
+			var selectedNode = TracksTreeView.SelectedNode as TrackTreeNode;
+			if (selectedNode == null)
+				return;
+
+            while (selectedNode.Track.Count > TrimEndTrackBar.Value)
+            {
+                selectedNode.Track.RemoveAt(TrimEndTrackBar.Value);
+            }
+            for (int i = 0; i < TrimStartTrackBar.Value; i++)
+            {
+                selectedNode.Track.RemoveAt(0);
+            }
+            RefreshTreeText();
+            EnableTrimPointsCheckBox.Checked = false;
+        }
+
         private void seperateTracksButton_Click(object sender, EventArgs e)
         {
 			TreeNode selectedNode = TracksTreeView.SelectedNode;
