@@ -40,6 +40,7 @@ namespace DGManager
             this.manuallyGeocodeSelectedPhotosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LeftRightSplitContainer = new System.Windows.Forms.SplitContainer();
             this.LeftTopBottomSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.TracksTreeView = new DGManager.TreeViewMultiSelect();
             this.contextMenuTracks = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reducePointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,6 +91,7 @@ namespace DGManager
             this.LongitudeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPagePreview = new System.Windows.Forms.TabPage();
+            this.trackPreview1 = new DGManager.TrackPreview();
             this.tabPageChart = new System.Windows.Forms.TabPage();
             this.zedGraphControl = new ZedGraph.ZedGraphControl();
             this.LogTextBox = new System.Windows.Forms.TextBox();
@@ -119,6 +121,7 @@ namespace DGManager
             this.downloadPathsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkedTracksInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayUnitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -180,13 +183,13 @@ namespace DGManager
             this.DataOperationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.OpenMultiFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.TracksTreeView = new DGManager.TreeViewMultiSelect();
-            this.trackPreview1 = new DGManager.TrackPreview();
-            this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trimTrackButton = new System.Windows.Forms.Button();
             this.BottomStatusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LeftRightSplitContainer)).BeginInit();
             this.LeftRightSplitContainer.Panel1.SuspendLayout();
             this.LeftRightSplitContainer.Panel2.SuspendLayout();
             this.LeftRightSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LeftTopBottomSplitContainer)).BeginInit();
             this.LeftTopBottomSplitContainer.Panel1.SuspendLayout();
             this.LeftTopBottomSplitContainer.Panel2.SuspendLayout();
             this.LeftTopBottomSplitContainer.SuspendLayout();
@@ -199,6 +202,7 @@ namespace DGManager
             this.contextMenuPoints.SuspendLayout();
             this.MapTabPage.SuspendLayout();
             this.PhotoGeocodingTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GeocodingSplitContainer)).BeginInit();
             this.GeocodingSplitContainer.Panel1.SuspendLayout();
             this.GeocodingSplitContainer.Panel2.SuspendLayout();
             this.GeocodingSplitContainer.SuspendLayout();
@@ -209,6 +213,7 @@ namespace DGManager
             ((System.ComponentModel.ISupportInitialize)(this.PhotosGridView)).BeginInit();
             this.tabPagePreview.SuspendLayout();
             this.tabPageChart.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TopBottomSplitContainer)).BeginInit();
             this.TopBottomSplitContainer.Panel1.SuspendLayout();
             this.TopBottomSplitContainer.Panel2.SuspendLayout();
             this.TopBottomSplitContainer.SuspendLayout();
@@ -223,9 +228,9 @@ namespace DGManager
             this.SeparatorStatusLabel,
             this.UtcStatusLabel,
             this.DisplayUnitStatusLabel});
-            this.BottomStatusStrip.Location = new System.Drawing.Point(0, 436);
+            this.BottomStatusStrip.Location = new System.Drawing.Point(0, 486);
             this.BottomStatusStrip.Name = "BottomStatusStrip";
-            this.BottomStatusStrip.Size = new System.Drawing.Size(742, 22);
+            this.BottomStatusStrip.Size = new System.Drawing.Size(776, 22);
             this.BottomStatusStrip.TabIndex = 1;
             this.BottomStatusStrip.Text = "statusStrip1";
             // 
@@ -247,7 +252,7 @@ namespace DGManager
             // 
             this.SeparatorStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.SeparatorStatusLabel.Name = "SeparatorStatusLabel";
-            this.SeparatorStatusLabel.Size = new System.Drawing.Size(517, 17);
+            this.SeparatorStatusLabel.Size = new System.Drawing.Size(551, 17);
             this.SeparatorStatusLabel.Spring = true;
             // 
             // UtcStatusLabel
@@ -290,7 +295,7 @@ namespace DGManager
             // LeftRightSplitContainer.Panel2
             // 
             this.LeftRightSplitContainer.Panel2.Controls.Add(this.RightTabControl);
-            this.LeftRightSplitContainer.Size = new System.Drawing.Size(742, 282);
+            this.LeftRightSplitContainer.Size = new System.Drawing.Size(776, 332);
             this.LeftRightSplitContainer.SplitterDistance = 215;
             this.LeftRightSplitContainer.TabIndex = 1;
             this.LeftRightSplitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.LeftRightSplitContainer_SplitterMoved);
@@ -312,9 +317,27 @@ namespace DGManager
             // 
             this.LeftTopBottomSplitContainer.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.LeftTopBottomSplitContainer.Panel2.Controls.Add(this.TrimPointsGroupBox);
-            this.LeftTopBottomSplitContainer.Size = new System.Drawing.Size(215, 282);
-            this.LeftTopBottomSplitContainer.SplitterDistance = 120;
+            this.LeftTopBottomSplitContainer.Size = new System.Drawing.Size(215, 332);
+            this.LeftTopBottomSplitContainer.SplitterDistance = 170;
             this.LeftTopBottomSplitContainer.TabIndex = 1;
+            // 
+            // TracksTreeView
+            // 
+            this.TracksTreeView.CheckBoxes = true;
+            this.TracksTreeView.ContextMenuStrip = this.contextMenuTracks;
+            this.TracksTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TracksTreeView.HideSelection = false;
+            this.TracksTreeView.LabelEdit = true;
+            this.TracksTreeView.Location = new System.Drawing.Point(0, 0);
+            this.TracksTreeView.Name = "TracksTreeView";
+            this.TracksTreeView.Size = new System.Drawing.Size(215, 170);
+            this.TracksTreeView.TabIndex = 0;
+            this.TracksTreeView.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_BeforeLabelEdit);
+            this.TracksTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_AfterLabelEdit);
+            this.TracksTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterCheck);
+            this.TracksTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterSelect);
+            this.TracksTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TracksTreeView_NodeMouseDoubleClick);
+            this.TracksTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TracksTreeView_KeyDown);
             // 
             // contextMenuTracks
             // 
@@ -322,25 +345,26 @@ namespace DGManager
             this.deleteTrackToolStripMenuItem,
             this.reducePointsToolStripMenuItem});
             this.contextMenuTracks.Name = "contextMenuTracks";
-            this.contextMenuTracks.Size = new System.Drawing.Size(169, 48);
+            this.contextMenuTracks.Size = new System.Drawing.Size(162, 48);
             // 
             // deleteTrackToolStripMenuItem
             // 
             this.deleteTrackToolStripMenuItem.Name = "deleteTrackToolStripMenuItem";
-            this.deleteTrackToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.deleteTrackToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.deleteTrackToolStripMenuItem.Text = "Delete Track";
             this.deleteTrackToolStripMenuItem.Click += new System.EventHandler(this.deleteTrackToolStripMenuItem_Click);
             // 
             // reducePointsToolStripMenuItem
             // 
             this.reducePointsToolStripMenuItem.Name = "reducePointsToolStripMenuItem";
-            this.reducePointsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.reducePointsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.reducePointsToolStripMenuItem.Text = "Reduce Points ...";
             this.reducePointsToolStripMenuItem.Click += new System.EventHandler(this.reducePointsToolStripMenuItem_Click);
             // 
             // TrimPointsGroupBox
             // 
             this.TrimPointsGroupBox.BackColor = System.Drawing.SystemColors.Control;
+            this.TrimPointsGroupBox.Controls.Add(this.trimTrackButton);
             this.TrimPointsGroupBox.Controls.Add(this.seperateTracksButton);
             this.TrimPointsGroupBox.Controls.Add(this.ResetTrimTrackBarsButton);
             this.TrimPointsGroupBox.Controls.Add(this.EnableTrimPointsCheckBox);
@@ -367,7 +391,7 @@ namespace DGManager
             // 
             // ResetTrimTrackBarsButton
             // 
-            this.ResetTrimTrackBarsButton.Location = new System.Drawing.Point(152, 115);
+            this.ResetTrimTrackBarsButton.Location = new System.Drawing.Point(153, 115);
             this.ResetTrimTrackBarsButton.Name = "ResetTrimTrackBarsButton";
             this.ResetTrimTrackBarsButton.Size = new System.Drawing.Size(44, 23);
             this.ResetTrimTrackBarsButton.TabIndex = 1;
@@ -378,9 +402,9 @@ namespace DGManager
             // EnableTrimPointsCheckBox
             // 
             this.EnableTrimPointsCheckBox.AutoSize = true;
-            this.EnableTrimPointsCheckBox.Location = new System.Drawing.Point(15, 118);
+            this.EnableTrimPointsCheckBox.Location = new System.Drawing.Point(136, 19);
             this.EnableTrimPointsCheckBox.Name = "EnableTrimPointsCheckBox";
-            this.EnableTrimPointsCheckBox.Size = new System.Drawing.Size(64, 17);
+            this.EnableTrimPointsCheckBox.Size = new System.Drawing.Size(65, 17);
             this.EnableTrimPointsCheckBox.TabIndex = 1;
             this.EnableTrimPointsCheckBox.Text = "Enabled";
             this.EnableTrimPointsCheckBox.UseVisualStyleBackColor = true;
@@ -391,7 +415,7 @@ namespace DGManager
             this.TrimEndLabel.AutoSize = true;
             this.TrimEndLabel.Location = new System.Drawing.Point(7, 67);
             this.TrimEndLabel.Name = "TrimEndLabel";
-            this.TrimEndLabel.Size = new System.Drawing.Size(73, 13);
+            this.TrimEndLabel.Size = new System.Drawing.Size(71, 13);
             this.TrimEndLabel.TabIndex = 4;
             this.TrimEndLabel.Text = "Trim from end";
             // 
@@ -400,7 +424,7 @@ namespace DGManager
             this.TrimStartLabel.AutoSize = true;
             this.TrimStartLabel.Location = new System.Drawing.Point(7, 23);
             this.TrimStartLabel.Name = "TrimStartLabel";
-            this.TrimStartLabel.Size = new System.Drawing.Size(78, 13);
+            this.TrimStartLabel.Size = new System.Drawing.Size(73, 13);
             this.TrimStartLabel.TabIndex = 2;
             this.TrimStartLabel.Text = "Trim from start";
             // 
@@ -414,12 +438,12 @@ namespace DGManager
             this.TrimEndTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.toolTip1.SetToolTip(this.TrimEndTrackBar, "0");
             this.TrimEndTrackBar.Value = 200;
-            this.TrimEndTrackBar.MouseCaptureChanged += new System.EventHandler(this.TrimTrackBar_AfterValueChanged);
-            this.TrimEndTrackBar.MouseLeave += new System.EventHandler(this.TrimTrackBar_RemoveTooltip);
             this.TrimEndTrackBar.ValueChanged += new System.EventHandler(this.TrimTrackBar_SetTooltip);
             this.TrimEndTrackBar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TrimTrackBar_KeyUp);
-            this.TrimEndTrackBar.MouseHover += new System.EventHandler(this.TrimTrackBar_SetTooltip);
+            this.TrimEndTrackBar.MouseCaptureChanged += new System.EventHandler(this.TrimTrackBar_AfterValueChanged);
             this.TrimEndTrackBar.MouseEnter += new System.EventHandler(this.TrimTrackBar_SetTooltip);
+            this.TrimEndTrackBar.MouseLeave += new System.EventHandler(this.TrimTrackBar_RemoveTooltip);
+            this.TrimEndTrackBar.MouseHover += new System.EventHandler(this.TrimTrackBar_SetTooltip);
             // 
             // TrimStartTrackBar
             // 
@@ -430,12 +454,12 @@ namespace DGManager
             this.TrimStartTrackBar.TabIndex = 1;
             this.TrimStartTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.toolTip1.SetToolTip(this.TrimStartTrackBar, "0");
-            this.TrimStartTrackBar.MouseCaptureChanged += new System.EventHandler(this.TrimTrackBar_AfterValueChanged);
-            this.TrimStartTrackBar.MouseLeave += new System.EventHandler(this.TrimTrackBar_RemoveTooltip);
             this.TrimStartTrackBar.ValueChanged += new System.EventHandler(this.TrimTrackBar_SetTooltip);
             this.TrimStartTrackBar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TrimTrackBar_KeyUp);
-            this.TrimStartTrackBar.MouseHover += new System.EventHandler(this.TrimTrackBar_SetTooltip);
+            this.TrimStartTrackBar.MouseCaptureChanged += new System.EventHandler(this.TrimTrackBar_AfterValueChanged);
             this.TrimStartTrackBar.MouseEnter += new System.EventHandler(this.TrimTrackBar_SetTooltip);
+            this.TrimStartTrackBar.MouseLeave += new System.EventHandler(this.TrimTrackBar_RemoveTooltip);
+            this.TrimStartTrackBar.MouseHover += new System.EventHandler(this.TrimTrackBar_SetTooltip);
             // 
             // RightTabControl
             // 
@@ -449,7 +473,7 @@ namespace DGManager
             this.RightTabControl.Location = new System.Drawing.Point(0, 0);
             this.RightTabControl.Name = "RightTabControl";
             this.RightTabControl.SelectedIndex = 0;
-            this.RightTabControl.Size = new System.Drawing.Size(523, 282);
+            this.RightTabControl.Size = new System.Drawing.Size(557, 332);
             this.RightTabControl.TabIndex = 0;
             this.RightTabControl.SelectedIndexChanged += new System.EventHandler(this.RightTabControl_SelectedIndexChanged);
             // 
@@ -459,7 +483,7 @@ namespace DGManager
             this.PointsTabPage.Location = new System.Drawing.Point(4, 4);
             this.PointsTabPage.Name = "PointsTabPage";
             this.PointsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.PointsTabPage.Size = new System.Drawing.Size(515, 256);
+            this.PointsTabPage.Size = new System.Drawing.Size(549, 306);
             this.PointsTabPage.TabIndex = 0;
             this.PointsTabPage.Text = "Points";
             this.PointsTabPage.UseVisualStyleBackColor = true;
@@ -472,7 +496,7 @@ namespace DGManager
             this.PointsListView.Location = new System.Drawing.Point(3, 3);
             this.PointsListView.MultiSelect = false;
             this.PointsListView.Name = "PointsListView";
-            this.PointsListView.Size = new System.Drawing.Size(509, 250);
+            this.PointsListView.Size = new System.Drawing.Size(543, 300);
             this.PointsListView.TabIndex = 1;
             this.PointsListView.UseCompatibleStateImageBehavior = false;
             this.PointsListView.View = System.Windows.Forms.View.Details;
@@ -487,33 +511,33 @@ namespace DGManager
             this.setTrimEndToolStripMenuItem,
             this.removePointsToolStripMenuItem});
             this.contextMenuPoints.Name = "contextMenuStrip1";
-            this.contextMenuPoints.Size = new System.Drawing.Size(165, 92);
+            this.contextMenuPoints.Size = new System.Drawing.Size(162, 114);
             // 
             // splitTrackToolStripMenuItem
             // 
             this.splitTrackToolStripMenuItem.Name = "splitTrackToolStripMenuItem";
-            this.splitTrackToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.splitTrackToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.splitTrackToolStripMenuItem.Text = "Split Track";
             this.splitTrackToolStripMenuItem.Click += new System.EventHandler(this.splitTrackToolStripMenuItem_Click);
             // 
             // setTrimStartToolStripMenuItem
             // 
             this.setTrimStartToolStripMenuItem.Name = "setTrimStartToolStripMenuItem";
-            this.setTrimStartToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.setTrimStartToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.setTrimStartToolStripMenuItem.Text = "Set Trim Start";
             this.setTrimStartToolStripMenuItem.Click += new System.EventHandler(this.setTrimStartToolStripMenuItem_Click);
             // 
             // setTrimEndToolStripMenuItem
             // 
             this.setTrimEndToolStripMenuItem.Name = "setTrimEndToolStripMenuItem";
-            this.setTrimEndToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.setTrimEndToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.setTrimEndToolStripMenuItem.Text = "Set Trim End";
             this.setTrimEndToolStripMenuItem.Click += new System.EventHandler(this.setTrimEndToolStripMenuItem_Click);
             // 
             // removePointsToolStripMenuItem
             // 
             this.removePointsToolStripMenuItem.Name = "removePointsToolStripMenuItem";
-            this.removePointsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.removePointsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.removePointsToolStripMenuItem.Text = "Remove Point(s)";
             this.removePointsToolStripMenuItem.Click += new System.EventHandler(this.removePointsToolStripMenuItem_Click);
             // 
@@ -522,7 +546,7 @@ namespace DGManager
             this.MapTabPage.Controls.Add(this.GMapsWebBrowser);
             this.MapTabPage.Location = new System.Drawing.Point(4, 4);
             this.MapTabPage.Name = "MapTabPage";
-            this.MapTabPage.Size = new System.Drawing.Size(515, 256);
+            this.MapTabPage.Size = new System.Drawing.Size(549, 306);
             this.MapTabPage.TabIndex = 2;
             this.MapTabPage.Text = "Google Maps";
             this.MapTabPage.UseVisualStyleBackColor = true;
@@ -533,7 +557,7 @@ namespace DGManager
             this.GMapsWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.GMapsWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.GMapsWebBrowser.Name = "GMapsWebBrowser";
-            this.GMapsWebBrowser.Size = new System.Drawing.Size(515, 256);
+            this.GMapsWebBrowser.Size = new System.Drawing.Size(549, 306);
             this.GMapsWebBrowser.TabIndex = 0;
             this.GMapsWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.GMapsWebBrowser_Navigated);
             // 
@@ -667,7 +691,7 @@ namespace DGManager
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 14);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 13;
             this.label3.Text = "Offset:";
             // 
@@ -702,7 +726,7 @@ namespace DGManager
             0,
             0});
             this.CameraOffsetSecondsUpDown.Name = "CameraOffsetSecondsUpDown";
-            this.CameraOffsetSecondsUpDown.Size = new System.Drawing.Size(35, 21);
+            this.CameraOffsetSecondsUpDown.Size = new System.Drawing.Size(35, 20);
             this.CameraOffsetSecondsUpDown.TabIndex = 12;
             this.CameraOffsetSecondsUpDown.ValueChanged += new System.EventHandler(this.CameraOffsetChanged);
             // 
@@ -715,7 +739,7 @@ namespace DGManager
             0,
             0});
             this.CameraOffsetHoursUpDown.Name = "CameraOffsetHoursUpDown";
-            this.CameraOffsetHoursUpDown.Size = new System.Drawing.Size(43, 21);
+            this.CameraOffsetHoursUpDown.Size = new System.Drawing.Size(43, 20);
             this.CameraOffsetHoursUpDown.TabIndex = 8;
             this.CameraOffsetHoursUpDown.ValueChanged += new System.EventHandler(this.CameraOffsetChanged);
             // 
@@ -737,7 +761,7 @@ namespace DGManager
             0,
             0});
             this.CameraOffsetMinutesUpDown.Name = "CameraOffsetMinutesUpDown";
-            this.CameraOffsetMinutesUpDown.Size = new System.Drawing.Size(35, 21);
+            this.CameraOffsetMinutesUpDown.Size = new System.Drawing.Size(35, 20);
             this.CameraOffsetMinutesUpDown.TabIndex = 10;
             this.CameraOffsetMinutesUpDown.ValueChanged += new System.EventHandler(this.CameraOffsetChanged);
             // 
@@ -860,6 +884,17 @@ namespace DGManager
             this.tabPagePreview.Text = "Preview";
             this.tabPagePreview.UseVisualStyleBackColor = true;
             // 
+            // trackPreview1
+            // 
+            this.trackPreview1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackPreview1.Location = new System.Drawing.Point(3, 3);
+            this.trackPreview1.Name = "trackPreview1";
+            this.trackPreview1.OffsetX = 0;
+            this.trackPreview1.OffsetY = 0;
+            this.trackPreview1.Size = new System.Drawing.Size(509, 250);
+            this.trackPreview1.TabIndex = 0;
+            this.trackPreview1.Zoom = 1F;
+            // 
             // tabPageChart
             // 
             this.tabPageChart.Controls.Add(this.zedGraphControl);
@@ -876,15 +911,16 @@ namespace DGManager
             this.zedGraphControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zedGraphControl.Location = new System.Drawing.Point(3, 3);
             this.zedGraphControl.Name = "zedGraphControl";
-            this.zedGraphControl.ScrollGrace = 0;
-            this.zedGraphControl.ScrollMaxX = 0;
-            this.zedGraphControl.ScrollMaxY = 0;
-            this.zedGraphControl.ScrollMaxY2 = 0;
-            this.zedGraphControl.ScrollMinX = 0;
-            this.zedGraphControl.ScrollMinY = 0;
-            this.zedGraphControl.ScrollMinY2 = 0;
+            this.zedGraphControl.ScrollGrace = 0D;
+            this.zedGraphControl.ScrollMaxX = 0D;
+            this.zedGraphControl.ScrollMaxY = 0D;
+            this.zedGraphControl.ScrollMaxY2 = 0D;
+            this.zedGraphControl.ScrollMinX = 0D;
+            this.zedGraphControl.ScrollMinY = 0D;
+            this.zedGraphControl.ScrollMinY2 = 0D;
             this.zedGraphControl.Size = new System.Drawing.Size(509, 250);
             this.zedGraphControl.TabIndex = 0;
+            this.zedGraphControl.UseExtendedPrintDialog = true;
             // 
             // LogTextBox
             // 
@@ -895,7 +931,7 @@ namespace DGManager
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
             this.LogTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.LogTextBox.Size = new System.Drawing.Size(742, 126);
+            this.LogTextBox.Size = new System.Drawing.Size(776, 126);
             this.LogTextBox.TabIndex = 0;
             // 
             // OpenFileDialog
@@ -918,8 +954,8 @@ namespace DGManager
             // TopBottomSplitContainer.Panel2
             // 
             this.TopBottomSplitContainer.Panel2.Controls.Add(this.LogTextBox);
-            this.TopBottomSplitContainer.Size = new System.Drawing.Size(742, 412);
-            this.TopBottomSplitContainer.SplitterDistance = 282;
+            this.TopBottomSplitContainer.Size = new System.Drawing.Size(776, 462);
+            this.TopBottomSplitContainer.SplitterDistance = 332;
             this.TopBottomSplitContainer.TabIndex = 3;
             this.TopBottomSplitContainer.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.TopBottomSplitContainer_SplitterMoved);
             // 
@@ -935,7 +971,7 @@ namespace DGManager
             this.toolStripMenuItem1});
             this.TopMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.TopMenuStrip.Name = "TopMenuStrip";
-            this.TopMenuStrip.Size = new System.Drawing.Size(742, 24);
+            this.TopMenuStrip.Size = new System.Drawing.Size(776, 24);
             this.TopMenuStrip.TabIndex = 0;
             this.TopMenuStrip.Text = "menuStrip1";
             // 
@@ -950,54 +986,54 @@ namespace DGManager
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // openMoreToolStripMenuItem
             // 
             this.openMoreToolStripMenuItem.Name = "openMoreToolStripMenuItem";
-            this.openMoreToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openMoreToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.openMoreToolStripMenuItem.Text = "Open More";
             this.openMoreToolStripMenuItem.Click += new System.EventHandler(this.openMoreToolStripMenuItem_Click);
             // 
             // toolStripMenuItemDirections
             // 
             this.toolStripMenuItemDirections.Name = "toolStripMenuItemDirections";
-            this.toolStripMenuItemDirections.Size = new System.Drawing.Size(225, 22);
+            this.toolStripMenuItemDirections.Size = new System.Drawing.Size(227, 22);
             this.toolStripMenuItemDirections.Text = "Get Directions (experimental)";
             this.toolStripMenuItemDirections.Click += new System.EventHandler(this.toolStripMenuItemDirections_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(222, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(224, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(222, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(224, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1017,87 +1053,87 @@ namespace DGManager
             this.moveTrackUpToolStripMenuItem,
             this.downloadPathsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
             // 
             // checkAllFilesToolStripMenuItem
             // 
             this.checkAllFilesToolStripMenuItem.Name = "checkAllFilesToolStripMenuItem";
             this.checkAllFilesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.checkAllFilesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkAllFilesToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.checkAllFilesToolStripMenuItem.Text = "Check All Tracks";
             this.checkAllFilesToolStripMenuItem.Click += new System.EventHandler(this.checkAllFilesToolStripMenuItem_Click);
             // 
             // uncheckAllFilesToolStripMenuItem
             // 
             this.uncheckAllFilesToolStripMenuItem.Name = "uncheckAllFilesToolStripMenuItem";
-            this.uncheckAllFilesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.uncheckAllFilesToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.uncheckAllFilesToolStripMenuItem.Text = "Uncheck All Tracks";
             this.uncheckAllFilesToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllFilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(236, 6);
             // 
             // checkSelectedFilesToolStripMenuItem
             // 
             this.checkSelectedFilesToolStripMenuItem.Name = "checkSelectedFilesToolStripMenuItem";
-            this.checkSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.checkSelectedFilesToolStripMenuItem.Text = "Check Selected Tracks";
             this.checkSelectedFilesToolStripMenuItem.Click += new System.EventHandler(this.checkSelectedFilesToolStripMenuItem_Click);
             // 
             // uncheckSelectedFilesToolStripMenuItem
             // 
             this.uncheckSelectedFilesToolStripMenuItem.Name = "uncheckSelectedFilesToolStripMenuItem";
-            this.uncheckSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.uncheckSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.uncheckSelectedFilesToolStripMenuItem.Text = "Uncheck Selected Tracks";
             this.uncheckSelectedFilesToolStripMenuItem.Click += new System.EventHandler(this.uncheckSelectedFilesToolStripMenuItem_Click);
             // 
             // onlyCheckSelectedFilesToolStripMenuItem
             // 
             this.onlyCheckSelectedFilesToolStripMenuItem.Name = "onlyCheckSelectedFilesToolStripMenuItem";
-            this.onlyCheckSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.onlyCheckSelectedFilesToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.onlyCheckSelectedFilesToolStripMenuItem.Text = "Only Check Selected Tracks";
             this.onlyCheckSelectedFilesToolStripMenuItem.Click += new System.EventHandler(this.onlyCheckSelectedFilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(236, 6);
             // 
             // removeSelectedTracksToolStripMenuItem
             // 
             this.removeSelectedTracksToolStripMenuItem.Name = "removeSelectedTracksToolStripMenuItem";
-            this.removeSelectedTracksToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.removeSelectedTracksToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.removeSelectedTracksToolStripMenuItem.Text = "Remove Selected Tracks";
             this.removeSelectedTracksToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedTracksToolStripMenuItem_Click);
             // 
             // removeAllTracksToolStripMenuItem
             // 
             this.removeAllTracksToolStripMenuItem.Name = "removeAllTracksToolStripMenuItem";
-            this.removeAllTracksToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.removeAllTracksToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.removeAllTracksToolStripMenuItem.Text = "Remove All Tracks";
             this.removeAllTracksToolStripMenuItem.Click += new System.EventHandler(this.removeAllTracksToolStripMenuItem_Click);
             // 
             // mergeCheckedTracksToolStripMenuItem
             // 
             this.mergeCheckedTracksToolStripMenuItem.Name = "mergeCheckedTracksToolStripMenuItem";
-            this.mergeCheckedTracksToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.mergeCheckedTracksToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.mergeCheckedTracksToolStripMenuItem.Text = "Merge Checked Tracks";
             this.mergeCheckedTracksToolStripMenuItem.Click += new System.EventHandler(this.mergeCheckedTracksToolStripMenuItem_Click);
             // 
             // moveTrackUpToolStripMenuItem
             // 
             this.moveTrackUpToolStripMenuItem.Name = "moveTrackUpToolStripMenuItem";
-            this.moveTrackUpToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moveTrackUpToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.moveTrackUpToolStripMenuItem.Text = "Move Track Up";
             this.moveTrackUpToolStripMenuItem.Click += new System.EventHandler(this.moveTrackUpToolStripMenuItem_Click);
             // 
             // downloadPathsToolStripMenuItem
             // 
             this.downloadPathsToolStripMenuItem.Name = "downloadPathsToolStripMenuItem";
-            this.downloadPathsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.downloadPathsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
             this.downloadPathsToolStripMenuItem.Text = "Download Paths (experimental)";
             this.downloadPathsToolStripMenuItem.Click += new System.EventHandler(this.downloadPathsToolStripMenuItem_Click);
             // 
@@ -1107,15 +1143,23 @@ namespace DGManager
             this.checkedTracksInfoToolStripMenuItem,
             this.chartToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // checkedTracksInfoToolStripMenuItem
             // 
             this.checkedTracksInfoToolStripMenuItem.Name = "checkedTracksInfoToolStripMenuItem";
-            this.checkedTracksInfoToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.checkedTracksInfoToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.checkedTracksInfoToolStripMenuItem.Text = "Checked Tracks Info";
             this.checkedTracksInfoToolStripMenuItem.Click += new System.EventHandler(this.checkedTracksInfoToolStripMenuItem_Click);
+            // 
+            // chartToolStripMenuItem
+            // 
+            this.chartToolStripMenuItem.CheckOnClick = true;
+            this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
+            this.chartToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.chartToolStripMenuItem.Text = "Chart (experimental)";
+            this.chartToolStripMenuItem.Click += new System.EventHandler(this.chartToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -1130,7 +1174,7 @@ namespace DGManager
             this.gPXSettingsToolStripMenuItem,
             this.kMLSettingsToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "&Settings";
             // 
             // displayUnitToolStripMenuItem
@@ -1140,7 +1184,7 @@ namespace DGManager
             this.distanceToolStripMenuItem,
             this.elevationToolStripMenuItem});
             this.displayUnitToolStripMenuItem.Name = "displayUnitToolStripMenuItem";
-            this.displayUnitToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.displayUnitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.displayUnitToolStripMenuItem.Text = "Display Unit";
             // 
             // speedToolStripMenuItem
@@ -1150,7 +1194,7 @@ namespace DGManager
             this.speedImperialToolStripMenuItem,
             this.speedNauticalToolStripMenuItem});
             this.speedToolStripMenuItem.Name = "speedToolStripMenuItem";
-            this.speedToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.speedToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.speedToolStripMenuItem.Text = "Speed";
             // 
             // speedMetricToolStripMenuItem
@@ -1158,7 +1202,7 @@ namespace DGManager
             this.speedMetricToolStripMenuItem.Checked = true;
             this.speedMetricToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.speedMetricToolStripMenuItem.Name = "speedMetricToolStripMenuItem";
-            this.speedMetricToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.speedMetricToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.speedMetricToolStripMenuItem.Tag = "Radio";
             this.speedMetricToolStripMenuItem.Text = "Metric";
             this.speedMetricToolStripMenuItem.Click += new System.EventHandler(this.speedUnitMenuItem_Click);
@@ -1166,7 +1210,7 @@ namespace DGManager
             // speedImperialToolStripMenuItem
             // 
             this.speedImperialToolStripMenuItem.Name = "speedImperialToolStripMenuItem";
-            this.speedImperialToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.speedImperialToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.speedImperialToolStripMenuItem.Tag = "Radio";
             this.speedImperialToolStripMenuItem.Text = "Imperial";
             this.speedImperialToolStripMenuItem.Click += new System.EventHandler(this.speedUnitMenuItem_Click);
@@ -1174,7 +1218,7 @@ namespace DGManager
             // speedNauticalToolStripMenuItem
             // 
             this.speedNauticalToolStripMenuItem.Name = "speedNauticalToolStripMenuItem";
-            this.speedNauticalToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.speedNauticalToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.speedNauticalToolStripMenuItem.Tag = "Radio";
             this.speedNauticalToolStripMenuItem.Text = "Nautical";
             this.speedNauticalToolStripMenuItem.Click += new System.EventHandler(this.speedUnitMenuItem_Click);
@@ -1186,7 +1230,7 @@ namespace DGManager
             this.distanceImperialToolStripMenuItem,
             this.distanceNauticalToolStripMenuItem});
             this.distanceToolStripMenuItem.Name = "distanceToolStripMenuItem";
-            this.distanceToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.distanceToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.distanceToolStripMenuItem.Text = "Distance";
             this.distanceToolStripMenuItem.Click += new System.EventHandler(this.distanceUnitMenuItem_Click);
             // 
@@ -1195,7 +1239,7 @@ namespace DGManager
             this.distanceMetricToolStripMenuItem.Checked = true;
             this.distanceMetricToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.distanceMetricToolStripMenuItem.Name = "distanceMetricToolStripMenuItem";
-            this.distanceMetricToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.distanceMetricToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.distanceMetricToolStripMenuItem.Tag = "Radio";
             this.distanceMetricToolStripMenuItem.Text = "Metric";
             this.distanceMetricToolStripMenuItem.Click += new System.EventHandler(this.distanceUnitMenuItem_Click);
@@ -1203,7 +1247,7 @@ namespace DGManager
             // distanceImperialToolStripMenuItem
             // 
             this.distanceImperialToolStripMenuItem.Name = "distanceImperialToolStripMenuItem";
-            this.distanceImperialToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.distanceImperialToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.distanceImperialToolStripMenuItem.Tag = "Radio";
             this.distanceImperialToolStripMenuItem.Text = "Imperial";
             this.distanceImperialToolStripMenuItem.Click += new System.EventHandler(this.distanceUnitMenuItem_Click);
@@ -1211,7 +1255,7 @@ namespace DGManager
             // distanceNauticalToolStripMenuItem
             // 
             this.distanceNauticalToolStripMenuItem.Name = "distanceNauticalToolStripMenuItem";
-            this.distanceNauticalToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.distanceNauticalToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.distanceNauticalToolStripMenuItem.Tag = "Radio";
             this.distanceNauticalToolStripMenuItem.Text = "Nautical";
             this.distanceNauticalToolStripMenuItem.Click += new System.EventHandler(this.distanceUnitMenuItem_Click);
@@ -1222,7 +1266,7 @@ namespace DGManager
             this.elevationMetricToolStripMenuItem,
             this.elevationImperialToolStripMenuItem});
             this.elevationToolStripMenuItem.Name = "elevationToolStripMenuItem";
-            this.elevationToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.elevationToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.elevationToolStripMenuItem.Text = "Elevation";
             // 
             // elevationMetricToolStripMenuItem
@@ -1230,7 +1274,7 @@ namespace DGManager
             this.elevationMetricToolStripMenuItem.Checked = true;
             this.elevationMetricToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.elevationMetricToolStripMenuItem.Name = "elevationMetricToolStripMenuItem";
-            this.elevationMetricToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.elevationMetricToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.elevationMetricToolStripMenuItem.Tag = "Radio";
             this.elevationMetricToolStripMenuItem.Text = "Metric";
             this.elevationMetricToolStripMenuItem.Click += new System.EventHandler(this.elevationUnitMenuItem_Click);
@@ -1238,7 +1282,7 @@ namespace DGManager
             // elevationImperialToolStripMenuItem
             // 
             this.elevationImperialToolStripMenuItem.Name = "elevationImperialToolStripMenuItem";
-            this.elevationImperialToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.elevationImperialToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.elevationImperialToolStripMenuItem.Tag = "Radio";
             this.elevationImperialToolStripMenuItem.Text = "Imperial";
             this.elevationImperialToolStripMenuItem.Click += new System.EventHandler(this.elevationUnitMenuItem_Click);
@@ -1249,7 +1293,7 @@ namespace DGManager
             this.fullToolStripMenuItem,
             this.nineDigitsToolStripMenuItem});
             this.displayPrecisionToolStripMenuItem.Name = "displayPrecisionToolStripMenuItem";
-            this.displayPrecisionToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.displayPrecisionToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.displayPrecisionToolStripMenuItem.Text = "Display Precision";
             // 
             // fullToolStripMenuItem
@@ -1257,7 +1301,7 @@ namespace DGManager
             this.fullToolStripMenuItem.Checked = true;
             this.fullToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.fullToolStripMenuItem.Name = "fullToolStripMenuItem";
-            this.fullToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.fullToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fullToolStripMenuItem.Tag = "Radio";
             this.fullToolStripMenuItem.Text = "Full";
             this.fullToolStripMenuItem.Click += new System.EventHandler(this.fullToolStripMenuItem_Click);
@@ -1265,7 +1309,7 @@ namespace DGManager
             // nineDigitsToolStripMenuItem
             // 
             this.nineDigitsToolStripMenuItem.Name = "nineDigitsToolStripMenuItem";
-            this.nineDigitsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.nineDigitsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nineDigitsToolStripMenuItem.Tag = "Radio";
             this.nineDigitsToolStripMenuItem.Text = "9 Significant Figures";
             this.nineDigitsToolStripMenuItem.Click += new System.EventHandler(this.nineDigitsToolStripMenuItem_Click);
@@ -1287,13 +1331,13 @@ namespace DGManager
             this.toolStripSeparator8,
             this.advancedGMapsToolStripMenuItem});
             this.googleMapsToolStripMenuItem.Name = "googleMapsToolStripMenuItem";
-            this.googleMapsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.googleMapsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.googleMapsToolStripMenuItem.Text = "Google Maps";
             // 
             // smallControlsToolStripMenuItem
             // 
             this.smallControlsToolStripMenuItem.Name = "smallControlsToolStripMenuItem";
-            this.smallControlsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.smallControlsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.smallControlsToolStripMenuItem.Tag = "Radio";
             this.smallControlsToolStripMenuItem.Text = "Small Controls";
             this.smallControlsToolStripMenuItem.Click += new System.EventHandler(this.smallControlsToolStripMenuItem_Click);
@@ -1301,7 +1345,7 @@ namespace DGManager
             // normalControlsToolStripMenuItem
             // 
             this.normalControlsToolStripMenuItem.Name = "normalControlsToolStripMenuItem";
-            this.normalControlsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.normalControlsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.normalControlsToolStripMenuItem.Tag = "Radio";
             this.normalControlsToolStripMenuItem.Text = "Normal Controls";
             this.normalControlsToolStripMenuItem.Click += new System.EventHandler(this.normalControlsToolStripMenuItem_Click);
@@ -1309,40 +1353,40 @@ namespace DGManager
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(165, 6);
             // 
             // streetMapToolStripMenuItem
             // 
             this.streetMapToolStripMenuItem.Name = "streetMapToolStripMenuItem";
-            this.streetMapToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.streetMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.streetMapToolStripMenuItem.Text = "Street Map";
             this.streetMapToolStripMenuItem.Click += new System.EventHandler(this.streetMapToolStripMenuItem_Click);
             // 
             // satelliteMapToolStripMenuItem
             // 
             this.satelliteMapToolStripMenuItem.Name = "satelliteMapToolStripMenuItem";
-            this.satelliteMapToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.satelliteMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.satelliteMapToolStripMenuItem.Text = "Satellite Map";
             this.satelliteMapToolStripMenuItem.Click += new System.EventHandler(this.satelliteMapToolStripMenuItem_Click);
             // 
             // hybridMapToolStripMenuItem
             // 
             this.hybridMapToolStripMenuItem.Name = "hybridMapToolStripMenuItem";
-            this.hybridMapToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.hybridMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.hybridMapToolStripMenuItem.Text = "Hybrid Map";
             this.hybridMapToolStripMenuItem.Click += new System.EventHandler(this.hybridMapToolStripMenuItem_Click);
             // 
             // terrainMapToolStripMenuItem
             // 
             this.terrainMapToolStripMenuItem.Name = "terrainMapToolStripMenuItem";
-            this.terrainMapToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.terrainMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.terrainMapToolStripMenuItem.Text = "Terrain Map";
             this.terrainMapToolStripMenuItem.Click += new System.EventHandler(this.terrainMapToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(165, 6);
             // 
             // defaultMapTypeToolStripMenuItem
             // 
@@ -1351,13 +1395,13 @@ namespace DGManager
             this.satelliteDefaultToolStripMenuItem,
             this.hybridDefaultToolStripMenuItem});
             this.defaultMapTypeToolStripMenuItem.Name = "defaultMapTypeToolStripMenuItem";
-            this.defaultMapTypeToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.defaultMapTypeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.defaultMapTypeToolStripMenuItem.Text = "Default Map Type";
             // 
             // streetDefaultToolStripMenuItem
             // 
             this.streetDefaultToolStripMenuItem.Name = "streetDefaultToolStripMenuItem";
-            this.streetDefaultToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.streetDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.streetDefaultToolStripMenuItem.Tag = "Radio";
             this.streetDefaultToolStripMenuItem.Text = "Street";
             this.streetDefaultToolStripMenuItem.Click += new System.EventHandler(this.streetDefaultToolStripMenuItem_Click);
@@ -1365,7 +1409,7 @@ namespace DGManager
             // satelliteDefaultToolStripMenuItem
             // 
             this.satelliteDefaultToolStripMenuItem.Name = "satelliteDefaultToolStripMenuItem";
-            this.satelliteDefaultToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.satelliteDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.satelliteDefaultToolStripMenuItem.Tag = "Radio";
             this.satelliteDefaultToolStripMenuItem.Text = "Satellite";
             this.satelliteDefaultToolStripMenuItem.Click += new System.EventHandler(this.satelliteDefaultToolStripMenuItem_Click);
@@ -1373,7 +1417,7 @@ namespace DGManager
             // hybridDefaultToolStripMenuItem
             // 
             this.hybridDefaultToolStripMenuItem.Name = "hybridDefaultToolStripMenuItem";
-            this.hybridDefaultToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.hybridDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.hybridDefaultToolStripMenuItem.Tag = "Radio";
             this.hybridDefaultToolStripMenuItem.Text = "Hybrid";
             this.hybridDefaultToolStripMenuItem.Click += new System.EventHandler(this.hybridDefaultToolStripMenuItem_Click);
@@ -1381,24 +1425,24 @@ namespace DGManager
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(165, 6);
             // 
             // overviewMapToolStripMenuItem
             // 
             this.overviewMapToolStripMenuItem.Name = "overviewMapToolStripMenuItem";
-            this.overviewMapToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.overviewMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.overviewMapToolStripMenuItem.Text = "Overview Map";
             this.overviewMapToolStripMenuItem.Click += new System.EventHandler(this.overviewMapToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(165, 6);
             // 
             // advancedGMapsToolStripMenuItem
             // 
             this.advancedGMapsToolStripMenuItem.Name = "advancedGMapsToolStripMenuItem";
-            this.advancedGMapsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.advancedGMapsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.advancedGMapsToolStripMenuItem.Text = "Advanced...";
             this.advancedGMapsToolStripMenuItem.Click += new System.EventHandler(this.advancedGMapsToolStripMenuItem_Click);
             // 
@@ -1407,7 +1451,7 @@ namespace DGManager
             this.updatingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.automaticallyCheckForNewVersionsToolStripMenuItem});
             this.updatingToolStripMenuItem.Name = "updatingToolStripMenuItem";
-            this.updatingToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.updatingToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.updatingToolStripMenuItem.Text = "Updating";
             // 
             // automaticallyCheckForNewVersionsToolStripMenuItem
@@ -1415,49 +1459,49 @@ namespace DGManager
             this.automaticallyCheckForNewVersionsToolStripMenuItem.Checked = true;
             this.automaticallyCheckForNewVersionsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.automaticallyCheckForNewVersionsToolStripMenuItem.Name = "automaticallyCheckForNewVersionsToolStripMenuItem";
-            this.automaticallyCheckForNewVersionsToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.automaticallyCheckForNewVersionsToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
             this.automaticallyCheckForNewVersionsToolStripMenuItem.Text = "Automatically Check For New Versions";
             this.automaticallyCheckForNewVersionsToolStripMenuItem.Click += new System.EventHandler(this.automaticallyCheckForNewVersionsToolStripMenuItem_Click);
             // 
             // uTCShiftToolStripMenuItem
             // 
             this.uTCShiftToolStripMenuItem.Name = "uTCShiftToolStripMenuItem";
-            this.uTCShiftToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.uTCShiftToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.uTCShiftToolStripMenuItem.Text = "UTC Shift...";
             this.uTCShiftToolStripMenuItem.Click += new System.EventHandler(this.uTCShiftToolStripMenuItem_Click);
             // 
             // trackSettingsToolStripMenuItem
             // 
             this.trackSettingsToolStripMenuItem.Name = "trackSettingsToolStripMenuItem";
-            this.trackSettingsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.trackSettingsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.trackSettingsToolStripMenuItem.Text = "Track Settings...";
             this.trackSettingsToolStripMenuItem.Click += new System.EventHandler(this.trackSettingsToolStripMenuItem_Click);
             // 
             // geocodingSettingsToolStripMenuItem
             // 
             this.geocodingSettingsToolStripMenuItem.Name = "geocodingSettingsToolStripMenuItem";
-            this.geocodingSettingsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.geocodingSettingsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.geocodingSettingsToolStripMenuItem.Text = "Geocoding Settings...";
             this.geocodingSettingsToolStripMenuItem.Click += new System.EventHandler(this.geocodingSettingsToolStripMenuItem_Click);
             // 
             // gPXSettingsToolStripMenuItem
             // 
             this.gPXSettingsToolStripMenuItem.Name = "gPXSettingsToolStripMenuItem";
-            this.gPXSettingsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.gPXSettingsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.gPXSettingsToolStripMenuItem.Text = "GPX Settings...";
             this.gPXSettingsToolStripMenuItem.Click += new System.EventHandler(this.gPXSettingsToolStripMenuItem_Click);
             // 
             // kMLSettingsToolStripMenuItem
             // 
             this.kMLSettingsToolStripMenuItem.Name = "kMLSettingsToolStripMenuItem";
-            this.kMLSettingsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.kMLSettingsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.kMLSettingsToolStripMenuItem.Text = "KML Settings...";
             this.kMLSettingsToolStripMenuItem.Click += new System.EventHandler(this.kMLSettingsToolStripMenuItem_Click);
             // 
             // portToolStripMenuItem
             // 
             this.portToolStripMenuItem.Name = "portToolStripMenuItem";
-            this.portToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.portToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.portToolStripMenuItem.Text = "&Port";
             // 
             // memoryToolStripMenuItem
@@ -1473,46 +1517,46 @@ namespace DGManager
             this.toolStripSeparator4,
             this.clearToolStripMenuItem});
             this.memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
-            this.memoryToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.memoryToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.memoryToolStripMenuItem.Text = "&Device";
             // 
             // configurationToolStripMenuItem
             // 
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.configurationToolStripMenuItem.Text = "Configuration...";
             this.configurationToolStripMenuItem.Click += new System.EventHandler(this.configurationToolStripMenuItem_Click);
             // 
             // identificationToolStripMenuItem
             // 
             this.identificationToolStripMenuItem.Name = "identificationToolStripMenuItem";
-            this.identificationToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.identificationToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.identificationToolStripMenuItem.Text = "Identification";
             this.identificationToolStripMenuItem.Click += new System.EventHandler(this.identificationToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(208, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(205, 6);
             // 
             // readToolStripMenuItem
             // 
             this.readToolStripMenuItem.Name = "readToolStripMenuItem";
-            this.readToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.readToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.readToolStripMenuItem.Text = "Download All Tracks";
             this.readToolStripMenuItem.Click += new System.EventHandler(this.readToolStripMenuItem_Click);
             // 
             // downloadLatestTracksToolStripMenuItem
             // 
             this.downloadLatestTracksToolStripMenuItem.Name = "downloadLatestTracksToolStripMenuItem";
-            this.downloadLatestTracksToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.downloadLatestTracksToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.downloadLatestTracksToolStripMenuItem.Text = "Download Latest Tracks...";
             this.downloadLatestTracksToolStripMenuItem.Click += new System.EventHandler(this.downloadLatestTracksToolStripMenuItem_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(208, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(205, 6);
             // 
             // gPSMouseToolStripMenuItem1
             // 
@@ -1520,32 +1564,32 @@ namespace DGManager
             this.startToolStripMenuItem,
             this.stopToolStripMenuItem});
             this.gPSMouseToolStripMenuItem1.Name = "gPSMouseToolStripMenuItem1";
-            this.gPSMouseToolStripMenuItem1.Size = new System.Drawing.Size(211, 22);
+            this.gPSMouseToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
             this.gPSMouseToolStripMenuItem1.Text = "GPS Mouse";
             // 
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(208, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(205, 6);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.clearToolStripMenuItem.Text = "Clear Memory";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -1561,14 +1605,14 @@ namespace DGManager
             // checkForNewVersionToolStripMenuItem
             // 
             this.checkForNewVersionToolStripMenuItem.Name = "checkForNewVersionToolStripMenuItem";
-            this.checkForNewVersionToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.checkForNewVersionToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.checkForNewVersionToolStripMenuItem.Text = "Check For New Version";
             this.checkForNewVersionToolStripMenuItem.Click += new System.EventHandler(this.checkForNewVersionToolStripMenuItem_Click);
             // 
             // aboutDGManagerToolStripMenuItem
             // 
             this.aboutDGManagerToolStripMenuItem.Name = "aboutDGManagerToolStripMenuItem";
-            this.aboutDGManagerToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.aboutDGManagerToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.aboutDGManagerToolStripMenuItem.Text = "About DG Manager.NET";
             this.aboutDGManagerToolStripMenuItem.Click += new System.EventHandler(this.aboutDGManagerToolStripMenuItem_Click);
             // 
@@ -1585,52 +1629,27 @@ namespace DGManager
             // DataOperationBackgroundWorker
             // 
             this.DataOperationBackgroundWorker.WorkerReportsProgress = true;
-            this.DataOperationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileOperationBackgroundWorker_RunWorkerCompleted);
             this.DataOperationBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.UpdateProgress);
+            this.DataOperationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileOperationBackgroundWorker_RunWorkerCompleted);
             // 
-            // TracksTreeView
+            // trimTrackButton
             // 
-            this.TracksTreeView.CheckBoxes = true;
-            this.TracksTreeView.ContextMenuStrip = this.contextMenuTracks;
-            this.TracksTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TracksTreeView.HideSelection = false;
-            this.TracksTreeView.LabelEdit = true;
-            this.TracksTreeView.Location = new System.Drawing.Point(0, 0);
-            this.TracksTreeView.Name = "TracksTreeView";
-            this.TracksTreeView.Size = new System.Drawing.Size(215, 120);
-            this.TracksTreeView.TabIndex = 0;
-            this.TracksTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TracksTreeView_NodeMouseDoubleClick);
-            this.TracksTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterCheck);
-            this.TracksTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_AfterLabelEdit);
-            this.TracksTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterSelect);
-            this.TracksTreeView.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_BeforeLabelEdit);
-            this.TracksTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TracksTreeView_KeyDown);
-            // 
-            // trackPreview1
-            // 
-            this.trackPreview1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trackPreview1.Location = new System.Drawing.Point(3, 3);
-            this.trackPreview1.Name = "trackPreview1";
-            this.trackPreview1.OffsetX = 0;
-            this.trackPreview1.OffsetY = 0;
-            this.trackPreview1.Size = new System.Drawing.Size(509, 250);
-            this.trackPreview1.TabIndex = 0;
-            this.trackPreview1.Zoom = 1F;
-            // 
-            // chartToolStripMenuItem
-            // 
-            this.chartToolStripMenuItem.CheckOnClick = true;
-            this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.chartToolStripMenuItem.Text = "Chart (experimental)";
-            this.chartToolStripMenuItem.Click += new System.EventHandler(this.chartToolStripMenuItem_Click);
+            this.trimTrackButton.AutoSize = true;
+            this.trimTrackButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.trimTrackButton.Location = new System.Drawing.Point(41, 115);
+            this.trimTrackButton.Name = "trimTrackButton";
+            this.trimTrackButton.Size = new System.Drawing.Size(37, 23);
+            this.trimTrackButton.TabIndex = 6;
+            this.trimTrackButton.Text = "Trim";
+            this.trimTrackButton.UseVisualStyleBackColor = true;
+            this.trimTrackButton.Click += new System.EventHandler(this.trimTrackButton_Click);
             // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(742, 458);
+            this.ClientSize = new System.Drawing.Size(776, 508);
             this.Controls.Add(this.TopBottomSplitContainer);
             this.Controls.Add(this.BottomStatusStrip);
             this.Controls.Add(this.TopMenuStrip);
@@ -1638,19 +1657,21 @@ namespace DGManager
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "DG Manager.NET";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_Drag);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.MainForm_Drag);
             this.BottomStatusStrip.ResumeLayout(false);
             this.BottomStatusStrip.PerformLayout();
             this.LeftRightSplitContainer.Panel1.ResumeLayout(false);
             this.LeftRightSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.LeftRightSplitContainer)).EndInit();
             this.LeftRightSplitContainer.ResumeLayout(false);
             this.LeftTopBottomSplitContainer.Panel1.ResumeLayout(false);
             this.LeftTopBottomSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.LeftTopBottomSplitContainer)).EndInit();
             this.LeftTopBottomSplitContainer.ResumeLayout(false);
             this.contextMenuTracks.ResumeLayout(false);
             this.TrimPointsGroupBox.ResumeLayout(false);
@@ -1665,6 +1686,7 @@ namespace DGManager
             this.GeocodingSplitContainer.Panel1.ResumeLayout(false);
             this.GeocodingSplitContainer.Panel1.PerformLayout();
             this.GeocodingSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GeocodingSplitContainer)).EndInit();
             this.GeocodingSplitContainer.ResumeLayout(false);
             this.OffsetGroupBox.ResumeLayout(false);
             this.OffsetGroupBox.PerformLayout();
@@ -1677,6 +1699,7 @@ namespace DGManager
             this.TopBottomSplitContainer.Panel1.ResumeLayout(false);
             this.TopBottomSplitContainer.Panel2.ResumeLayout(false);
             this.TopBottomSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TopBottomSplitContainer)).EndInit();
             this.TopBottomSplitContainer.ResumeLayout(false);
             this.TopMenuStrip.ResumeLayout(false);
             this.TopMenuStrip.PerformLayout();
@@ -1840,6 +1863,7 @@ namespace DGManager
         private System.Windows.Forms.ToolStripMenuItem downloadPathsToolStripMenuItem;
         private System.Windows.Forms.Button CommitGeocodingButton;
         private System.Windows.Forms.ToolStripMenuItem chartToolStripMenuItem;
-	}
+        private System.Windows.Forms.Button trimTrackButton;
+    }
 }
 
