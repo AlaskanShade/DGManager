@@ -784,7 +784,8 @@ namespace DGManager.Backend
         public static void SaveSettings(string path)
         {
             var parser = new FileIniDataParser();
-            var ini = parser.ReadFile(Path.Combine(path, Constants.CONFIG_FILENAME));
+            string iniPath = Path.Combine(path, Constants.CONFIG_FILENAME);
+            var ini = File.Exists(iniPath) ? parser.ReadFile(iniPath) : new IniParser.Model.IniData();
             foreach (PropertyInfo pi in typeof(Settings).GetProperties())
             {
                 object[] att = pi.GetCustomAttributes(typeof(IniConfigAttribute), true);
@@ -792,6 +793,8 @@ namespace DGManager.Backend
                 {
                     IniConfigAttribute iniAt = att[0] as IniConfigAttribute;
                     if (iniAt.ReadOnly) continue;
+                    if (ini[iniAt.Category] == null)
+                        ini.Sections.Add(new IniParser.Model.SectionData(iniAt.Category));
                     string iniName = (String.IsNullOrEmpty(iniAt.Name) ? pi.Name : iniAt.Name);
                     object val = pi.GetValue(null, null);
                     if (val != null)
@@ -803,7 +806,7 @@ namespace DGManager.Backend
                     }
                 }
             }
-            parser.WriteFile(Path.Combine(path, Constants.CONFIG_FILENAME), ini);
+            parser.WriteFile(iniPath, ini);
         }
 
         public static string SerializeColor(Color color)
