@@ -25,22 +25,17 @@ namespace DGManager
 		{
 			System.Diagnostics.Process.Start("http://sourceforge.net/projects/dgmanager-net/");
 		}
+
+		private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			System.Diagnostics.Process.Start("https://github.com/AlaskanShade/DGManager");
+		}
 		
 		private void AboutDialog_Load(object sender, EventArgs e)
 		{
 			Version assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
 			VersionLabel.Text = String.Format("{0}.{1}.{2}", assemblyVersion.Major, assemblyVersion.Minor, assemblyVersion.Build);
 			
-			if (DateTime.Now.Year > 2007)
-			{
-				YearLabel.Text = "2007-" + DateTime.Now.Year;
-			}
-			else
-			{
-				YearLabel.Text = "2007";
-			}
-
-			YearLabel.Text += " Reuben Bluff";
 		}
 	}
 }
