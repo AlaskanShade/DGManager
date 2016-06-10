@@ -138,6 +138,7 @@
     <Compile Include="AdvancedGMapsDialog.Designer.cs">
       <DependentUpon>AdvancedGMapsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="CefBoundObject.cs" />
     <Compile Include="ColorPicker\AdobeColors.cs" />
     <Compile Include="ColorPicker\ctrl2DColorBox.cs">
       <SubType>UserControl</SubType>

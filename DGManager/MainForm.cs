@@ -272,6 +272,11 @@ namespace DGManager
             browser = new ChromiumWebBrowser("");
             MapTabPage.Controls.Add(browser);
             browser.Dock = DockStyle.Fill;
+            var cbo = new CefBoundObject();
+            browser.RegisterJsObject("cefbound", cbo);
+            //browser.FrameLoadEnd += cbo.OnFrameLoadEnd;
+            cbo.MapRightClick += CefBrowser_MapRightClick;
+            cbo.TrackClick += CefBrowser_TrackClick;
         }
 
         #region Event Handlers
@@ -1356,6 +1361,36 @@ namespace DGManager
 			    Log("Google Maps HTML File Loaded");
 			//saveGoogleMapFileToolStripMenuItem.Enabled = true;
 		}
+
+        private void CefBrowser_MapRightClick(object sender, LatLngEventArgs e)
+        {
+            PointOfInterest pnt = new PointOfInterest(e.Lat, e.Lng);
+            PointOfInterestList lst = new PointOfInterestList();
+            lst.Add(pnt);
+            TrackTreeNode newNode = new TrackTreeNode(String.Format("({0:000}) GMap point", TracksTreeView.Nodes.Count + 1)) { Track = lst, Checked = true };
+            BeginInvoke(new AddNodeToTreeDelegate(AddNodeToTree), new object[] { TracksTreeView.Nodes, newNode });
+        }
+
+        private void CefBrowser_TrackClick(object sender, TrackEventArgs e)
+        {
+            FindAndSelectTreeNode(TracksTreeView.Nodes, e.TrackName, e.Start);
+        }
+        private bool FindAndSelectTreeNode(TreeNodeCollection nodes, string trackName, DateTime startTime)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                var trackNode = node as TrackTreeNode;
+                if (trackNode != null && trackNode.Track.ListName == trackName && trackNode.Track[0].When == startTime)
+                {
+                    Invoke((ThreadStart)delegate () { TracksTreeView.SelectedNode = trackNode; });
+                    return true;
+                }
+                if (node.Nodes != null)
+                    if (FindAndSelectTreeNode(node.Nodes, trackName, startTime))
+                        return true;
+            }
+            return false;
+        }
         #endregion
 
         #region Tracks

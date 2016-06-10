@@ -160,35 +160,6 @@ namespace DGManager.Backend
             sb.AppendLine("    var map;");
             sb.AppendLine("    function initMap() {");
             sb.AppendLine("       var map = new google.maps.Map(document.getElementById(\"map\"));");
-            //if (Settings.GMapsSmallControls)
-            //{
-            //    sb.AppendLine("       map.addControl(new GSmallMapControl3D());");
-            //}
-            //else
-            //{
-            //    sb.AppendLine("       map.addControl(new GLargeMapControl3D());");
-            //}
-            //sb.AppendLine("       map.addControl(new GHierarchicalMapTypeControl());");
-            //if (!Settings.GMapsMapButton)
-            //{
-            //    sb.AppendLine("       map.removeMapType(G_NORMAL_MAP);");
-            //}
-            //if (!Settings.GMapsSatelliteButton)
-            //{
-            //    sb.AppendLine("       map.removeMapType(G_SATELLITE_MAP);");
-            //}
-            //if (!Settings.GMapsHybridButton)
-            //{
-            //    sb.AppendLine("       map.removeMapType(G_HYBRID_MAP);");
-            //}
-            //if (Settings.GMapsTerrainButton)
-            //{
-            //    sb.AppendLine("       map.addMapType(G_PHYSICAL_MAP);");
-            //}
-            //if (Settings.GMapsOverviewMap)
-            //{
-            //    sb.AppendLine("       map.addControl(new GOverviewMapControl(new GSize( 150, 100)));");
-            //}
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var s = {0};{1}", firstList.BBox.S, Environment.NewLine);
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var n = {0};{1}", firstList.BBox.N, Environment.NewLine);
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var w = {0};{1}", firstList.BBox.W, Environment.NewLine);
@@ -197,22 +168,19 @@ namespace DGManager.Backend
             sb.AppendLine("  	   var NE = new google.maps.LatLng(n,e);");
             sb.AppendLine("  	   var Bnd = new google.maps.LatLngBounds(SW,NE);");
             sb.AppendLine("  	   map.fitBounds(Bnd);");
-			//sb.AppendLine("        map.addControl(new GScaleControl());");
-   //         sb.AppendLine("  	   map.setCenter(Bnd.getCenter(), Zoom);");
-            //sb.AppendLine("       var icon = new GIcon(); icon.iconSize = new GSize(16, 16); icon.iconAnchor = new GPoint(8, 8);");
             sb.AppendLine("       wpts = new Array();");
-            //if (args.IncludeGMapEvents)
-            //{
-            //    sb.AppendLine("       	GEvent.addListener(map, \"singlerightclick\", function(pixel, tile, pin) {");
-            //    sb.AppendLine("       			var pt = map.fromContainerPixelToLatLng(pixel)");
-            //    sb.AppendLine("       			if (pin == null) {");
-            //    sb.AppendLine("       			    map.addOverlay(new GMarker(new GLatLng(pt.lat(), pt.lng())));");
-            //    sb.AppendLine("               		document.getElementById('hidLat').value = pt.lat();");
-            //    sb.AppendLine("               		document.getElementById('hidLong').value = pt.lng();");
-            //    sb.AppendLine("               		NullReload();");
-            //    sb.AppendLine("          		}");
-            //    sb.AppendLine("           	});");
-            //}
+
+            if (args.IncludeGMapEvents)
+            {
+                sb.AppendLine("       	map.addListener(\"rightclick\", function(e) {");
+                sb.AppendLine("       			var pt = e.latLng;");
+                //sb.AppendLine("       			if (pin == null) {");
+                sb.AppendLine("       			    var marker = new google.maps.Marker({position: new google.maps.LatLng(pt.lat(), pt.lng()), map: map});");
+                sb.AppendLine("                     if (typeof(cefbound) != 'undefined')");
+                sb.AppendLine("                         cefbound.onRightClick(pt.lat(), pt.lng());");
+                //sb.AppendLine("          		}");
+                sb.AppendLine("           	});");
+            }
 
 
             bool dropPoints = Settings.GMapsDropPoints && totalTrimmedPointCount > Settings.GMapsDropPointsThreshold;
@@ -430,9 +398,14 @@ namespace DGManager.Backend
             sbLevels.Length--;
             sbLevels.Append(levelValues[0]);
             sb.AppendFormat("var poly = google.maps.geometry.encoding.decodePath(\"{0}\");", sbEncode).AppendLine();
-            sb.AppendFormat("new google.maps.Polyline({{ map: map, path: poly, strokeColor: {0}, strokeWeight: {1} }});", 
+            sb.AppendFormat("var line = new google.maps.Polyline({{ map: map, path: poly, strokeColor: {0}, strokeWeight: {1} }});", 
                 (isFirstTrack && Settings.GMapsSpecifyLineColor) || (!isFirstTrack && Settings.GMapsDifferentTrackColors) ? hexColor : "null",
                 Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null");
+            // opacity: strokeOpacity
+            sb.AppendLine("google.maps.event.addListener(line, 'click', function(e) { ");
+            sb.AppendLine("if (typeof(cefbound) != 'undefined') ");
+            sb.AppendFormat("    cefbound.onTrackClick('{0}', '{1}');", list.ListName, list[0].When);
+            sb.AppendLine("})");
 			//sb.AppendFormat("map.addOverlay(new GPolyline.fromEncoded({{ color: {3}, weight: {4}, points: \"{0}\", levels: \"{1}\", zoomFactor: 32, numLevels: 5 }}));{2}", 
 			//				sbEncode, sbLevels, Environment.NewLine, (isFirstTrack && Settings.GMapsSpecifyLineColor) || (!isFirstTrack && Settings.GMapsDifferentTrackColors) ? hexColor : "null",
 			//				Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null");
@@ -450,14 +423,14 @@ namespace DGManager.Backend
 
         private static string PointToGMapPinPoint(PointOfInterest point)
         {
-            return String.Format("map.addOverlay(new GMarker(new GLatLng({0}, {1})));",
+            return String.Format("var start = new google.maps.Marker({{map: map, position: new google.maps.LatLng({0}, {1})}});",
                 point.Latitude.ToString(CultureInfo.InvariantCulture),
                 point.Longitude.ToString(CultureInfo.InvariantCulture));
         }
 
         private static string PointToGMapPinPoint(PointOfInterest point, string icon)
         {
-            return String.Format("map.addOverlay(new GMarker(new GLatLng({0}, {1}), new GIcon(G_DEFAULT_ICON, '{2}')) );",
+            return String.Format("var end = new google.maps.Marker({{map: map, position: new google.maps.LatLng({0}, {1}), new google.maps.Icon(G_DEFAULT_ICON, '{2}')}} );",
                 point.Latitude.ToString(CultureInfo.InvariantCulture),
                 point.Longitude.ToString(CultureInfo.InvariantCulture),
                 icon);
