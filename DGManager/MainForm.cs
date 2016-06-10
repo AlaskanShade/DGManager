@@ -1374,7 +1374,19 @@ namespace DGManager
 
 		private void TracksTreeView_AfterCheck(object sender, TreeViewEventArgs e)
 		{
-			RefreshTotalCheckedPointCount();
+            if (e.Action == TreeViewAction.Unknown) return;
+            foreach (TreeNode child in e.Node.Nodes)
+                child.Checked = e.Node.Checked;
+            if (e.Node.Parent != null)
+            {
+                bool foundChecked = false, foundUnchecked = false;
+                foreach (TreeNode sibling in e.Node.Parent.Nodes)
+                    if (sibling.Checked) foundChecked = true;
+                    else foundUnchecked = true;
+                if (!foundUnchecked) e.Node.Parent.Checked = true;
+                else if (!foundChecked) e.Node.Parent.Checked = false;
+            }
+            RefreshTotalCheckedPointCount();
 			RefreshSelectedTabPage();
 		}
 
