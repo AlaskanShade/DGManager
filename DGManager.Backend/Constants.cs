@@ -111,6 +111,6 @@ namespace DGManager.Backend
 		public static string GMAPS_SERVICE_URL = "http://maps.google.com/";
 		public static string GMAPS_GEOCODING_SERVICE_URL = "http://maps.google.com/maps/geo";
 
-		public static string GMAPS_DEFAULT_API_KEY = "ABQIAAAAgtxbRmpSCQrDxYbzDAjzaxRctizGfPJhWNUJARiLMd815LsJMxRLGwdcXgGDppEYczc9ENGJdPB-bA";
+		public static string GMAPS_DEFAULT_API_KEY = "AIzaSyAQyLDstBSVvaQuiiS_RpoOOZjfJqBkaXk";
 	}
 }
