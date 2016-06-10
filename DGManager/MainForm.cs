@@ -1301,6 +1301,11 @@ namespace DGManager
 
         private void removePointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            RemoveSelectedPoints();
+        }
+
+        private void RemoveSelectedPoints()
+        { 
             if (PointsListView.SelectedIndices.Count == 0) return;
             TrackTreeNode trackNode = TracksTreeView.SelectedNode as TrackTreeNode;
             if (trackNode != null)
@@ -3864,6 +3869,17 @@ namespace DGManager
                 _timerRefreshGoogle.Interval = 2000;
                 _timerRefreshGoogle.Start();
             }
+        }
+
+        private void PointsListView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+        }
+
+        private void PointsListView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+                RemoveSelectedPoints();
         }
     }
 }

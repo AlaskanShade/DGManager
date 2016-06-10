@@ -502,6 +502,8 @@ namespace DGManager
             this.PointsListView.View = System.Windows.Forms.View.Details;
             this.PointsListView.VirtualMode = true;
             this.PointsListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.pointsListView_RetrieveVirtualItem);
+            this.PointsListView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PointsListView_KeyPress);
+            this.PointsListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PointsListView_KeyUp);
             // 
             // contextMenuPoints
             // 
@@ -511,7 +513,7 @@ namespace DGManager
             this.setTrimEndToolStripMenuItem,
             this.removePointsToolStripMenuItem});
             this.contextMenuPoints.Name = "contextMenuStrip1";
-            this.contextMenuPoints.Size = new System.Drawing.Size(162, 114);
+            this.contextMenuPoints.Size = new System.Drawing.Size(162, 92);
             // 
             // splitTrackToolStripMenuItem
             // 
