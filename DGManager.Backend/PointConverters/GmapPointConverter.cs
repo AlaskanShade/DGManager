@@ -99,6 +99,7 @@ namespace DGManager.Backend
         public void WriteFile(PointWriterArgs args)
         {
             StringBuilder sb = new StringBuilder();
+            if (args.Tracks.Count == 0) return;
             int totalCheckedPointCount = args.Tracks[0].Count;
             int totalTrimmedPointCount = (args.Tracks[0].IsTrimmed) ? (args.Tracks[0].TrimEnd - args.Tracks[0].TrimStart) : args.Tracks[0].Count;
             PointOfInterestList firstList = args.Tracks[0];
@@ -133,7 +134,16 @@ namespace DGManager.Backend
             sb.AppendLine("    <style type=\"text/css\">");
             sb.AppendLine("       img.gv_wpt_thumbnail { width:300px !important }");
             sb.AppendLine("    </style>");
-            sb.AppendFormat("    <script src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key={0}\" type=\"text/javascript\"></script>{1}", Settings.GMapsApiKey, Environment.NewLine);
+            sb.AppendLine("  </head>");
+            sb.AppendLine("  <body style=\"width: 100%; height: 100%; margin: 0; padding: 0;\">");
+            sb.AppendLine("    <div id=\"map\"  style=\"position: absolute; top: 0; left: 0; width: 100%; height: 100%;\"></div>");
+            if (args.IncludeGMapEvents)
+            {
+                sb.AppendLine("    <input type=\"hidden\" id='hidLat' />");
+                sb.AppendLine("    <input type=\"hidden\" id='hidLong' />");
+                //sb.AppendLine("    	<iframe id=\"nulldoc\" src=\"GPSNullDoc.html\" style=\"width:0px;height:0px;display:none;\">");
+                //sb.AppendLine("    	</iframe>");
+            }
             sb.AppendLine("    <script type=\"text/javascript\">");
             sb.AppendLine("   // <![CDATA[");
             if (args.IncludeGMapEvents)
@@ -146,67 +156,63 @@ namespace DGManager.Backend
                 sb.AppendLine("   	f.src = f.src;");
                 sb.AppendLine("   }");
             }
+            sb.AppendLine("    //]]>");
             sb.AppendLine("    var map;");
-            sb.AppendLine("    function load() {");
-            sb.AppendLine("      if (GBrowserIsCompatible()) {");
-            sb.AppendLine("       var map = new GMap2(document.getElementById(\"map\"));");
-            sb.AppendLine("       map.enableDoubleClickZoom();");
-            sb.AppendLine("       map.enableContinuousZoom();");
-            sb.AppendLine("       map.enableScrollWheelZoom();");
-            if (Settings.GMapsSmallControls)
-            {
-                sb.AppendLine("       map.addControl(new GSmallMapControl3D());");
-            }
-            else
-            {
-                sb.AppendLine("       map.addControl(new GLargeMapControl3D());");
-            }
-            sb.AppendLine("       map.addControl(new GHierarchicalMapTypeControl());");
-            if (!Settings.GMapsMapButton)
-            {
-                sb.AppendLine("       map.removeMapType(G_NORMAL_MAP);");
-            }
-            if (!Settings.GMapsSatelliteButton)
-            {
-                sb.AppendLine("       map.removeMapType(G_SATELLITE_MAP);");
-            }
-            if (!Settings.GMapsHybridButton)
-            {
-                sb.AppendLine("       map.removeMapType(G_HYBRID_MAP);");
-            }
-            if (Settings.GMapsTerrainButton)
-            {
-                sb.AppendLine("       map.addMapType(G_PHYSICAL_MAP);");
-            }
-            if (Settings.GMapsOverviewMap)
-            {
-                sb.AppendLine("       map.addControl(new GOverviewMapControl(new GSize( 150, 100)));");
-            }
+            sb.AppendLine("    function initMap() {");
+            sb.AppendLine("       var map = new google.maps.Map(document.getElementById(\"map\"));");
+            //if (Settings.GMapsSmallControls)
+            //{
+            //    sb.AppendLine("       map.addControl(new GSmallMapControl3D());");
+            //}
+            //else
+            //{
+            //    sb.AppendLine("       map.addControl(new GLargeMapControl3D());");
+            //}
+            //sb.AppendLine("       map.addControl(new GHierarchicalMapTypeControl());");
+            //if (!Settings.GMapsMapButton)
+            //{
+            //    sb.AppendLine("       map.removeMapType(G_NORMAL_MAP);");
+            //}
+            //if (!Settings.GMapsSatelliteButton)
+            //{
+            //    sb.AppendLine("       map.removeMapType(G_SATELLITE_MAP);");
+            //}
+            //if (!Settings.GMapsHybridButton)
+            //{
+            //    sb.AppendLine("       map.removeMapType(G_HYBRID_MAP);");
+            //}
+            //if (Settings.GMapsTerrainButton)
+            //{
+            //    sb.AppendLine("       map.addMapType(G_PHYSICAL_MAP);");
+            //}
+            //if (Settings.GMapsOverviewMap)
+            //{
+            //    sb.AppendLine("       map.addControl(new GOverviewMapControl(new GSize( 150, 100)));");
+            //}
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var s = {0};{1}", firstList.BBox.S, Environment.NewLine);
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var n = {0};{1}", firstList.BBox.N, Environment.NewLine);
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var w = {0};{1}", firstList.BBox.W, Environment.NewLine);
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var e = {0};{1}", firstList.BBox.E, Environment.NewLine);
-            sb.AppendLine("      var SW = new GLatLng(s,w);");
-            sb.AppendLine("  	   var NE = new GLatLng(n,e);");
-            sb.AppendLine("  	   var Bnd = new GLatLngBounds(SW,NE);");
-            sb.AppendLine("  	   var Zoom = map.getBoundsZoomLevel(Bnd);");
-			sb.AppendLine("        map.addControl(new GScaleControl());");
-            sb.AppendLine("  	   map.setCenter(Bnd.getCenter(), Zoom);");
-            sb.AppendLine("       var icon = new GIcon(); icon.iconSize = new GSize(16, 16); icon.iconAnchor = new GPoint(8, 8);");
+            sb.AppendLine("      var SW = new google.maps.LatLng(s,w);");
+            sb.AppendLine("  	   var NE = new google.maps.LatLng(n,e);");
+            sb.AppendLine("  	   var Bnd = new google.maps.LatLngBounds(SW,NE);");
+            sb.AppendLine("  	   map.fitBounds(Bnd);");
+			//sb.AppendLine("        map.addControl(new GScaleControl());");
+   //         sb.AppendLine("  	   map.setCenter(Bnd.getCenter(), Zoom);");
+            //sb.AppendLine("       var icon = new GIcon(); icon.iconSize = new GSize(16, 16); icon.iconAnchor = new GPoint(8, 8);");
             sb.AppendLine("       wpts = new Array();");
-            sb.AppendLine("       var points = [];");
-            if (args.IncludeGMapEvents)
-            {
-                sb.AppendLine("       	GEvent.addListener(map, \"singlerightclick\", function(pixel, tile, pin) {");
-                sb.AppendLine("       			var pt = map.fromContainerPixelToLatLng(pixel)");
-                sb.AppendLine("       			if (pin == null) {");
-                sb.AppendLine("       			    map.addOverlay(new GMarker(new GLatLng(pt.lat(), pt.lng())));");
-                sb.AppendLine("               		document.getElementById('hidLat').value = pt.lat();");
-                sb.AppendLine("               		document.getElementById('hidLong').value = pt.lng();");
-                sb.AppendLine("               		NullReload();");
-                sb.AppendLine("          		}");
-                sb.AppendLine("           	});");
-            }
+            //if (args.IncludeGMapEvents)
+            //{
+            //    sb.AppendLine("       	GEvent.addListener(map, \"singlerightclick\", function(pixel, tile, pin) {");
+            //    sb.AppendLine("       			var pt = map.fromContainerPixelToLatLng(pixel)");
+            //    sb.AppendLine("       			if (pin == null) {");
+            //    sb.AppendLine("       			    map.addOverlay(new GMarker(new GLatLng(pt.lat(), pt.lng())));");
+            //    sb.AppendLine("               		document.getElementById('hidLat').value = pt.lat();");
+            //    sb.AppendLine("               		document.getElementById('hidLong').value = pt.lng();");
+            //    sb.AppendLine("               		NullReload();");
+            //    sb.AppendLine("          		}");
+            //    sb.AppendLine("           	});");
+            //}
 
 
             bool dropPoints = Settings.GMapsDropPoints && totalTrimmedPointCount > Settings.GMapsDropPointsThreshold;
@@ -307,38 +313,28 @@ namespace DGManager.Backend
                     "window.setTimeout('GV_Filter_Waypoints(map,wpts)',100); // the delay lets IE6 realize the markers are in the cache");
             }
 
-            switch (Settings.GMapsDefaultMapType)
-            {
-                case GMapType.Street:
-                    sb.AppendLine("        map.setMapType(G_NORMAL_MAP);");
-                    break;
-                case GMapType.Satellite:
-                    sb.AppendLine("        map.setMapType(G_SATELLITE_MAP);");
-                    break;
-                case GMapType.Hybrid:
-                    sb.AppendLine("        map.setMapType(G_HYBRID_MAP);");
-                    break;
-            }
-            sb.AppendLine("      }");
+            //switch (Settings.GMapsDefaultMapType)
+            //{
+            //    case GMapType.Street:
+            //        sb.AppendLine("        map.setMapType(G_NORMAL_MAP);");
+            //        break;
+            //    case GMapType.Satellite:
+            //        sb.AppendLine("        map.setMapType(G_SATELLITE_MAP);");
+            //        break;
+            //    case GMapType.Hybrid:
+            //        sb.AppendLine("        map.setMapType(G_HYBRID_MAP);");
+            //        break;
+            //}
+            //sb.AppendLine("      }");
             sb.AppendLine("    }");
-            sb.AppendLine("    //]]>");
             sb.AppendLine("    </script>");
+            sb.AppendFormat("    <script src=\"https://maps.googleapis.com/maps/api/js?libraries=geometry&callback=initMap&key={0}\" async defer ></script>", Settings.GMapsApiKey).AppendLine();
 
             if (hasPoints)
             {
                 sb.AppendLine("    <script src=\"http://maps.gpsvisualizer.com/google_maps/functions.js\" type=\"text/javascript\"></script>");
             }
 
-            sb.AppendLine("  </head>");
-            sb.AppendLine("  <body style=\"width: 100%; height: 100%; margin: 0; padding: 0;\" onload=\"load()\" onunload=\"GUnload()\">");
-            sb.AppendLine("    <div id=\"map\"  style=\"position: absolute; top: 0; left: 0; width: 100%; height: 100%;\"></div>");
-            if (args.IncludeGMapEvents)
-            {
-                sb.AppendLine("    <input type=\"hidden\" id='hidLat' />");
-                sb.AppendLine("    <input type=\"hidden\" id='hidLong' />");
-                sb.AppendLine("    	<iframe id=\"nulldoc\" src=\"GPSNullDoc.html\" style=\"width:0px;height:0px;display:none;\">");
-                sb.AppendLine("    	</iframe>");
-            }
             sb.AppendLine("  </body>");
             sb.AppendLine("</html>");
 
@@ -433,9 +429,13 @@ namespace DGManager.Backend
                 sb.AppendLine(PointToGMapPinPoint(lastNonDroppedPoint, Settings.GMapsEndIcon));
             sbLevels.Length--;
             sbLevels.Append(levelValues[0]);
-			sb.AppendFormat("map.addOverlay(new GPolyline.fromEncoded({{ color: {3}, weight: {4}, points: \"{0}\", levels: \"{1}\", zoomFactor: 32, numLevels: 5 }}));{2}", 
-							sbEncode, sbLevels, Environment.NewLine, (isFirstTrack && Settings.GMapsSpecifyLineColor) || (!isFirstTrack && Settings.GMapsDifferentTrackColors) ? hexColor : "null",
-							Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null");
+            sb.AppendFormat("var poly = google.maps.geometry.encoding.decodePath(\"{0}\");", sbEncode).AppendLine();
+            sb.AppendFormat("new google.maps.Polyline({{ map: map, path: poly, strokeColor: {0}, strokeWeight: {1} }});", 
+                (isFirstTrack && Settings.GMapsSpecifyLineColor) || (!isFirstTrack && Settings.GMapsDifferentTrackColors) ? hexColor : "null",
+                Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null");
+			//sb.AppendFormat("map.addOverlay(new GPolyline.fromEncoded({{ color: {3}, weight: {4}, points: \"{0}\", levels: \"{1}\", zoomFactor: 32, numLevels: 5 }}));{2}", 
+			//				sbEncode, sbLevels, Environment.NewLine, (isFirstTrack && Settings.GMapsSpecifyLineColor) || (!isFirstTrack && Settings.GMapsDifferentTrackColors) ? hexColor : "null",
+			//				Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null");
             //todo: figure out opacity. Settings.GMapsSpecifyLineOpacity ? "," + ((double)Settings.GMapsLineOpacity / 100).ToString(CultureInfo.InvariantCulture) : "");
 
             return sb.ToString();

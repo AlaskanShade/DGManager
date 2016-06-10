@@ -45,6 +45,7 @@ namespace DGManager
             this.deleteTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reducePointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TrimPointsGroupBox = new System.Windows.Forms.GroupBox();
+            this.trimTrackButton = new System.Windows.Forms.Button();
             this.seperateTracksButton = new System.Windows.Forms.Button();
             this.ResetTrimTrackBarsButton = new System.Windows.Forms.Button();
             this.EnableTrimPointsCheckBox = new System.Windows.Forms.CheckBox();
@@ -61,7 +62,6 @@ namespace DGManager
             this.setTrimEndToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removePointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MapTabPage = new System.Windows.Forms.TabPage();
-            this.GMapsWebBrowser = new System.Windows.Forms.WebBrowser();
             this.PhotoGeocodingTabPage = new System.Windows.Forms.TabPage();
             this.GeocodingSplitContainer = new System.Windows.Forms.SplitContainer();
             this.CommitGeocodingButton = new System.Windows.Forms.Button();
@@ -183,7 +183,6 @@ namespace DGManager
             this.DataOperationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.OpenMultiFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.trimTrackButton = new System.Windows.Forms.Button();
             this.BottomStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LeftRightSplitContainer)).BeginInit();
             this.LeftRightSplitContainer.Panel1.SuspendLayout();
@@ -200,7 +199,6 @@ namespace DGManager
             this.RightTabControl.SuspendLayout();
             this.PointsTabPage.SuspendLayout();
             this.contextMenuPoints.SuspendLayout();
-            this.MapTabPage.SuspendLayout();
             this.PhotoGeocodingTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GeocodingSplitContainer)).BeginInit();
             this.GeocodingSplitContainer.Panel1.SuspendLayout();
@@ -379,6 +377,18 @@ namespace DGManager
             this.TrimPointsGroupBox.TabStop = false;
             this.TrimPointsGroupBox.Text = "Trim points from trip";
             // 
+            // trimTrackButton
+            // 
+            this.trimTrackButton.AutoSize = true;
+            this.trimTrackButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.trimTrackButton.Location = new System.Drawing.Point(41, 115);
+            this.trimTrackButton.Name = "trimTrackButton";
+            this.trimTrackButton.Size = new System.Drawing.Size(37, 23);
+            this.trimTrackButton.TabIndex = 6;
+            this.trimTrackButton.Text = "Trim";
+            this.trimTrackButton.UseVisualStyleBackColor = true;
+            this.trimTrackButton.Click += new System.EventHandler(this.trimTrackButton_Click);
+            // 
             // seperateTracksButton
             // 
             this.seperateTracksButton.Location = new System.Drawing.Point(86, 115);
@@ -545,23 +555,12 @@ namespace DGManager
             // 
             // MapTabPage
             // 
-            this.MapTabPage.Controls.Add(this.GMapsWebBrowser);
             this.MapTabPage.Location = new System.Drawing.Point(4, 4);
             this.MapTabPage.Name = "MapTabPage";
             this.MapTabPage.Size = new System.Drawing.Size(549, 306);
             this.MapTabPage.TabIndex = 2;
             this.MapTabPage.Text = "Google Maps";
             this.MapTabPage.UseVisualStyleBackColor = true;
-            // 
-            // GMapsWebBrowser
-            // 
-            this.GMapsWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GMapsWebBrowser.Location = new System.Drawing.Point(0, 0);
-            this.GMapsWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.GMapsWebBrowser.Name = "GMapsWebBrowser";
-            this.GMapsWebBrowser.Size = new System.Drawing.Size(549, 306);
-            this.GMapsWebBrowser.TabIndex = 0;
-            this.GMapsWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.GMapsWebBrowser_Navigated);
             // 
             // PhotoGeocodingTabPage
             // 
@@ -570,7 +569,7 @@ namespace DGManager
             this.PhotoGeocodingTabPage.Location = new System.Drawing.Point(4, 4);
             this.PhotoGeocodingTabPage.Name = "PhotoGeocodingTabPage";
             this.PhotoGeocodingTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.PhotoGeocodingTabPage.Size = new System.Drawing.Size(515, 256);
+            this.PhotoGeocodingTabPage.Size = new System.Drawing.Size(549, 306);
             this.PhotoGeocodingTabPage.TabIndex = 3;
             this.PhotoGeocodingTabPage.Text = "Photo Geocoding";
             this.PhotoGeocodingTabPage.UseVisualStyleBackColor = true;
@@ -600,14 +599,14 @@ namespace DGManager
             // 
             this.GeocodingSplitContainer.Panel2.Controls.Add(this.PhotosGridView);
             this.GeocodingSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.GeocodingSplitContainer.Size = new System.Drawing.Size(509, 250);
+            this.GeocodingSplitContainer.Size = new System.Drawing.Size(543, 300);
             this.GeocodingSplitContainer.SplitterDistance = 61;
             this.GeocodingSplitContainer.TabIndex = 2;
             // 
             // CommitGeocodingButton
             // 
             this.CommitGeocodingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CommitGeocodingButton.Location = new System.Drawing.Point(447, -1);
+            this.CommitGeocodingButton.Location = new System.Drawing.Point(481, -1);
             this.CommitGeocodingButton.Name = "CommitGeocodingButton";
             this.CommitGeocodingButton.Size = new System.Drawing.Size(59, 23);
             this.CommitGeocodingButton.TabIndex = 16;
@@ -780,7 +779,7 @@ namespace DGManager
             // PerformGeocodingButton
             // 
             this.PerformGeocodingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PerformGeocodingButton.Location = new System.Drawing.Point(320, 0);
+            this.PerformGeocodingButton.Location = new System.Drawing.Point(354, 0);
             this.PerformGeocodingButton.MaximumSize = new System.Drawing.Size(120, 23);
             this.PerformGeocodingButton.MinimumSize = new System.Drawing.Size(120, 23);
             this.PerformGeocodingButton.Name = "PerformGeocodingButton";
@@ -830,7 +829,7 @@ namespace DGManager
             this.PhotosGridView.Name = "PhotosGridView";
             this.PhotosGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.PhotosGridView.RowTemplate.Height = 20;
-            this.PhotosGridView.Size = new System.Drawing.Size(509, 182);
+            this.PhotosGridView.Size = new System.Drawing.Size(543, 232);
             this.PhotosGridView.TabIndex = 1;
             this.PhotosGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PhotosGridView_CellDoubleClick);
             // 
@@ -881,7 +880,7 @@ namespace DGManager
             this.tabPagePreview.Location = new System.Drawing.Point(4, 4);
             this.tabPagePreview.Name = "tabPagePreview";
             this.tabPagePreview.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePreview.Size = new System.Drawing.Size(515, 256);
+            this.tabPagePreview.Size = new System.Drawing.Size(549, 306);
             this.tabPagePreview.TabIndex = 4;
             this.tabPagePreview.Text = "Preview";
             this.tabPagePreview.UseVisualStyleBackColor = true;
@@ -893,7 +892,7 @@ namespace DGManager
             this.trackPreview1.Name = "trackPreview1";
             this.trackPreview1.OffsetX = 0;
             this.trackPreview1.OffsetY = 0;
-            this.trackPreview1.Size = new System.Drawing.Size(509, 250);
+            this.trackPreview1.Size = new System.Drawing.Size(543, 300);
             this.trackPreview1.TabIndex = 0;
             this.trackPreview1.Zoom = 1F;
             // 
@@ -903,7 +902,7 @@ namespace DGManager
             this.tabPageChart.Location = new System.Drawing.Point(4, 4);
             this.tabPageChart.Name = "tabPageChart";
             this.tabPageChart.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageChart.Size = new System.Drawing.Size(515, 256);
+            this.tabPageChart.Size = new System.Drawing.Size(549, 306);
             this.tabPageChart.TabIndex = 5;
             this.tabPageChart.Text = "Chart";
             this.tabPageChart.UseVisualStyleBackColor = true;
@@ -920,7 +919,7 @@ namespace DGManager
             this.zedGraphControl.ScrollMinX = 0D;
             this.zedGraphControl.ScrollMinY = 0D;
             this.zedGraphControl.ScrollMinY2 = 0D;
-            this.zedGraphControl.Size = new System.Drawing.Size(509, 250);
+            this.zedGraphControl.Size = new System.Drawing.Size(543, 300);
             this.zedGraphControl.TabIndex = 0;
             this.zedGraphControl.UseExtendedPrintDialog = true;
             // 
@@ -1634,18 +1633,6 @@ namespace DGManager
             this.DataOperationBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.UpdateProgress);
             this.DataOperationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileOperationBackgroundWorker_RunWorkerCompleted);
             // 
-            // trimTrackButton
-            // 
-            this.trimTrackButton.AutoSize = true;
-            this.trimTrackButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.trimTrackButton.Location = new System.Drawing.Point(41, 115);
-            this.trimTrackButton.Name = "trimTrackButton";
-            this.trimTrackButton.Size = new System.Drawing.Size(37, 23);
-            this.trimTrackButton.TabIndex = 6;
-            this.trimTrackButton.Text = "Trim";
-            this.trimTrackButton.UseVisualStyleBackColor = true;
-            this.trimTrackButton.Click += new System.EventHandler(this.trimTrackButton_Click);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1683,7 +1670,6 @@ namespace DGManager
             this.RightTabControl.ResumeLayout(false);
             this.PointsTabPage.ResumeLayout(false);
             this.contextMenuPoints.ResumeLayout(false);
-            this.MapTabPage.ResumeLayout(false);
             this.PhotoGeocodingTabPage.ResumeLayout(false);
             this.GeocodingSplitContainer.Panel1.ResumeLayout(false);
             this.GeocodingSplitContainer.Panel1.PerformLayout();
@@ -1771,7 +1757,6 @@ namespace DGManager
 		private System.Windows.Forms.TabControl RightTabControl;
         private System.Windows.Forms.TabPage PointsTabPage;
 		private System.Windows.Forms.TabPage MapTabPage;
-		private System.Windows.Forms.WebBrowser GMapsWebBrowser;
 		private System.Windows.Forms.SplitContainer LeftTopBottomSplitContainer;
 		private System.Windows.Forms.GroupBox TrimPointsGroupBox;
 		private System.Windows.Forms.TrackBar TrimStartTrackBar;

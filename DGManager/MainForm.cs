@@ -268,7 +268,6 @@ namespace DGManager
         public MainForm()
 		{
 			InitializeComponent();
-            MapTabPage.Controls.Remove(GMapsWebBrowser);
             Cef.Initialize(new CefSettings());
             browser = new ChromiumWebBrowser("");
             MapTabPage.Controls.Add(browser);
@@ -1342,16 +1341,16 @@ namespace DGManager
 		{
             if (e.Url.AbsolutePath.Contains("Null"))
             {
-                string latStr = ((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLat").InnerText;
-                string lonStr = ((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLong").InnerText;
-                if (String.IsNullOrEmpty(latStr) || String.IsNullOrEmpty(lonStr)) return;
-                double lat = double.Parse(latStr);
-                double lon = double.Parse(lonStr);
-                PointOfInterest pnt = new PointOfInterest(lat, lon);
-                PointOfInterestList lst = new PointOfInterestList();
-                lst.Add(pnt);
-                TrackTreeNode newNode = new TrackTreeNode(String.Format("({0:000}) GMap point", TracksTreeView.Nodes.Count + 1)) { Track = lst, Checked = true };
-                BeginInvoke(new AddNodeToTreeDelegate(AddNodeToTree), new object[] { TracksTreeView.Nodes, newNode });
+                //string latStr = ((mshtml.HTMLInputElementClass)(((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLat").DomElement)).IHTMLInputHiddenElement_value;
+                //string lonStr = ((mshtml.HTMLInputElementClass)(((System.Windows.Forms.WebBrowser)sender).Document.GetElementById("hidLong").DomElement)).IHTMLInputHiddenElement_value;
+                //if (String.IsNullOrEmpty(latStr) || String.IsNullOrEmpty(lonStr)) return;
+                //double lat = double.Parse(latStr);
+                //double lon = double.Parse(lonStr);
+                //PointOfInterest pnt = new PointOfInterest(lat, lon);
+                //PointOfInterestList lst = new PointOfInterestList();
+                //lst.Add(pnt);
+                //TrackTreeNode newNode = new TrackTreeNode(String.Format("({0:000}) GMap point", TracksTreeView.Nodes.Count + 1)) { Track = lst, Checked = true };
+                //BeginInvoke(new AddNodeToTreeDelegate(AddNodeToTree), new object[] { TracksTreeView.Nodes, newNode });
             }
             else
 			    Log("Google Maps HTML File Loaded");
