@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.IO;
 using DGManager.Backend;
-using mshtml;
 
 namespace DGManager
 {
@@ -32,21 +31,21 @@ namespace DGManager
 		//'Use Selected Location' button
 		private void button1_Click(object sender, EventArgs e)
 		{
-			IHTMLDocument3 doc = (IHTMLDocument3)webBrowser1.Document.DomDocument;
+			//IHTMLDocument3 doc = (IHTMLDocument3)webBrowser1.Document.DomDocument;
 
-			//Selected coordinates can be accessed from other forms via these public attributes
-			Latitude = ((HTMLInputElement)doc.getElementById("latbox")).value;
-			Longitude = ((HTMLInputElement)doc.getElementById("lonbox")).value;
+			////Selected coordinates can be accessed from other forms via these public attributes
+			//Latitude = ((HTMLInputElement)doc.getElementById("latbox")).value;
+			//Longitude = ((HTMLInputElement)doc.getElementById("lonbox")).value;
 
-			//update settings
-			bool rememberLocation = ((HTMLInputElement)doc.getElementById("rememberlocationbox")).@checked;
-			if (rememberLocation)
-			{
-				Settings.ManualGeocodeLastLocationLat = Latitude;
-				Settings.ManualGeocodeLastLocationLon = Longitude;
-			}
+			////update settings
+			//bool rememberLocation = ((HTMLInputElement)doc.getElementById("rememberlocationbox")).@checked;
+			//if (rememberLocation)
+			//{
+			//	Settings.ManualGeocodeLastLocationLat = Latitude;
+			//	Settings.ManualGeocodeLastLocationLon = Longitude;
+			//}
 
-			Settings.ManualGeocodeRememberLastLocation = ((HTMLInputElement)doc.getElementById("rememberlocationbox")).@checked;
+			//Settings.ManualGeocodeRememberLastLocation = ((HTMLInputElement)doc.getElementById("rememberlocationbox")).@checked;
 
 			DialogResult = DialogResult.OK;//signal that coordinates can be used
 			Close();
