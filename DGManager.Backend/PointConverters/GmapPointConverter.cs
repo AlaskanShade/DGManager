@@ -159,7 +159,23 @@ namespace DGManager.Backend
             sb.AppendLine("    //]]>");
             sb.AppendLine("    var map;");
             sb.AppendLine("    function initMap() {");
-            sb.AppendLine("       var map = new google.maps.Map(document.getElementById(\"map\"));");
+            var styles = new List<string>();
+            if (Settings.GMapsTerrainButton) styles.Add("google.maps.MapTypeId.TERRAIN");
+            if (Settings.GMapsHybridButton) styles.Add("google.maps.MapTypeId.HYBRID");
+            if (Settings.GMapsSatelliteButton) styles.Add("google.maps.MapTypeId.SATELLITE");
+            if (Settings.GMapsMapButton) styles.Add("google.maps.MapTypeId.ROADMAP");
+            sb.AppendFormat("       var map = new google.maps.Map(document.getElementById(\"map\"), {{ panControl: {0}, rotateControl: {1}, scaleControl: {2}, streetViewControl: {3}, mapTypeControlOptions: {{ mapTypeIds: [{4}] }} }});", 
+                Settings.GMapsPanControl ? "true" : "false", 
+                Settings.GMapsRotateControl ? "true" : "false",
+                Settings.GMapsScaleControl ? "true" : "false",
+                Settings.GMapsStreetViewControl ? "true" : "false",
+                String.Join(",", styles)).AppendLine();
+            if (Settings.GMapsDefaultMapType == GMapType.Terrain)
+                sb.AppendLine("map.setMapTypeId(google.maps.MapTypeId.TERRAIN)");
+            if (Settings.GMapsDefaultMapType == GMapType.Satellite)
+                sb.AppendLine("map.setMapTypeId(google.maps.MapTypeId.SATELLITE)");
+            if (Settings.GMapsDefaultMapType == GMapType.Hybrid)
+                sb.AppendLine("map.setMapTypeId(google.maps.MapTypeId.HYBRID)");
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var s = {0};{1}", firstList.BBox.S, Environment.NewLine);
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var n = {0};{1}", firstList.BBox.N, Environment.NewLine);
             sb.AppendFormat(CultureInfo.InvariantCulture, "       var w = {0};{1}", firstList.BBox.W, Environment.NewLine);
@@ -398,9 +414,10 @@ namespace DGManager.Backend
             sbLevels.Length--;
             sbLevels.Append(levelValues[0]);
             sb.AppendFormat("var poly = google.maps.geometry.encoding.decodePath(\"{0}\");", sbEncode).AppendLine();
-            sb.AppendFormat("var line = new google.maps.Polyline({{ map: map, path: poly, strokeColor: {0}, strokeWeight: {1} }});", 
+            sb.AppendFormat("var line = new google.maps.Polyline({{ map: map, path: poly, strokeColor: {0}, strokeWeight: {1}, strokeOpacity: {2} }});", 
                 (isFirstTrack && Settings.GMapsSpecifyLineColor) || (!isFirstTrack && Settings.GMapsDifferentTrackColors) ? hexColor : "null",
-                Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null");
+                Settings.GMapsSpecifyLineWidth ? Settings.GMapsLineWidth.ToString() : "null",
+                Settings.GMapsSpecifyLineOpacity ? (Settings.GMapsLineOpacity / 100.0).ToString() : "null");
             // opacity: strokeOpacity
             sb.AppendLine("google.maps.event.addListener(line, 'click', function(e) { ");
             sb.AppendLine("if (typeof(cefbound) != 'undefined') ");

@@ -40,7 +40,6 @@ namespace DGManager
             this.manuallyGeocodeSelectedPhotosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LeftRightSplitContainer = new System.Windows.Forms.SplitContainer();
             this.LeftTopBottomSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.TracksTreeView = new DGManager.TreeViewMultiSelect();
             this.contextMenuTracks = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reducePointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,7 +90,6 @@ namespace DGManager
             this.LongitudeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPagePreview = new System.Windows.Forms.TabPage();
-            this.trackPreview1 = new DGManager.TrackPreview();
             this.tabPageChart = new System.Windows.Forms.TabPage();
             this.zedGraphControl = new ZedGraph.ZedGraphControl();
             this.LogTextBox = new System.Windows.Forms.TextBox();
@@ -139,9 +137,6 @@ namespace DGManager
             this.fullToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nineDigitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.googleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.smallControlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.normalControlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.streetMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.satelliteMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hybridMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,8 +146,6 @@ namespace DGManager
             this.streetDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.satelliteDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hybridDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.overviewMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.advancedGMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updatingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,6 +176,14 @@ namespace DGManager
             this.DataOperationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.OpenMultiFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.panControlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.rotateControlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scaleControlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.streetViewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TracksTreeView = new DGManager.TreeViewMultiSelect();
+            this.trackPreview1 = new DGManager.TrackPreview();
+            this.terrainDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BottomStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LeftRightSplitContainer)).BeginInit();
             this.LeftRightSplitContainer.Panel1.SuspendLayout();
@@ -318,24 +319,6 @@ namespace DGManager
             this.LeftTopBottomSplitContainer.Size = new System.Drawing.Size(215, 332);
             this.LeftTopBottomSplitContainer.SplitterDistance = 170;
             this.LeftTopBottomSplitContainer.TabIndex = 1;
-            // 
-            // TracksTreeView
-            // 
-            this.TracksTreeView.CheckBoxes = true;
-            this.TracksTreeView.ContextMenuStrip = this.contextMenuTracks;
-            this.TracksTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TracksTreeView.HideSelection = false;
-            this.TracksTreeView.LabelEdit = true;
-            this.TracksTreeView.Location = new System.Drawing.Point(0, 0);
-            this.TracksTreeView.Name = "TracksTreeView";
-            this.TracksTreeView.Size = new System.Drawing.Size(215, 170);
-            this.TracksTreeView.TabIndex = 0;
-            this.TracksTreeView.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_BeforeLabelEdit);
-            this.TracksTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_AfterLabelEdit);
-            this.TracksTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterCheck);
-            this.TracksTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterSelect);
-            this.TracksTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TracksTreeView_NodeMouseDoubleClick);
-            this.TracksTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TracksTreeView_KeyDown);
             // 
             // contextMenuTracks
             // 
@@ -885,17 +868,6 @@ namespace DGManager
             this.tabPagePreview.Text = "Preview";
             this.tabPagePreview.UseVisualStyleBackColor = true;
             // 
-            // trackPreview1
-            // 
-            this.trackPreview1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trackPreview1.Location = new System.Drawing.Point(3, 3);
-            this.trackPreview1.Name = "trackPreview1";
-            this.trackPreview1.OffsetX = 0;
-            this.trackPreview1.OffsetY = 0;
-            this.trackPreview1.Size = new System.Drawing.Size(543, 300);
-            this.trackPreview1.TabIndex = 0;
-            this.trackPreview1.Zoom = 1F;
-            // 
             // tabPageChart
             // 
             this.tabPageChart.Controls.Add(this.zedGraphControl);
@@ -1318,8 +1290,10 @@ namespace DGManager
             // googleMapsToolStripMenuItem
             // 
             this.googleMapsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.smallControlsToolStripMenuItem,
-            this.normalControlsToolStripMenuItem,
+            this.scaleControlMenuItem,
+            this.panControlMenuItem,
+            this.rotateControlMenuItem,
+            this.streetViewMenuItem,
             this.toolStripSeparator5,
             this.streetMapToolStripMenuItem,
             this.satelliteMapToolStripMenuItem,
@@ -1327,82 +1301,60 @@ namespace DGManager
             this.terrainMapToolStripMenuItem,
             this.toolStripSeparator6,
             this.defaultMapTypeToolStripMenuItem,
-            this.toolStripSeparator7,
-            this.overviewMapToolStripMenuItem,
             this.toolStripSeparator8,
             this.advancedGMapsToolStripMenuItem});
             this.googleMapsToolStripMenuItem.Name = "googleMapsToolStripMenuItem";
             this.googleMapsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.googleMapsToolStripMenuItem.Text = "Google Maps";
             // 
-            // smallControlsToolStripMenuItem
-            // 
-            this.smallControlsToolStripMenuItem.Name = "smallControlsToolStripMenuItem";
-            this.smallControlsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.smallControlsToolStripMenuItem.Tag = "Radio";
-            this.smallControlsToolStripMenuItem.Text = "Small Controls";
-            this.smallControlsToolStripMenuItem.Click += new System.EventHandler(this.smallControlsToolStripMenuItem_Click);
-            // 
-            // normalControlsToolStripMenuItem
-            // 
-            this.normalControlsToolStripMenuItem.Name = "normalControlsToolStripMenuItem";
-            this.normalControlsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.normalControlsToolStripMenuItem.Tag = "Radio";
-            this.normalControlsToolStripMenuItem.Text = "Normal Controls";
-            this.normalControlsToolStripMenuItem.Click += new System.EventHandler(this.normalControlsToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(165, 6);
-            // 
             // streetMapToolStripMenuItem
             // 
             this.streetMapToolStripMenuItem.Name = "streetMapToolStripMenuItem";
-            this.streetMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.streetMapToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.streetMapToolStripMenuItem.Text = "Street Map";
             this.streetMapToolStripMenuItem.Click += new System.EventHandler(this.streetMapToolStripMenuItem_Click);
             // 
             // satelliteMapToolStripMenuItem
             // 
             this.satelliteMapToolStripMenuItem.Name = "satelliteMapToolStripMenuItem";
-            this.satelliteMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.satelliteMapToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.satelliteMapToolStripMenuItem.Text = "Satellite Map";
             this.satelliteMapToolStripMenuItem.Click += new System.EventHandler(this.satelliteMapToolStripMenuItem_Click);
             // 
             // hybridMapToolStripMenuItem
             // 
             this.hybridMapToolStripMenuItem.Name = "hybridMapToolStripMenuItem";
-            this.hybridMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.hybridMapToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.hybridMapToolStripMenuItem.Text = "Hybrid Map";
             this.hybridMapToolStripMenuItem.Click += new System.EventHandler(this.hybridMapToolStripMenuItem_Click);
             // 
             // terrainMapToolStripMenuItem
             // 
             this.terrainMapToolStripMenuItem.Name = "terrainMapToolStripMenuItem";
-            this.terrainMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.terrainMapToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.terrainMapToolStripMenuItem.Text = "Terrain Map";
             this.terrainMapToolStripMenuItem.Click += new System.EventHandler(this.terrainMapToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(165, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(172, 6);
             // 
             // defaultMapTypeToolStripMenuItem
             // 
             this.defaultMapTypeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.streetDefaultToolStripMenuItem,
             this.satelliteDefaultToolStripMenuItem,
-            this.hybridDefaultToolStripMenuItem});
+            this.hybridDefaultToolStripMenuItem,
+            this.terrainDefaultToolStripMenuItem});
             this.defaultMapTypeToolStripMenuItem.Name = "defaultMapTypeToolStripMenuItem";
-            this.defaultMapTypeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.defaultMapTypeToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.defaultMapTypeToolStripMenuItem.Text = "Default Map Type";
             // 
             // streetDefaultToolStripMenuItem
             // 
             this.streetDefaultToolStripMenuItem.Name = "streetDefaultToolStripMenuItem";
-            this.streetDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.streetDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.streetDefaultToolStripMenuItem.Tag = "Radio";
             this.streetDefaultToolStripMenuItem.Text = "Street";
             this.streetDefaultToolStripMenuItem.Click += new System.EventHandler(this.streetDefaultToolStripMenuItem_Click);
@@ -1410,7 +1362,7 @@ namespace DGManager
             // satelliteDefaultToolStripMenuItem
             // 
             this.satelliteDefaultToolStripMenuItem.Name = "satelliteDefaultToolStripMenuItem";
-            this.satelliteDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.satelliteDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.satelliteDefaultToolStripMenuItem.Tag = "Radio";
             this.satelliteDefaultToolStripMenuItem.Text = "Satellite";
             this.satelliteDefaultToolStripMenuItem.Click += new System.EventHandler(this.satelliteDefaultToolStripMenuItem_Click);
@@ -1418,32 +1370,20 @@ namespace DGManager
             // hybridDefaultToolStripMenuItem
             // 
             this.hybridDefaultToolStripMenuItem.Name = "hybridDefaultToolStripMenuItem";
-            this.hybridDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.hybridDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hybridDefaultToolStripMenuItem.Tag = "Radio";
             this.hybridDefaultToolStripMenuItem.Text = "Hybrid";
             this.hybridDefaultToolStripMenuItem.Click += new System.EventHandler(this.hybridDefaultToolStripMenuItem_Click);
             // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(165, 6);
-            // 
-            // overviewMapToolStripMenuItem
-            // 
-            this.overviewMapToolStripMenuItem.Name = "overviewMapToolStripMenuItem";
-            this.overviewMapToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.overviewMapToolStripMenuItem.Text = "Overview Map";
-            this.overviewMapToolStripMenuItem.Click += new System.EventHandler(this.overviewMapToolStripMenuItem_Click);
-            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(165, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(172, 6);
             // 
             // advancedGMapsToolStripMenuItem
             // 
             this.advancedGMapsToolStripMenuItem.Name = "advancedGMapsToolStripMenuItem";
-            this.advancedGMapsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.advancedGMapsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.advancedGMapsToolStripMenuItem.Text = "Advanced...";
             this.advancedGMapsToolStripMenuItem.Click += new System.EventHandler(this.advancedGMapsToolStripMenuItem_Click);
             // 
@@ -1633,6 +1573,75 @@ namespace DGManager
             this.DataOperationBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.UpdateProgress);
             this.DataOperationBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileOperationBackgroundWorker_RunWorkerCompleted);
             // 
+            // panControlMenuItem
+            // 
+            this.panControlMenuItem.Name = "panControlMenuItem";
+            this.panControlMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.panControlMenuItem.Text = "Pan Control";
+            this.panControlMenuItem.Click += new System.EventHandler(this.panControlMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(172, 6);
+            // 
+            // rotateControlMenuItem
+            // 
+            this.rotateControlMenuItem.Name = "rotateControlMenuItem";
+            this.rotateControlMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.rotateControlMenuItem.Text = "Rotate Control";
+            this.rotateControlMenuItem.Click += new System.EventHandler(this.rotateControlMenuItem_Click);
+            // 
+            // scaleControlMenuItem
+            // 
+            this.scaleControlMenuItem.Name = "scaleControlMenuItem";
+            this.scaleControlMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.scaleControlMenuItem.Text = "Scale Control";
+            this.scaleControlMenuItem.Click += new System.EventHandler(this.scaleControlMenuItem_Click);
+            // 
+            // streetViewMenuItem
+            // 
+            this.streetViewMenuItem.Name = "streetViewMenuItem";
+            this.streetViewMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.streetViewMenuItem.Text = "Street View Control";
+            this.streetViewMenuItem.Click += new System.EventHandler(this.streetMapToolStripMenuItem_Click);
+            // 
+            // TracksTreeView
+            // 
+            this.TracksTreeView.CheckBoxes = true;
+            this.TracksTreeView.ContextMenuStrip = this.contextMenuTracks;
+            this.TracksTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TracksTreeView.HideSelection = false;
+            this.TracksTreeView.LabelEdit = true;
+            this.TracksTreeView.Location = new System.Drawing.Point(0, 0);
+            this.TracksTreeView.Name = "TracksTreeView";
+            this.TracksTreeView.Size = new System.Drawing.Size(215, 170);
+            this.TracksTreeView.TabIndex = 0;
+            this.TracksTreeView.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_BeforeLabelEdit);
+            this.TracksTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_AfterLabelEdit);
+            this.TracksTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterCheck);
+            this.TracksTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterSelect);
+            this.TracksTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TracksTreeView_NodeMouseDoubleClick);
+            this.TracksTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TracksTreeView_KeyDown);
+            // 
+            // trackPreview1
+            // 
+            this.trackPreview1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackPreview1.Location = new System.Drawing.Point(3, 3);
+            this.trackPreview1.Name = "trackPreview1";
+            this.trackPreview1.OffsetX = 0;
+            this.trackPreview1.OffsetY = 0;
+            this.trackPreview1.Size = new System.Drawing.Size(543, 300);
+            this.trackPreview1.TabIndex = 0;
+            this.trackPreview1.Zoom = 1F;
+            // 
+            // terrainDefaultToolStripMenuItem
+            // 
+            this.terrainDefaultToolStripMenuItem.Name = "terrainDefaultToolStripMenuItem";
+            this.terrainDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.terrainDefaultToolStripMenuItem.Text = "Terrain";
+            this.terrainDefaultToolStripMenuItem.Click += new System.EventHandler(this.terrainDefaultToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1733,19 +1742,14 @@ namespace DGManager
 		private System.Windows.Forms.OpenFileDialog OpenFileDialog;
 		private System.Windows.Forms.SplitContainer TopBottomSplitContainer;
 		private System.Windows.Forms.ToolStripMenuItem googleMapsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem smallControlsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem normalControlsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ToolStripMenuItem streetMapToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem satelliteMapToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hybridMapToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-		private System.Windows.Forms.ToolStripMenuItem overviewMapToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem defaultMapTypeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem streetDefaultToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem satelliteDefaultToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hybridDefaultToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
 		private System.IO.Ports.SerialPort Port;
 		private System.Windows.Forms.ToolStripMenuItem uncheckSelectedFilesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem onlyCheckSelectedFilesToolStripMenuItem;
@@ -1851,6 +1855,12 @@ namespace DGManager
         private System.Windows.Forms.Button CommitGeocodingButton;
         private System.Windows.Forms.ToolStripMenuItem chartToolStripMenuItem;
         private System.Windows.Forms.Button trimTrackButton;
+        private System.Windows.Forms.ToolStripMenuItem panControlMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rotateControlMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem scaleControlMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem streetViewMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem terrainDefaultToolStripMenuItem;
     }
 }
 

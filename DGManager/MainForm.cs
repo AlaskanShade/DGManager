@@ -684,12 +684,10 @@ namespace DGManager
 			FillGrid();
 		}
 
-		private void smallControlsToolStripMenuItem_Click(object sender, EventArgs e)
+		private void streetViewControlMenuItem_Click(object sender, EventArgs e)
 		{
-			Settings.GMapsSmallControls = true;
-
-			smallControlsToolStripMenuItem.Checked = true;
-			normalControlsToolStripMenuItem.Checked = false;
+            streetViewMenuItem.Checked = !streetViewMenuItem.Checked;
+			Settings.GMapsStreetViewControl = streetViewMenuItem.Checked;
 
 			if (RightTabControl.SelectedTab == MapTabPage)
 			{
@@ -697,12 +695,32 @@ namespace DGManager
 			}
 		}
 
-		private void normalControlsToolStripMenuItem_Click(object sender, EventArgs e)
+		private void scaleControlMenuItem_Click(object sender, EventArgs e)
 		{
-			Settings.GMapsSmallControls = false;
+            scaleControlMenuItem.Checked = !scaleControlMenuItem.Checked;
+			Settings.GMapsScaleControl = scaleControlMenuItem.Checked;
 
-			smallControlsToolStripMenuItem.Checked = false;
-			normalControlsToolStripMenuItem.Checked = true;
+			if (RightTabControl.SelectedTab == MapTabPage)
+			{
+				ShowInGoogleMaps();
+			}
+		}
+
+		private void panControlMenuItem_Click(object sender, EventArgs e)
+		{
+            panControlMenuItem.Checked = !panControlMenuItem.Checked;
+			Settings.GMapsPanControl = panControlMenuItem.Checked;
+
+			if (RightTabControl.SelectedTab == MapTabPage)
+			{
+				ShowInGoogleMaps();
+			}
+		}
+
+		private void rotateControlMenuItem_Click(object sender, EventArgs e)
+		{
+            rotateControlMenuItem.Checked = !rotateControlMenuItem.Checked;
+			Settings.GMapsRotateControl = rotateControlMenuItem.Checked;
 
 			if (RightTabControl.SelectedTab == MapTabPage)
 			{
@@ -793,6 +811,7 @@ namespace DGManager
 			streetDefaultToolStripMenuItem.Checked = true;
 			satelliteDefaultToolStripMenuItem.Checked = false;
 			hybridDefaultToolStripMenuItem.Checked = false;
+            terrainDefaultToolStripMenuItem.Checked = false;
 
 			if (RightTabControl.SelectedTab == MapTabPage)
 			{
@@ -807,6 +826,7 @@ namespace DGManager
 			streetDefaultToolStripMenuItem.Checked = false;
 			satelliteDefaultToolStripMenuItem.Checked = true;
 			hybridDefaultToolStripMenuItem.Checked = false;
+            terrainDefaultToolStripMenuItem.Checked = false;
 
 			if (RightTabControl.SelectedTab == MapTabPage)
 			{
@@ -821,6 +841,7 @@ namespace DGManager
 			streetDefaultToolStripMenuItem.Checked = false;
 			satelliteDefaultToolStripMenuItem.Checked = false;
 			hybridDefaultToolStripMenuItem.Checked = true;
+            terrainDefaultToolStripMenuItem.Checked = false;
 
 			if (RightTabControl.SelectedTab == MapTabPage)
 			{
@@ -828,18 +849,14 @@ namespace DGManager
 			}
 		}
 
-		private void overviewMapToolStripMenuItem_Click(object sender, EventArgs e)
+		private void terrainDefaultToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (overviewMapToolStripMenuItem.Checked)
-			{
-				overviewMapToolStripMenuItem.Checked = false;
-				Settings.GMapsOverviewMap = false;
-			}
-			else
-			{
-				overviewMapToolStripMenuItem.Checked = true;
-				Settings.GMapsOverviewMap = true;
-			}
+			Settings.GMapsDefaultMapType = GMapType.Terrain;
+
+			streetDefaultToolStripMenuItem.Checked = false;
+			satelliteDefaultToolStripMenuItem.Checked = false;
+			hybridDefaultToolStripMenuItem.Checked = false;
+            terrainDefaultToolStripMenuItem.Checked = true;
 
 			if (RightTabControl.SelectedTab == MapTabPage)
 			{
@@ -1971,23 +1988,21 @@ namespace DGManager
 				nineDigitsToolStripMenuItem_Click(this, EventArgs.Empty);
 			}
 
-			if (Settings.GMapsSmallControls)
-			{
-				smallControlsToolStripMenuItem_Click(this, null);
-			}
-			else
-			{
-				normalControlsToolStripMenuItem_Click(this, null);
-			}
+            scaleControlMenuItem.Checked = Settings.GMapsScaleControl;
+            panControlMenuItem.Checked = Settings.GMapsPanControl;
+            rotateControlMenuItem.Checked = Settings.GMapsRotateControl;
+            streetViewMenuItem.Checked = Settings.GMapsStreetViewControl;
 
 			streetMapToolStripMenuItem.Checked = Settings.GMapsMapButton;
 			satelliteMapToolStripMenuItem.Checked = Settings.GMapsSatelliteButton;
 			hybridMapToolStripMenuItem.Checked = Settings.GMapsHybridButton;
 			terrainMapToolStripMenuItem.Checked = Settings.GMapsTerrainButton;
-			overviewMapToolStripMenuItem.Checked = Settings.GMapsOverviewMap;
 
 			switch (Settings.GMapsDefaultMapType)
 			{
+                case GMapType.Terrain:
+                    terrainDefaultToolStripMenuItem_Click(this, null);
+                    break;
 				case GMapType.Street:
 					streetDefaultToolStripMenuItem_Click(this, null);
 					break;

@@ -19,7 +19,8 @@ namespace DGManager.Backend
 	{
 		Street = 0,
 		Satellite = 1,
-		Hybrid = 2
+		Hybrid = 2,
+        Terrain = 3
 	}
 
 	public enum TrackMode
@@ -224,8 +225,17 @@ namespace DGManager.Backend
         [IniConfig("GMaps", "StrictHtml")]
         public static bool GMapsStrictHtml { get { return gMapsStrictHtml; } set { gMapsStrictHtml = value; } }
 
-        [IniConfig("GMaps", "SmallControls")]
-        public static bool GMapsSmallControls { get; set; }
+        [IniConfig("GMaps", "PanControl")]
+        public static bool GMapsPanControl { get; set; }
+
+        [IniConfig("GMaps", "RotateControl")]
+        public static bool GMapsRotateControl { get; set; }
+
+        [IniConfig("GMaps", "ScaleControl")]
+        public static bool GMapsScaleControl { get; set; }
+
+        [IniConfig("GMaps", "StreetViewControl")]
+        public static bool GMapsStreetViewControl { get; set; }
 
         [IniConfig("GMaps", "MapButton")]
 		public static bool GMapsMapButton
@@ -278,9 +288,6 @@ namespace DGManager.Backend
 				gMapsTerrainButton = value;
 			}
 		}
-
-        [IniConfig("GMaps", "OverviewMap")]
-        public static bool GMapsOverviewMap { get; set; }
 
         [IniConfig("GMaps", "DefaultMapType")]
 		public static GMapType GMapsDefaultMapType
