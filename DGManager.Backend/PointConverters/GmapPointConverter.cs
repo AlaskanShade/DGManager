@@ -297,19 +297,6 @@ namespace DGManager.Backend
                     "window.setTimeout('GV_Filter_Waypoints(map,wpts)',100); // the delay lets IE6 realize the markers are in the cache");
             }
 
-            //switch (Settings.GMapsDefaultMapType)
-            //{
-            //    case GMapType.Street:
-            //        sb.AppendLine("        map.setMapType(G_NORMAL_MAP);");
-            //        break;
-            //    case GMapType.Satellite:
-            //        sb.AppendLine("        map.setMapType(G_SATELLITE_MAP);");
-            //        break;
-            //    case GMapType.Hybrid:
-            //        sb.AppendLine("        map.setMapType(G_HYBRID_MAP);");
-            //        break;
-            //}
-            //sb.AppendLine("      }");
             sb.AppendLine("    }");
             sb.AppendLine("    </script>");
             sb.AppendFormat("    <script src=\"https://maps.googleapis.com/maps/api/js?libraries=geometry&callback=initMap&key={0}\" async defer ></script>", Settings.GMapsApiKey).AppendLine();

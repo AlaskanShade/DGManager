@@ -587,6 +587,12 @@ namespace DGManager
             else
                 RightTabControl.TabPages.Remove(tabPageChart);
         }
+
+        private void hideConsoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings.LogPanelVisible = !Settings.LogPanelVisible;
+            TopBottomSplitContainer.Panel2Collapsed = !Settings.LogPanelVisible;
+        }
         #endregion
 
         #region Settings
@@ -1942,6 +1948,7 @@ namespace DGManager
 			Height = Settings.Height;
 			LeftRightSplitContainer.SplitterDistance = Settings.TracksListWidth;
 			TopBottomSplitContainer.SplitterDistance = TopBottomSplitContainer.Height - Settings.LogPanelHeight;
+            TopBottomSplitContainer.Panel2Collapsed = !Settings.LogPanelVisible;
 
 			switch (Settings.SpeedMeasurementSystem)
 			{

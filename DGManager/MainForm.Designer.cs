@@ -181,9 +181,10 @@ namespace DGManager
             this.rotateControlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scaleControlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.streetViewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.terrainDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TracksTreeView = new DGManager.TreeViewMultiSelect();
             this.trackPreview1 = new DGManager.TrackPreview();
-            this.terrainDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BottomStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LeftRightSplitContainer)).BeginInit();
             this.LeftRightSplitContainer.Panel1.SuspendLayout();
@@ -1114,7 +1115,8 @@ namespace DGManager
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.checkedTracksInfoToolStripMenuItem,
-            this.chartToolStripMenuItem});
+            this.chartToolStripMenuItem,
+            this.hideConsoleToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
@@ -1354,7 +1356,7 @@ namespace DGManager
             // streetDefaultToolStripMenuItem
             // 
             this.streetDefaultToolStripMenuItem.Name = "streetDefaultToolStripMenuItem";
-            this.streetDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.streetDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.streetDefaultToolStripMenuItem.Tag = "Radio";
             this.streetDefaultToolStripMenuItem.Text = "Street";
             this.streetDefaultToolStripMenuItem.Click += new System.EventHandler(this.streetDefaultToolStripMenuItem_Click);
@@ -1362,7 +1364,7 @@ namespace DGManager
             // satelliteDefaultToolStripMenuItem
             // 
             this.satelliteDefaultToolStripMenuItem.Name = "satelliteDefaultToolStripMenuItem";
-            this.satelliteDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.satelliteDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.satelliteDefaultToolStripMenuItem.Tag = "Radio";
             this.satelliteDefaultToolStripMenuItem.Text = "Satellite";
             this.satelliteDefaultToolStripMenuItem.Click += new System.EventHandler(this.satelliteDefaultToolStripMenuItem_Click);
@@ -1370,7 +1372,7 @@ namespace DGManager
             // hybridDefaultToolStripMenuItem
             // 
             this.hybridDefaultToolStripMenuItem.Name = "hybridDefaultToolStripMenuItem";
-            this.hybridDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hybridDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.hybridDefaultToolStripMenuItem.Tag = "Radio";
             this.hybridDefaultToolStripMenuItem.Text = "Hybrid";
             this.hybridDefaultToolStripMenuItem.Click += new System.EventHandler(this.hybridDefaultToolStripMenuItem_Click);
@@ -1606,6 +1608,20 @@ namespace DGManager
             this.streetViewMenuItem.Text = "Street View Control";
             this.streetViewMenuItem.Click += new System.EventHandler(this.streetMapToolStripMenuItem_Click);
             // 
+            // terrainDefaultToolStripMenuItem
+            // 
+            this.terrainDefaultToolStripMenuItem.Name = "terrainDefaultToolStripMenuItem";
+            this.terrainDefaultToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.terrainDefaultToolStripMenuItem.Text = "Terrain";
+            this.terrainDefaultToolStripMenuItem.Click += new System.EventHandler(this.terrainDefaultToolStripMenuItem_Click);
+            // 
+            // hideConsoleToolStripMenuItem
+            // 
+            this.hideConsoleToolStripMenuItem.Name = "hideConsoleToolStripMenuItem";
+            this.hideConsoleToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.hideConsoleToolStripMenuItem.Text = "Show/Hide Console";
+            this.hideConsoleToolStripMenuItem.Click += new System.EventHandler(this.hideConsoleToolStripMenuItem_Click);
+            // 
             // TracksTreeView
             // 
             this.TracksTreeView.CheckBoxes = true;
@@ -1634,13 +1650,6 @@ namespace DGManager
             this.trackPreview1.Size = new System.Drawing.Size(543, 300);
             this.trackPreview1.TabIndex = 0;
             this.trackPreview1.Zoom = 1F;
-            // 
-            // terrainDefaultToolStripMenuItem
-            // 
-            this.terrainDefaultToolStripMenuItem.Name = "terrainDefaultToolStripMenuItem";
-            this.terrainDefaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.terrainDefaultToolStripMenuItem.Text = "Terrain";
-            this.terrainDefaultToolStripMenuItem.Click += new System.EventHandler(this.terrainDefaultToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1861,6 +1870,7 @@ namespace DGManager
         private System.Windows.Forms.ToolStripMenuItem scaleControlMenuItem;
         private System.Windows.Forms.ToolStripMenuItem streetViewMenuItem;
         private System.Windows.Forms.ToolStripMenuItem terrainDefaultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideConsoleToolStripMenuItem;
     }
 }
 

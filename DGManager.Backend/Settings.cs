@@ -52,6 +52,7 @@ namespace DGManager.Backend
 		private static int height = 500;
 		private static int tracksListWidth = 215;
 		private static int logPanelHeight = 120;
+        private static bool logPanelVisible = true;
 		private static MeasurementSystem speedMeasurementSystem = MeasurementSystem.Metric;
 		private static MeasurementSystem distanceMeasurementSystem = MeasurementSystem.Metric;
 		private static MeasurementSystem elevationMeasurementSystem = MeasurementSystem.Metric;
@@ -151,6 +152,13 @@ namespace DGManager.Backend
 		{
 			get { return logPanelHeight; }
 			set { logPanelHeight = value; }
+		}
+
+        [IniConfig("Display")]
+		public static bool LogPanelVisible
+		{
+			get { return logPanelVisible; }
+			set { logPanelVisible = value; }
 		}
 
         [IniConfig("Settings")]
