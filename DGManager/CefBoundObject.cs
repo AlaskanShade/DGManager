@@ -18,10 +18,10 @@ namespace DGManager
                 MapRightClick(this, new LatLngEventArgs { Lat = lat, Lng = lng });
         }
         public event EventHandler<TrackEventArgs> TrackClick;
-        public void OnTrackClick(string name, string start)
+        public void OnTrackClick(string id)
         {
             if (TrackClick != null)
-                TrackClick(this, new TrackEventArgs { TrackName = name, Start = DateTime.Parse(start) });
+                TrackClick(this, new TrackEventArgs { TrackId = Guid.Parse(id) });
         }
 
         //public void OnFrameLoadEnd(object sender, FrameLoadEndEventArgs e)
@@ -56,7 +56,6 @@ namespace DGManager
 
     public class TrackEventArgs : EventArgs
     {
-        public string TrackName { get; set; }
-        public DateTime Start { get; set; }
+        public Guid TrackId { get; set; }
     }
 }

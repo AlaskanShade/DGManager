@@ -472,6 +472,17 @@ namespace DGManager
             }
         }
 
+        private static void CheckTracksWithinBounds(TreeNodeCollection nodes, double north, double south, double east, double west)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                var trackNode = node as TrackTreeNode;
+                if (trackNode != null && trackNode.Track.Any(tn => tn.Latitude > south && tn.Latitude < north && tn.Longitude > west && tn.Longitude < east))
+                    node.Checked = true;
+                CheckTracksWithinBounds(node.Nodes, north, south, east, west);
+            }
+        }
+
         private void uncheckAllFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TracksTreeView.AfterCheck -= TracksTreeView_AfterCheck;
@@ -482,6 +493,29 @@ namespace DGManager
 
             RefreshSelectedTabPage();
             RefreshTotalCheckedPointCount();
+        }
+
+        private void checkBoundsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var task = browser.EvaluateScriptAsync("map.getBounds().toJSON()");
+            task.Wait();
+            var r = task.Result;
+            if (r.Success)
+            {
+                var dict = r.Result as Dictionary<string, object>;
+                var n = (double)dict["north"];
+                var s = (double)dict["south"];
+                var ea = (double)dict["east"];
+                var w = (double)dict["west"];
+                Log("North: " + n, true);
+                Log("South: " + s, true);
+                Log("East: " + ea, true);
+                Log("West: " + w, true);
+                CheckTracksWithinBounds(TracksTreeView.Nodes, n, s, ea, w);
+                ShowInGoogleMaps();
+            }
+            else
+                Log(r.Message);
         }
 
         private void checkSelectedFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1422,20 +1456,20 @@ namespace DGManager
 
         private void CefBrowser_TrackClick(object sender, TrackEventArgs e)
         {
-            FindAndSelectTreeNode(TracksTreeView.Nodes, e.TrackName, e.Start);
+            FindAndSelectTreeNode(TracksTreeView.Nodes, e.TrackId);
         }
-        private bool FindAndSelectTreeNode(TreeNodeCollection nodes, string trackName, DateTime startTime)
+        private bool FindAndSelectTreeNode(TreeNodeCollection nodes, Guid trackId)
         {
             foreach (TreeNode node in nodes)
             {
                 var trackNode = node as TrackTreeNode;
-                if (trackNode != null && trackNode.Track.ListName == trackName && trackNode.Track[0].When == startTime)
+                if (trackNode != null && trackNode.Track.ID == trackId)
                 {
                     Invoke((ThreadStart)delegate () { TracksTreeView.SelectedNode = trackNode; });
                     return true;
                 }
                 if (node.Nodes != null)
-                    if (FindAndSelectTreeNode(node.Nodes, trackName, startTime))
+                    if (FindAndSelectTreeNode(node.Nodes, trackId))
                         return true;
             }
             return false;
@@ -2296,7 +2330,7 @@ namespace DGManager
             ShowHideTracks(TracksTreeView.Nodes, ref index);
             var checkedNodes = GetCheckedTracks(TracksTreeView.Nodes).OfType<TrackTreeNode>();
             var bounds = checkedNodes.Select(n => n.Track.CalcBBox(true));
-            if (bounds.Count() > 0)
+            if (bounds.Count() > 0 && browser.IsBrowserInitialized)
                 browser.ExecuteScriptAsync("setBounds", bounds.Min(b => b.S), bounds.Max(b => b.N), bounds.Max(b => b.E), bounds.Min(b => b.W));
             _timerRefreshGoogle.Stop();
 		}

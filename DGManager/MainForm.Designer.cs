@@ -40,6 +40,7 @@ namespace DGManager
             this.manuallyGeocodeSelectedPhotosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LeftRightSplitContainer = new System.Windows.Forms.SplitContainer();
             this.LeftTopBottomSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.TracksTreeView = new DGManager.TreeViewMultiSelect();
             this.contextMenuTracks = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reducePointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,6 +91,7 @@ namespace DGManager
             this.LongitudeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LocationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPagePreview = new System.Windows.Forms.TabPage();
+            this.trackPreview1 = new DGManager.TrackPreview();
             this.tabPageChart = new System.Windows.Forms.TabPage();
             this.zedGraphControl = new ZedGraph.ZedGraphControl();
             this.LogTextBox = new System.Windows.Forms.TextBox();
@@ -183,8 +185,7 @@ namespace DGManager
             this.DataOperationBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.OpenMultiFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.TracksTreeView = new DGManager.TreeViewMultiSelect();
-            this.trackPreview1 = new DGManager.TrackPreview();
+            this.checkBoundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BottomStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LeftRightSplitContainer)).BeginInit();
             this.LeftRightSplitContainer.Panel1.SuspendLayout();
@@ -320,6 +321,24 @@ namespace DGManager
             this.LeftTopBottomSplitContainer.Size = new System.Drawing.Size(215, 332);
             this.LeftTopBottomSplitContainer.SplitterDistance = 170;
             this.LeftTopBottomSplitContainer.TabIndex = 1;
+            // 
+            // TracksTreeView
+            // 
+            this.TracksTreeView.CheckBoxes = true;
+            this.TracksTreeView.ContextMenuStrip = this.contextMenuTracks;
+            this.TracksTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TracksTreeView.HideSelection = false;
+            this.TracksTreeView.LabelEdit = true;
+            this.TracksTreeView.Location = new System.Drawing.Point(0, 0);
+            this.TracksTreeView.Name = "TracksTreeView";
+            this.TracksTreeView.Size = new System.Drawing.Size(215, 170);
+            this.TracksTreeView.TabIndex = 0;
+            this.TracksTreeView.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_BeforeLabelEdit);
+            this.TracksTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_AfterLabelEdit);
+            this.TracksTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterCheck);
+            this.TracksTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterSelect);
+            this.TracksTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TracksTreeView_NodeMouseDoubleClick);
+            this.TracksTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TracksTreeView_KeyDown);
             // 
             // contextMenuTracks
             // 
@@ -869,6 +888,17 @@ namespace DGManager
             this.tabPagePreview.Text = "Preview";
             this.tabPagePreview.UseVisualStyleBackColor = true;
             // 
+            // trackPreview1
+            // 
+            this.trackPreview1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trackPreview1.Location = new System.Drawing.Point(3, 3);
+            this.trackPreview1.Name = "trackPreview1";
+            this.trackPreview1.OffsetX = 0;
+            this.trackPreview1.OffsetY = 0;
+            this.trackPreview1.Size = new System.Drawing.Size(543, 300);
+            this.trackPreview1.TabIndex = 0;
+            this.trackPreview1.Zoom = 1F;
+            // 
             // tabPageChart
             // 
             this.tabPageChart.Controls.Add(this.zedGraphControl);
@@ -1016,6 +1046,7 @@ namespace DGManager
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.checkAllFilesToolStripMenuItem,
             this.uncheckAllFilesToolStripMenuItem,
+            this.checkBoundsToolStripMenuItem,
             this.toolStripSeparator3,
             this.checkSelectedFilesToolStripMenuItem,
             this.uncheckSelectedFilesToolStripMenuItem,
@@ -1626,34 +1657,12 @@ namespace DGManager
             // 
             this.OpenMultiFilesDialog.Multiselect = true;
             // 
-            // TracksTreeView
+            // checkBoundsToolStripMenuItem
             // 
-            this.TracksTreeView.CheckBoxes = true;
-            this.TracksTreeView.ContextMenuStrip = this.contextMenuTracks;
-            this.TracksTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TracksTreeView.HideSelection = false;
-            this.TracksTreeView.LabelEdit = true;
-            this.TracksTreeView.Location = new System.Drawing.Point(0, 0);
-            this.TracksTreeView.Name = "TracksTreeView";
-            this.TracksTreeView.Size = new System.Drawing.Size(215, 170);
-            this.TracksTreeView.TabIndex = 0;
-            this.TracksTreeView.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_BeforeLabelEdit);
-            this.TracksTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TracksTreeView_AfterLabelEdit);
-            this.TracksTreeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterCheck);
-            this.TracksTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TracksTreeView_AfterSelect);
-            this.TracksTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TracksTreeView_NodeMouseDoubleClick);
-            this.TracksTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TracksTreeView_KeyDown);
-            // 
-            // trackPreview1
-            // 
-            this.trackPreview1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trackPreview1.Location = new System.Drawing.Point(3, 3);
-            this.trackPreview1.Name = "trackPreview1";
-            this.trackPreview1.OffsetX = 0;
-            this.trackPreview1.OffsetY = 0;
-            this.trackPreview1.Size = new System.Drawing.Size(543, 300);
-            this.trackPreview1.TabIndex = 0;
-            this.trackPreview1.Zoom = 1F;
+            this.checkBoundsToolStripMenuItem.Name = "checkBoundsToolStripMenuItem";
+            this.checkBoundsToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.checkBoundsToolStripMenuItem.Text = "Check Tracks Within Map";
+            this.checkBoundsToolStripMenuItem.Click += new System.EventHandler(this.checkBoundsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1875,6 +1884,7 @@ namespace DGManager
         private System.Windows.Forms.ToolStripMenuItem streetViewMenuItem;
         private System.Windows.Forms.ToolStripMenuItem terrainDefaultToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideConsoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkBoundsToolStripMenuItem;
     }
 }
 
