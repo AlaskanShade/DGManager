@@ -270,13 +270,28 @@ namespace DGManager
 			InitializeComponent();
             Cef.Initialize(new CefSettings());
             browser = new ChromiumWebBrowser("");
+            //var html = ResourceExtractor.ExtractResourceToString("DGManager.Backend.Resources.map.htm");
+            ResourceExtractor.ExtractResourceToFile("DGManager.Backend.Resources.map.htm", "map.htm", true);
+            browser.Load(Path.Combine(ExeDirectoryPath, "map.htm"));
             MapTabPage.Controls.Add(browser);
             browser.Dock = DockStyle.Fill;
             var cbo = new CefBoundObject();
+            browser.ConsoleMessage += Browser_ConsoleMessage;
+            browser.StatusMessage += Browser_StatusMessage;
             browser.RegisterJsObject("cefbound", cbo);
             //browser.FrameLoadEnd += cbo.OnFrameLoadEnd;
             cbo.MapRightClick += CefBrowser_MapRightClick;
             cbo.TrackClick += CefBrowser_TrackClick;
+        }
+
+        private void Browser_StatusMessage(object sender, StatusMessageEventArgs e)
+        {
+            Log(e.Value);
+        }
+
+        private void Browser_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        {
+            Log(e.Message);
         }
 
         #region Event Handlers
@@ -2254,21 +2269,54 @@ namespace DGManager
 
 		private void ShowInGoogleMaps()
 		{
-            string htmlFilePath = Path.Combine(ExeDirectoryPath, Constants.GMAPS_FILENAME);
-            bool checkedNode = (GetCheckedTracks(TracksTreeView.Nodes).Count > 0);
-            PointWriterArgs args = new PointWriterArgs(htmlFilePath, GetTracksToSave(), Log, null) { IncludeGMapEvents = true };
-            if (!checkedNode && args.Tracks.Count > 1) return;
-            args.Photos = GetSelectedPhotos();
-            DGManager.Backend.PointConverter.SaveFile(args);
+            //         string htmlFilePath = Path.Combine(ExeDirectoryPath, Constants.GMAPS_FILENAME);
+            //         bool checkedNode = (GetCheckedTracks(TracksTreeView.Nodes).Count > 0);
+            //         PointWriterArgs args = new PointWriterArgs(htmlFilePath, GetTracksToSave(), Log, null) { IncludeGMapEvents = true };
+            //         if (!checkedNode && args.Tracks.Count > 1) return;
+            //         args.Photos = GetSelectedPhotos();
+            //         DGManager.Backend.PointConverter.SaveFile(args);
 
-			Log("Loading Google Maps HTML File");
+            //Log("Loading Google Maps HTML File");
 
-            //GMapsWebBrowser.Navigate(htmlFilePath);
-            browser.Load(htmlFilePath);
+            //         //GMapsWebBrowser.Navigate(htmlFilePath);
+            //         browser.Load(htmlFilePath);
+            int index = 0;
+            //while (!browser.IsBrowserInitialized) { }
+            ShowHideTracks(TracksTreeView.Nodes, ref index);
             _timerRefreshGoogle.Stop();
 		}
 
-		private void RefreshSelectedTabPage()
+        private void ShowHideTracks(TreeNodeCollection nodes, ref int currentIndex)
+        {
+            TrackTreeNode trackNode;
+            int dropped, trimmed;
+            foreach (TreeNode node in nodes)
+                if ((trackNode = node as TrackTreeNode) != null)
+                {
+                    if (trackNode.Checked)
+                        browser.ExecuteScriptAsync("addPolyline",
+                            trackNode.Track.ID,
+                            trackNode.Track.ToEncodedLine(Settings.GMapsDropPoints, Settings.GMapsFudgeMinDistance(), out dropped, out trimmed),
+                            GetTrackColor(currentIndex++),
+                            Settings.GMapsLineWidth,
+                            Settings.GMapsLineOpacity / 100.0);
+                    else
+                        browser.ExecuteScriptAsync("hidePolyline", trackNode.Track.ID);
+                }
+                else
+                    ShowHideTracks(node.Nodes, ref currentIndex);
+        }
+
+        private string GetTrackColor(int index)
+        {
+            Color lineColor = index == 0 ? Settings.GMapsLineColor : ColorGenerator.GetColorForTrack(index);
+            return String.Format("#{0}{1}{2}",
+                                    Convert.ToString(lineColor.R, 16).PadLeft(2, '0'),
+                                    Convert.ToString(lineColor.G, 16).PadLeft(2, '0'),
+                                    Convert.ToString(lineColor.B, 16).PadLeft(2, '0'));
+        }
+
+        private void RefreshSelectedTabPage()
 		{
 			PhotosGridView.EndEdit();
 
@@ -2276,12 +2324,13 @@ namespace DGManager
 			{
 				FillGrid();
 			}
-			else if (RightTabControl.SelectedTab == MapTabPage)
-			{
-                if (_timerRefreshGoogle.Enabled)
-                    _timerRefreshGoogle.Stop();
-                _timerRefreshGoogle.Interval = 1000;
-                _timerRefreshGoogle.Start();
+            else if (RightTabControl.SelectedTab == MapTabPage)
+            {
+                //if (_timerRefreshGoogle.Enabled)
+                //    _timerRefreshGoogle.Stop();
+                //_timerRefreshGoogle.Interval = 1000;
+                //_timerRefreshGoogle.Start();
+                ShowInGoogleMaps();
             }
             else if (RightTabControl.SelectedTab == tabPagePreview)
             {

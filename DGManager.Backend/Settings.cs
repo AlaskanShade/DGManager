@@ -387,6 +387,33 @@ namespace DGManager.Backend
 			}
 		}
 
+        public static double GMapsFudgeMinDistance()
+        {
+            //fudge the value to provide more granularity at the lower end
+
+            if (Settings.GMapsDropPointsMinDistance > 0 && Settings.GMapsDropPointsMinDistance <= 10)
+            {
+                return Settings.GMapsDropPointsMinDistance / 5;
+            }
+            else if (Settings.GMapsDropPointsMinDistance > 10 && Settings.GMapsDropPointsMinDistance <= 20)
+            {
+                return Settings.GMapsDropPointsMinDistance / 2;
+            }
+            else if (Settings.GMapsDropPointsMinDistance > 20 && Settings.GMapsDropPointsMinDistance <= 30)
+            {
+                return Settings.GMapsDropPointsMinDistance / 2;
+            }
+            else if (Settings.GMapsDropPointsMinDistance > 30 && Settings.GMapsDropPointsMinDistance <= 40)
+            {
+                return Settings.GMapsDropPointsMinDistance * 2;
+            }
+            else if (Settings.GMapsDropPointsMinDistance > 40)
+            {
+                return Settings.GMapsDropPointsMinDistance * 5;
+            }
+            return 0;
+        }
+
         [IniConfig("GMaps", "DifferentTrackColors")]
         public static bool GMapsDifferentTrackColors { get; set; }
 

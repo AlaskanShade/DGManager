@@ -137,26 +137,26 @@ namespace DGManager.Backend
             sb.AppendLine("  </head>");
             sb.AppendLine("  <body style=\"width: 100%; height: 100%; margin: 0; padding: 0;\">");
             sb.AppendLine("    <div id=\"map\"  style=\"position: absolute; top: 0; left: 0; width: 100%; height: 100%;\"></div>");
-            if (args.IncludeGMapEvents)
-            {
-                sb.AppendLine("    <input type=\"hidden\" id='hidLat' />");
-                sb.AppendLine("    <input type=\"hidden\" id='hidLong' />");
-                //sb.AppendLine("    	<iframe id=\"nulldoc\" src=\"GPSNullDoc.html\" style=\"width:0px;height:0px;display:none;\">");
-                //sb.AppendLine("    	</iframe>");
-            }
+            //if (args.IncludeGMapEvents)
+            //{
+            //    sb.AppendLine("    <input type=\"hidden\" id='hidLat' />");
+            //    sb.AppendLine("    <input type=\"hidden\" id='hidLong' />");
+            //    //sb.AppendLine("    	<iframe id=\"nulldoc\" src=\"GPSNullDoc.html\" style=\"width:0px;height:0px;display:none;\">");
+            //    //sb.AppendLine("    	</iframe>");
+            //}
             sb.AppendLine("    <script type=\"text/javascript\">");
-            sb.AppendLine("   // <![CDATA[");
-            if (args.IncludeGMapEvents)
-            {
-                sb.AppendLine("   // this will trigger a document loaded event upon completion");
-                sb.AppendLine("   // useful for signaling to the parent container to query our state");
-                sb.AppendLine("   function NullReload()");
-                sb.AppendLine("   {");
-                sb.AppendLine("   	var f = document.getElementById('nulldoc');");
-                sb.AppendLine("   	f.src = f.src;");
-                sb.AppendLine("   }");
-            }
-            sb.AppendLine("    //]]>");
+            //sb.AppendLine("   // <![CDATA[");
+            //if (args.IncludeGMapEvents)
+            //{
+            //    sb.AppendLine("   // this will trigger a document loaded event upon completion");
+            //    sb.AppendLine("   // useful for signaling to the parent container to query our state");
+            //    sb.AppendLine("   function NullReload()");
+            //    sb.AppendLine("   {");
+            //    sb.AppendLine("   	var f = document.getElementById('nulldoc');");
+            //    sb.AppendLine("   	f.src = f.src;");
+            //    sb.AppendLine("   }");
+            //}
+            //sb.AppendLine("    //]]>");
             sb.AppendLine("    var map;");
             sb.AppendLine("    function initMap() {");
             var styles = new List<string>();
@@ -212,28 +212,7 @@ namespace DGManager.Backend
                     //sb.AppendLine("points = [];");
 
                     //fudge the value to provide more granularity at the lower end
-                    double dropPointsMinDistance = 0;
-
-                    if (Settings.GMapsDropPointsMinDistance > 0 && Settings.GMapsDropPointsMinDistance <= 10)
-                    {
-                        dropPointsMinDistance = Settings.GMapsDropPointsMinDistance / 5;
-                    }
-                    else if (Settings.GMapsDropPointsMinDistance > 10 && Settings.GMapsDropPointsMinDistance <= 20)
-                    {
-                        dropPointsMinDistance = Settings.GMapsDropPointsMinDistance / 2;
-                    }
-                    else if (Settings.GMapsDropPointsMinDistance > 20 && Settings.GMapsDropPointsMinDistance <= 30)
-                    {
-                        dropPointsMinDistance = Settings.GMapsDropPointsMinDistance / 2;
-                    }
-                    else if (Settings.GMapsDropPointsMinDistance > 30 && Settings.GMapsDropPointsMinDistance <= 40)
-                    {
-                        dropPointsMinDistance = Settings.GMapsDropPointsMinDistance * 2;
-                    }
-                    else if (Settings.GMapsDropPointsMinDistance > 40)
-                    {
-                        dropPointsMinDistance = Settings.GMapsDropPointsMinDistance * 5;
-                    }
+                    double dropPointsMinDistance = Settings.GMapsFudgeMinDistance();
 
                     Color lineColor = isFirstTrack ? Settings.GMapsLineColor : ColorGenerator.GetColorForTrack(trackIndex);
                     string hexColor = String.Format("'#{0}{1}{2}'",

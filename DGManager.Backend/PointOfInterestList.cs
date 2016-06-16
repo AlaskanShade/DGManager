@@ -9,11 +9,20 @@ namespace DGManager.Backend
 
 	public class PointOfInterestList : List<PointOfInterest>
 	{
-	    //public delegate bool CurrentPointIsNotTrimmedDelegate(); 
-    	
+        //public delegate bool CurrentPointIsNotTrimmedDelegate(); 
+
+        private Guid _id;
 		public BoundingBox BBox;
         private int _trimEnd = -1;
         private ListType _type = ListType.Track;
+
+        public Guid ID
+        {
+            get
+            {
+                return _id;
+            }
+        }
 
         public string SourceFile { get; set; }
 
@@ -31,6 +40,11 @@ namespace DGManager.Backend
         public int TrimStart { get; set; }
 
         public int TrimEnd { get { return _trimEnd; } set { _trimEnd = value; } }
+
+        public PointOfInterestList()
+        {
+            _id = Guid.NewGuid();
+        }
 
         public bool PointIsTrimmed(int index)
         {
@@ -128,7 +142,51 @@ namespace DGManager.Backend
 			return x[0].When.CompareTo(y[0].When);
 		}
 
-		public override string ToString()
+        public string ToEncodedLine(bool dropPoints, double minDistanceBtwPoints, out int droppedPoints, out int trimmedPoints)
+        {
+            trimmedPoints = 0;
+            droppedPoints = 0;
+            StringBuilder sbEncode = new StringBuilder();
+            PointOfInterest lastNonDroppedPoint = null;
+            int prev_x = 0, prev_y = 0;
+            for (int i = 0; i < Count; i++)
+            {
+                PointOfInterest poi = this[i];
+
+                if (!PointIsTrimmed(i))
+                {
+                    if (!dropPoints || i == Count - 1 || poi.IsManual
+                        || poi.DistanceToPoint(this[i + 1]) >= minDistanceBtwPoints
+                        || lastNonDroppedPoint == null || poi.DistanceToPoint(lastNonDroppedPoint) >= minDistanceBtwPoints)
+                    {
+                        int x = Convert.ToInt32(poi.Latitude / .00001);
+                        int y = Convert.ToInt32(poi.Longitude / .00001);
+
+                        int delta_x = x - prev_x;
+                        int delta_y = y - prev_y;
+
+                        prev_x = x;
+                        prev_y = y;
+
+                        sbEncode.Append(GeoUtil.Encode(delta_x).Replace(@"\", @"\\"));
+                        sbEncode.Append(GeoUtil.Encode(delta_y).Replace(@"\", @"\\"));
+
+                        lastNonDroppedPoint = poi;
+                    }
+                    else
+                    {
+                        droppedPoints++;
+                    }
+                }
+                else
+                {
+                    trimmedPoints++;
+                }
+            }
+            return sbEncode.ToString();
+        }
+
+        public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder();
 			
