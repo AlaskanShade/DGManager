@@ -84,7 +84,7 @@ namespace DGManager.Backend
             }
         }
 
-        public void CalcBBox(bool reset)
+        public BoundingBox CalcBBox(bool reset)
         {
 			double n, s, e, w;
 			PointOfInterest poi;
@@ -134,6 +134,7 @@ namespace DGManager.Backend
 			BBox.S = s;
 			BBox.E = e;
 			BBox.W = w;
+            return BBox;
         }
 
 		public static int CompareListsByDate(PointOfInterestList x, PointOfInterestList y)

@@ -31,7 +31,8 @@ map.setMapTypeId(google.maps.MapTypeId.TERRAIN)
 		if (id in tracks) {
 			//alert('Showing track: ' + id);
 			tracks[id].setPath(path);
-		} else {
+			tracks[id].setVisible(true);
+        } else {
 			//alert('Adding track: ' + id + ' to map ' + map)
 			var line = new google.maps.Polyline({ map: map, path: path, strokeColor: color, strokeWeight: weight, strokeOpacity: opacity });
 			google.maps.event.addListener(line, 'click', function(e) {

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -278,10 +279,20 @@ namespace DGManager
             var cbo = new CefBoundObject();
             browser.ConsoleMessage += Browser_ConsoleMessage;
             browser.StatusMessage += Browser_StatusMessage;
+            browser.IsBrowserInitializedChanged += Browser_IsBrowserInitializedChanged;
             browser.RegisterJsObject("cefbound", cbo);
             //browser.FrameLoadEnd += cbo.OnFrameLoadEnd;
             cbo.MapRightClick += CefBrowser_MapRightClick;
             cbo.TrackClick += CefBrowser_TrackClick;
+        }
+
+        private void Browser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
+        {
+            Log(String.Format("Browser Initialized: {0}", e.IsBrowserInitialized));
+            // wait for the page to finish loading
+            //while (browser.IsLoading) { } 
+            _timerRefreshGoogle.Interval = 1000;
+            _timerRefreshGoogle.Start();
         }
 
         private void Browser_StatusMessage(object sender, StatusMessageEventArgs e)
@@ -1825,7 +1836,7 @@ namespace DGManager
 
                     Log(String.Format("{0} points loaded", pointsLoaded));
 
-                    RightTabControl.SelectedTab = PointsTabPage;
+                    //RightTabControl.SelectedTab = PointsTabPage;
                     if (tracks.Count > 0)
                     {
                         saveToolStripMenuItem.Enabled = true;
@@ -2283,11 +2294,16 @@ namespace DGManager
             int index = 0;
             //while (!browser.IsBrowserInitialized) { }
             ShowHideTracks(TracksTreeView.Nodes, ref index);
+            var checkedNodes = GetCheckedTracks(TracksTreeView.Nodes).OfType<TrackTreeNode>();
+            var bounds = checkedNodes.Select(n => n.Track.CalcBBox(true));
+            if (bounds.Count() > 0)
+                browser.ExecuteScriptAsync("setBounds", bounds.Min(b => b.S), bounds.Max(b => b.N), bounds.Max(b => b.E), bounds.Min(b => b.W));
             _timerRefreshGoogle.Stop();
 		}
 
         private void ShowHideTracks(TreeNodeCollection nodes, ref int currentIndex)
         {
+            if (!browser.IsBrowserInitialized) return;
             TrackTreeNode trackNode;
             int dropped, trimmed;
             foreach (TreeNode node in nodes)
