@@ -477,8 +477,8 @@ namespace DGManager
             foreach (TreeNode node in nodes)
             {
                 var trackNode = node as TrackTreeNode;
-                if (trackNode != null && trackNode.Track.Any(tn => tn.Latitude > south && tn.Latitude < north && tn.Longitude > west && tn.Longitude < east))
-                    node.Checked = true;
+                if (trackNode != null)
+                    node.Checked = trackNode.Track.All(tn => tn.Latitude > south && tn.Latitude < north && tn.Longitude > west && tn.Longitude < east);
                 CheckTracksWithinBounds(node.Nodes, north, south, east, west);
             }
         }
