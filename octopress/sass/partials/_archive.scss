@@ -26,7 +26,6 @@
   .entry-content { display: none; }
   time {
     .month, .day { display: inline-block; }
-    .month { text-transform: uppercase; }
   }
   @media only screen and (min-width: 768px) {
     article { margin-left: 7em; }
