@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[DGManager]]></title>
   <link href="http://alaskanshade.github.io/DGManager/atom.xml" rel="self"/>
   <link href="http://alaskanshade.github.io/DGManager/"/>
-  <updated>2016-06-16T22:27:59-08:00</updated>
+  <updated>2016-06-16T22:41:11-08:00</updated>
   <id>http://alaskanshade.github.io/DGManager/</id>
   <author>
     <name><![CDATA[Alaskanshade]]></name>
@@ -14,11 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[New Post]]></title>
-    <link href="http://alaskanshade.github.io/DGManager/blog/2016/06/16/new-post/"/>
+    <title type="html"><![CDATA[Setup GitHub Project Page]]></title>
+    <link href="http://alaskanshade.github.io/DGManager/blog/2016/06/16/first-post/"/>
     <updated>2016-06-16T22:10:39-08:00</updated>
-    <id>http://alaskanshade.github.io/DGManager/blog/2016/06/16/new-post</id>
-    <content type="html"><![CDATA[
+    <id>http://alaskanshade.github.io/DGManager/blog/2016/06/16/first-post</id>
+    <content type="html"><![CDATA[<p>I decided to start a project page here to be able to provide more information on how to use DGManager and what I am currently working on.  More content to come shortly.</p>
 ]]></content>
   </entry>
   
