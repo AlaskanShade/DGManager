@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://alaskanshade.github.io/DGManager/blog/2016/06/17/initial-documentation/</loc>
+<lastmod>2016-06-17T13:35:05-08:00</lastmod>
+</url>
+<url>
 <loc>http://alaskanshade.github.io/DGManager/blog/2016/06/16/first-post/</loc>
 <lastmod>2016-06-16T22:10:39-08:00</lastmod>
 </url>
@@ -9,5 +13,11 @@
 </url>
 <url>
 <loc>http://alaskanshade.github.io/DGManager/</loc>
+</url>
+<url>
+<loc>http://alaskanshade.github.io/DGManager/docs/</loc>
+</url>
+<url>
+<loc>http://alaskanshade.github.io/DGManager/blog/categories/documentation/</loc>
 </url>
 </urlset>

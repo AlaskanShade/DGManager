@@ -4,7 +4,7 @@
   <title><![CDATA[DGManager]]></title>
   <link href="http://alaskanshade.github.io/DGManager/atom.xml" rel="self"/>
   <link href="http://alaskanshade.github.io/DGManager/"/>
-  <updated>2016-06-16T22:41:11-08:00</updated>
+  <updated>2016-06-17T14:00:36-08:00</updated>
   <id>http://alaskanshade.github.io/DGManager/</id>
   <author>
     <name><![CDATA[Alaskanshade]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Initial Documentation]]></title>
+    <link href="http://alaskanshade.github.io/DGManager/blog/2016/06/17/initial-documentation/"/>
+    <updated>2016-06-17T13:35:05-08:00</updated>
+    <id>http://alaskanshade.github.io/DGManager/blog/2016/06/17/initial-documentation</id>
+    <content type="html"><![CDATA[<p>It isn&rsquo;t much, but I put together some basic documentation <a href="http://alaskanshade.github.io/DGManager/docs">here</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Setup GitHub Project Page]]></title>
