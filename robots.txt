@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://alaskanshade.github.io/DGManager/sitemap.xml 
