@@ -44,7 +44,6 @@ namespace DGManager
 		private KmlSettingsDialog kmlSettings;
         private DoWorkEventHandler currentDataOperationDoWorkHandler;
 		private List<PointOfInterest> allPoints;
-		private int totalCheckedPointCount;
 		private DateTime? oldestDesiredTrackDateUtc;
         private PointOfInterestList loadedPoints;
         private System.Windows.Forms.Timer _timerRefreshGoogle = new System.Windows.Forms.Timer();
@@ -451,7 +450,6 @@ namespace DGManager
             TracksTreeView.AfterCheck += TracksTreeView_AfterCheck;
 
             RefreshSelectedTabPage();
-            RefreshTotalCheckedPointCount();
         }
 
         private static void CheckAllNodes(TreeNodeCollection nodes, bool value)
@@ -492,7 +490,6 @@ namespace DGManager
             TracksTreeView.AfterCheck += TracksTreeView_AfterCheck;
 
             RefreshSelectedTabPage();
-            RefreshTotalCheckedPointCount();
         }
 
         private void checkBoundsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -528,7 +525,6 @@ namespace DGManager
             TracksTreeView.AfterCheck += TracksTreeView_AfterCheck;
 
             RefreshSelectedTabPage();
-            RefreshTotalCheckedPointCount();
         }
 
         private void uncheckSelectedFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -540,7 +536,6 @@ namespace DGManager
             TracksTreeView.AfterCheck += TracksTreeView_AfterCheck;
 
             RefreshSelectedTabPage();
-            RefreshTotalCheckedPointCount();
         }
 
         private void onlyCheckSelectedFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -553,7 +548,6 @@ namespace DGManager
             TracksTreeView.AfterCheck += TracksTreeView_AfterCheck;
 
             RefreshSelectedTabPage();
-            RefreshTotalCheckedPointCount();
         }
 
         private void removeAllTracksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -573,18 +567,17 @@ namespace DGManager
                 PointsListView.VirtualListSize = 0;
             }
 
-            RefreshTotalCheckedPointCount();
             RefreshTreeText();
         }
 
 		private void mergeCheckedTracksToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            Collection<TreeNode> checkedNodes = GetCheckedTracks(TracksTreeView.Nodes);
+            List<TrackTreeNode> checkedNodes = GetCheckedTracks(TracksTreeView.Nodes).OfType<TrackTreeNode>().ToList();
             if (checkedNodes.Count < 2) return;
-            PointOfInterestList firstCheckedTrack = (checkedNodes[0] as TrackTreeNode).Track;
+            PointOfInterestList firstCheckedTrack = checkedNodes[0].Track;
 			for (int i = 1; i < checkedNodes.Count; i++ )
 			{
-                TrackTreeNode trackNode = checkedNodes[i] as TrackTreeNode;
+                TrackTreeNode trackNode = checkedNodes[i];
                 if (trackNode != null)
                 {
                     PointOfInterestList mergeList = trackNode.Track;
@@ -617,12 +610,7 @@ namespace DGManager
         #region View
         private void checkedTracksInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Collection<TreeNode> nodes = GetCheckedTracks(TracksTreeView.Nodes);
-            Collection<PointOfInterestList> checkedTracks = new Collection<PointOfInterestList>();
-            TrackTreeNode trackNode;
-            foreach (TreeNode node in nodes)
-                if ((trackNode = node as TrackTreeNode) != null)
-                    checkedTracks.Add(trackNode.Track);
+            Collection<PointOfInterestList> checkedTracks = GetTracksToSave();
 
             if (checkedTracks.Count > 0)
             {
@@ -1505,7 +1493,6 @@ namespace DGManager
                 if (!foundUnchecked) e.Node.Parent.Checked = true;
                 else if (!foundChecked) e.Node.Parent.Checked = false;
             }
-            RefreshTotalCheckedPointCount();
 			RefreshSelectedTabPage();
 		}
 
@@ -2165,12 +2152,18 @@ namespace DGManager
             // Get data and take early exits
             //
             TrackTreeNode trackNode = TracksTreeView.SelectedNode as TrackTreeNode;
-			if (trackNode == null || TracksTreeView.Nodes.Count == 0)
-				return;
+            if (trackNode == null || TracksTreeView.Nodes.Count == 0)
+            {
+                PointsListView.Clear();
+                return;
+            }
 
             PointOfInterestList pointsOfInterest = trackNode.Track;
-			if (pointsOfInterest == null || pointsOfInterest.Count == 0)
-				return;
+            if (pointsOfInterest == null || pointsOfInterest.Count == 0)
+            {
+                PointsListView.Clear();
+                return;
+            }
 
 			PointOfInterest poi;
 
@@ -2320,22 +2313,11 @@ namespace DGManager
 
 		private void ShowInGoogleMaps()
 		{
-            //         string htmlFilePath = Path.Combine(ExeDirectoryPath, Constants.GMAPS_FILENAME);
-            //         bool checkedNode = (GetCheckedTracks(TracksTreeView.Nodes).Count > 0);
-            //         PointWriterArgs args = new PointWriterArgs(htmlFilePath, GetTracksToSave(), Log, null) { IncludeGMapEvents = true };
-            //         if (!checkedNode && args.Tracks.Count > 1) return;
-            //         args.Photos = GetSelectedPhotos();
-            //         DGManager.Backend.PointConverter.SaveFile(args);
-
-            //Log("Loading Google Maps HTML File");
-
-            //         //GMapsWebBrowser.Navigate(htmlFilePath);
-            //         browser.Load(htmlFilePath);
             int index = 0;
             //while (!browser.IsBrowserInitialized) { }
             ShowHideTracks(TracksTreeView.Nodes, ref index);
-            var checkedNodes = GetCheckedTracks(TracksTreeView.Nodes).OfType<TrackTreeNode>();
-            var bounds = checkedNodes.Select(n => n.Track.CalcBBox(true));
+            var checkedNodes = GetTracksToSave(TracksTreeView.Nodes);
+            var bounds = checkedNodes.Select(n => n.CalcBBox(true));
             if (bounds.Count() > 0 && browser.IsBrowserInitialized)
                 browser.ExecuteScriptAsync("setBounds", bounds.Min(b => b.S), bounds.Max(b => b.N), bounds.Max(b => b.E), bounds.Min(b => b.W));
             _timerRefreshGoogle.Stop();
@@ -2398,23 +2380,22 @@ namespace DGManager
             }
         }
 
-		private void RefreshTotalCheckedPointCount()
-		{
-            TrackTreeNode trackNode;
-			totalCheckedPointCount = 0;
-
-			foreach (TreeNode node in GetCheckedTracks(TracksTreeView.Nodes))
-                if ((trackNode = node as TrackTreeNode) != null && trackNode.Track != null)
-				    totalCheckedPointCount += trackNode.Track.Count;
-        }
-
         /// <summary>
         /// Refresh the trim controls based on the selected track
         /// </summary>
         private void RefreshTrimControls()
         {
             TrackTreeNode trackNode;
-            if ((trackNode = TracksTreeView.SelectedNode as TrackTreeNode) == null) return;
+            if ((trackNode = TracksTreeView.SelectedNode as TrackTreeNode) == null)
+            {
+                TrimStartTrackBar.Enabled = false;
+                TrimEndTrackBar.Enabled = false;
+                EnableTrimPointsCheckBox.Enabled = false;
+                return;
+            }
+            TrimStartTrackBar.Enabled = true;
+            TrimEndTrackBar.Enabled = true;
+            EnableTrimPointsCheckBox.Enabled = true;
             PointOfInterestList list = trackNode.Track;
             if (list == null || list.Count == 0) return;
             TrimStartTrackBar.Maximum = list.Count - 1;
