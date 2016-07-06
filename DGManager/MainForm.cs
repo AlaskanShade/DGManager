@@ -1602,6 +1602,10 @@ namespace DGManager
             {
                 selectedNode.Track.RemoveAt(0);
             }
+            selectedNode.Track.TrimStart = 0;
+            selectedNode.Track.TrimEnd = -1;
+            selectedNode.Track.IsTrimmed = false;
+            RefreshTrimControls();
             RefreshTreeText();
             EnableTrimPointsCheckBox.Checked = false;
         }
