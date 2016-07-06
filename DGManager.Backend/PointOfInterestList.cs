@@ -159,5 +159,33 @@ namespace DGManager.Backend
             if (index < TrimEnd) TrimEnd--;
             base.RemoveAt(index);
         }
-	}
+
+        public void RecalculateDistanceSpeed()
+        {
+            PointOfInterest lastPoint = null;
+            this[0].Distance = null;
+            this[0].Speed = null;
+            foreach (var poi in this)
+            {
+                if (lastPoint != null)
+                {
+                    TimeSpan time = poi.When - lastPoint.When;
+                    double dist = poi.DistanceToPoint(lastPoint);
+                    if (time.TotalSeconds > 0 && (poi.Speed == null || !poi.Speed.HasValue))
+                    {
+                        SpeedMeasurement speed = new SpeedMeasurement(dist / 1000 / time.TotalHours);
+                        poi.Speed = speed;
+                    }
+                    if (poi.Distance == null || !poi.Distance.HasValue)
+                    {
+                        if (lastPoint.Distance == null)
+                            poi.Distance = new DistanceMeasurement(dist);
+                        else
+                            poi.Distance = new DistanceMeasurement(lastPoint.Distance.GetValue(0.0) + dist);
+                    }
+                }
+                lastPoint = poi;
+            }
+        }
+    }
 }
