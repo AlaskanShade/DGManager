@@ -1400,6 +1400,7 @@ namespace DGManager
                 PointOfInterestList list = trackNode.Track;
                 for (int i = 0; i < PointsListView.SelectedIndices.Count; i++)
                     list.RemoveAt(PointsListView.SelectedIndices[0]);
+                list.RecalculateDistanceSpeed();
                 RefreshSelectedTabPage();
             }
         }
@@ -1605,6 +1606,7 @@ namespace DGManager
             selectedNode.Track.TrimStart = 0;
             selectedNode.Track.TrimEnd = -1;
             selectedNode.Track.IsTrimmed = false;
+            selectedNode.Track.RecalculateDistanceSpeed();
             RefreshTrimControls();
             RefreshTreeText();
             EnableTrimPointsCheckBox.Checked = false;
@@ -2675,6 +2677,8 @@ namespace DGManager
             track.TrimEnd = -1;
             track.IsTrimmed = false;
             node.Checked = true;
+            newTrack.RecalculateDistanceSpeed();
+            track.RecalculateDistanceSpeed();
             return node;
         }
         #endregion
