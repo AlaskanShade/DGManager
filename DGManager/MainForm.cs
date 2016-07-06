@@ -2582,7 +2582,7 @@ namespace DGManager
             List<TreeNode> checkNodes = new List<TreeNode>();
             foreach (TreeNode node in nodes)
             {
-                if (node.Checked)
+                if (node.Checked && node.GetType() == typeof(TrackTreeNode))
                     checkNodes.Add(node);
                 if (node.Nodes.Count > 0)
                     checkNodes.AddRange(GetCheckedTracks(node.Nodes, parentChecked || node.Checked));
