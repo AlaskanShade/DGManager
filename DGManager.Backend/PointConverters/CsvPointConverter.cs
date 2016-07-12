@@ -89,13 +89,13 @@ namespace DGManager.Backend
 
 			return String.Format(CultureInfo.InvariantCulture, "{0},{1:yyyy}-{1:MM}-{1:dd},{1:HH}:{1:mm}:{1:ss},{2}{3:00.0000},{4}{5:00.0000},{6},{7}",
 				recordNumber,
-				point.When.AddHours(Settings.UtcShift),
+				point.When != null ? point.When.AddHours(Settings.UtcShift) : DateTime.MinValue,
 				latDegrees,
 				latMinutes,
 				lonDegrees,
 				lonMinutes,
-				point.Speed.HasValue ? point.Speed.GetValue(MeasurementSystem.Metric).ToString("0.00", CultureInfo.InvariantCulture) : null,
-				point.Altitude.HasValue ? point.Altitude.GetValue(MeasurementSystem.Metric).ToString("0.0", CultureInfo.InvariantCulture) : null
+				point.Speed != null ? point.Speed.GetValue(MeasurementSystem.Metric).ToString("0.00", CultureInfo.InvariantCulture) : null,
+				point.Altitude != null ? point.Altitude.GetValue(MeasurementSystem.Metric).ToString("0.0", CultureInfo.InvariantCulture) : null
 				);
         }
 

@@ -10,6 +10,7 @@ namespace DGManager.Backend
         #endregion
 
         #region Properties
+        // 0 = position, 1 = position/time, 2 = position/time/elevation
         public byte TypePoi
 		{
             get { if (When == DateTime.MinValue) return 0; return typePoi; }
