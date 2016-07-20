@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Globalization;
+using System.Linq;
+using System.Xml.Linq;
 using System.Text.RegularExpressions;
 
 namespace DGManager.Backend
@@ -14,30 +16,53 @@ namespace DGManager.Backend
 
         public List<PointOfInterestList> ParseFile(string filename, PointReaderArgs args)
         {
-            string file = File.ReadAllText(filename);
-            MatchCollection mc = Regex.Matches(file, "<Placemark>(.*?)</Placemark>", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
+            var xDoc = XDocument.Load(filename);
+            XNamespace rootName = "http://www.opengis.net/kml/2.2";
+            XNamespace gxName = "http://www.google.com/kml/ext/2.2";
             List<PointOfInterestList> tracks = new List<PointOfInterestList>();
-            for (int i = 0; i < mc.Count; i++)
+            var placemarks = xDoc.Descendants(rootName + "Placemark");
+            foreach (var place in placemarks)
             {
                 PointOfInterestList track = new PointOfInterestList();
                 track.SourceFile = Path.GetFileName(filename);
-                Match nameMatch = Regex.Match(mc[i].Value, "<name>(.*?)</name>", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
-                if (nameMatch.Success) track.ListName = nameMatch.Groups[1].Value;
+                track.ListName = place.Element(rootName + "name").Value;
+                if (String.IsNullOrEmpty(track.ListName))
+                    track.ListName = String.Format("Track {0}", tracks.Count + 1);
 
-                Match m = Regex.Match(mc[i].Value, "<coordinates>(.*?)</coordinates>", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Singleline);
-                string[] coords = Regex.Split(m.Groups[1].Value.Trim(), "(?<!,)[ \n]");
-                tracks.Add(track);
-                Array.ForEach(coords, coord =>
+                var coordNode = place.Descendants(rootName + "coordinates");
+                if (coordNode != null && coordNode.Count() > 0)
                 {
-                    PointOfInterest point = new PointOfInterest();
-                    string[] parts = coord.Split(',');
-                    point.Longitude = double.Parse(parts[0]);
-                    point.Latitude = double.Parse(parts[1]);
-                    if (parts.Length > 2)
-                        point.Altitude = new ElevationMeasurement(double.Parse(parts[2]));
-                    track.Add(point);
-                });
-                track[0].Name = String.Format("Track {0}", i);
+                    track.AddRange(Regex.Split(coordNode.First().Value.Trim(), "\\s+")
+                        .Select(c => {
+                            var point = new PointOfInterest();
+                            string[] parts = c.Split(',');
+                            point.Longitude = double.Parse(parts[0]);
+                            point.Latitude = double.Parse(parts[1]);
+                            if (parts.Length > 2)
+                                point.Altitude = new ElevationMeasurement(double.Parse(parts[2]));
+                            return point;
+                        }));
+                    tracks.Add(track);
+                }
+                var trackNode = place.Element(gxName + "Track");
+                if (trackNode != null)
+                {
+                    var currentPoi = new PointOfInterest();
+                    foreach (var n in trackNode.Elements())
+                    {
+                        if (n.Name == rootName + "when")
+                            currentPoi.When = DateTime.Parse(n.Value);
+                        if (n.Name == gxName + "coord")
+                        {
+                            string[] parts = n.Value.Split(' ');
+                            currentPoi.Longitude = double.Parse(parts[0]);
+                            currentPoi.Latitude = double.Parse(parts[1]);
+                            track.Add(currentPoi);
+                            currentPoi = new PointOfInterest();
+                        }
+                    }
+                    tracks.Add(track);
+                }
             }
             return tracks;
         }
@@ -48,126 +73,99 @@ namespace DGManager.Backend
 
         public void WriteFile(PointWriterArgs args)
         {
-            StringBuilder sb = new StringBuilder();
-            StringBuilder manualPointsBuilder = new StringBuilder();
-            using (StreamWriter sw = new StreamWriter(args.Filename, false))
-            {
-                args.Log("Saving data to KML...");
-                sb.AppendLine("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-                sb.AppendLine("<kml xmlns=\"http://earth.google.com/kml/2.1\"");
-                sb.AppendLine("	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-                sb.AppendLine("	xsi:schemaLocation=\"http://earth.google.com/kml/2.1 ");
-                sb.AppendLine("	http://code.google.com/apis/kml/schema/kml21.xsd\">");
-                sb.AppendLine("  <Document>");
-                sb.AppendLine("    <name>DG-100 Tracks</name>");
-                sb.AppendFormat("    <Snippet>Generated {0:g}</Snippet>{1}", DateTime.Now, Environment.NewLine);
-                sb.AppendLine("    <Style id=\"lineStyle\">");
-                sb.AppendLine("      <LineStyle>");
-                sb.AppendLine("        <color>7fff0000</color>");
-                sb.AppendLine("        <width>6</width>");
-                sb.AppendLine("      </LineStyle>");
-                sb.AppendLine("    </Style>");
-                for (int i = 0; i < args.Tracks.Count; i++)
+            args.Log("Saving data to KML...");
+            XNamespace rootName = "http://www.opengis.net/kml/2.2";
+            XNamespace gxName = "http://www.google.com/kml/ext/2.2";
+            var doc = new XDocument();
+            doc.Add(new XElement(rootName + "kml", new XAttribute(XNamespace.Xmlns + "gx", "http://www.google.com/kml/ext/2.2"),
+                new XElement(rootName + "Document", 
+                    new XElement(rootName + "name", "DG-100 Tracks"),
+                    new XElement(rootName + "Snippet", String.Format("Generated {0:g}", DateTime.Now)),
+                    new XElement(rootName + "Style", new XAttribute("id", "lineStyle"),
+                        new XElement(rootName + "LineStyle",
+                            new XElement(rootName + "color", "7fff0000"),
+                            new XElement(rootName + "width", "6"))),
+                    args.Tracks.Select(t => TrackToPlacemark(t)))));
+            doc.Save(args.Filename);
+
+            //TODO test manual points
+            if (Settings.GuessManualPoints)
+                doc.Root.Element(rootName + "Document").Add(args.Tracks
+                    .SelectMany(t => t.Where(p => p.IsManual)
+                    .Select(p => new XElement(rootName + "Placemark",
+                        new XElement(rootName + "name", p.NameHtml),
+                        new XElement(rootName + "Point", 
+                            new XElement(rootName + "coordinates", String.Format("{0},{1},{2}", p.Longitude, p.Latitude, p.Altitude.GetValue(0.0))))))));
+            // TODO test photos
+            if (args.Photos != null)
+                args.Photos.ForEach(image =>
                 {
-                    PointOfInterestList track = args.Tracks[i];
-                    bool writtenHeader = false;
-                    for (int j = 0; j < track.Count; j++)
-                        if (track.Count > 1)
+                    if (image.Location != null)
+                    {
+                        string photoPath;
+                        string photoPathLink;
+                        if (Settings.KmlUsePhotoPathPrefix)
                         {
-                            if (!track.PointIsTrimmed(j))
-                            {
-                                if (!writtenHeader)
-                                {
-                                    sb.AppendLine("    <Placemark>");
-                                    sb.AppendLine(String.Format("  	  <name>{0}</name>", track.DisplayName));
-                                    sb.AppendLine("  		<styleUrl>#lineStyle</styleUrl>");
-                                    sb.AppendLine("  		<LineString>");
-                                    sb.AppendLine("  		    <tessellate>1</tessellate>");
-                                    sb.AppendLine("  			<coordinates>");
-                                    writtenHeader = true;
-                                }
-                                if (writtenHeader)
-                                    sb.Append(PointToKML(track[j], manualPointsBuilder));
-                            }
-                            if (writtenHeader && j == (track.Count - 1))
-                            {
-                                sb.AppendLine("  			</coordinates>");
-                                sb.AppendLine("  		</LineString>");
-                                sb.AppendLine("  	</Placemark>");
-                            }
+                            photoPath = Settings.KmlPhotoPathPrefix + Path.GetFileName(image.FilePath);
+                            photoPathLink = photoPath;
                         }
                         else
                         {
-                            sb.AppendLine("    <Placemark>");
-                            sb.AppendLine(String.Format("  	  <name>{0}</name>", track.DisplayName));
-                            sb.AppendLine("      <Point>");
-                            sb.AppendLine(String.Format("       <coordinates>{0}, {1}, 0</coordinates>", track[0].Longitude, track[1].Latitude));
-                            sb.AppendLine("      </Point>");
-                            sb.AppendLine("    </Placemark>");
+                            photoPath = image.FilePath;
+                            photoPathLink = String.Format("file:///{0}", image.FilePath.Replace(@"\", "/").Replace(" ", "%20"));
                         }
-                    args.ReportProgress(i + 1);
-                }
-                if (Settings.GuessManualPoints)
-                    sb.AppendLine(manualPointsBuilder.ToString());
-                if (args.Photos != null)
-                    args.Photos.ForEach(image =>
-                    {
-                        if (image.Location != null)
-                        {
-                            string photoPath;
-                            string photoPathLink;
-                            if (Settings.KmlUsePhotoPathPrefix)
-                            {
-                                photoPath = Settings.KmlPhotoPathPrefix + Path.GetFileName(image.FilePath);
-                                photoPathLink = photoPath;
-                            }
-                            else
-                            {
-                                photoPath = image.FilePath;
-                                photoPathLink = String.Format("file:///{0}", image.FilePath.Replace(@"\", "/").Replace(" ", "%20"));
-                            }
-                            sb.AppendFormat("<Placemark><name><![CDATA[{0}]]></name><description><![CDATA[<p>{1}</p><p><a href=\"{2}\"><img src=\"{1}\" width=\"300\"><br>Show image in browser window</a></p>]]></description><Style><IconStyle><Icon><href>http://www.panorado.com/Placemark_PF.php?id=UEZfMS4yLjEuMg==</href></Icon></IconStyle></Style><Point><coordinates>{3},{4},{5}</coordinates></Point></Placemark>", Path.GetFileNameWithoutExtension(image.FilePath), photoPath, photoPathLink, image.Location.Longitude.ToString(CultureInfo.InvariantCulture), image.Location.Latitude.ToString(CultureInfo.InvariantCulture), image.Location.Altitude.HasValue ? image.Location.Altitude.Value.ToString(CultureInfo.InvariantCulture) : "0");
-                        }
-                    });
-                sb.AppendLine("  </Document>");
-                sb.AppendLine("</kml>");
-                sw.Write(sb.ToString());
-                sw.Close();
-            }
+                        doc.Root.Element(rootName + "Document").Add(new XElement(rootName + "Placemark",
+                            new XElement(rootName + "name", String.Format("<![CDATA[{0}]]>", Path.GetFileNameWithoutExtension(image.FilePath))),
+                            new XElement(rootName + "description", String.Format("<![CDATA[<p>{0}</p><p><a href=\"{1}\"><img src=\"{0}\" width=\"300\"><br>Show image in browser window</a></p>]]>", photoPath, photoPathLink)),
+                            new XElement(rootName + "Style",
+                                new XElement(rootName + "IconStyle",
+                                    new XElement(rootName + "Icon", 
+                                        new XElement(rootName + "href", "http://www.panorado.com/Placemark_PF.php?id=UEZfMS4yLjEuMg==")))),
+                            new XElement(rootName + "Point",
+                                new XElement(rootName + "coordinates", String.Format("{0},{1},{2}", image.Location.Longitude, image.Location.Latitude, image.Location.Altitude.HasValue ? image.Location.Altitude.Value : 0)))));
+                    }
+                });
 
             args.Log(String.Format("{0} saved", args.Filename));
         }
 
-        private static string PointToKML(PointOfInterest point)
+        private static XElement TrackToPlacemark(PointOfInterestList track)
         {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("      <Placemark>");
-            sb.AppendFormat("        <name>{0}</name>{1}", point.NameHtml, Environment.NewLine);
-            //sb.AppendLine("        <styleUrl>#waypoint</styleUrl>");
-            sb.AppendLine("        <Point>");
-            sb.AppendFormat("          <coordinates>{0},{1},{2}</coordinates>{3}",
-                                 point.Longitude.ToString(CultureInfo.InvariantCulture),
-                                 point.Latitude.ToString(CultureInfo.InvariantCulture),
-                                 point.Altitude.GetValue(0.0).ToString(CultureInfo.InvariantCulture), 
-                                 Environment.NewLine);
-            sb.AppendLine("        </Point>");
-            sb.AppendLine("      </Placemark>");
-
-            return sb.ToString();
-        }
-
-        private static string PointToKML(PointOfInterest point, StringBuilder manualPointsBuilder)
-        {
-            if (point.IsManual)
+            XNamespace rootName = "http://www.opengis.net/kml/2.2";
+            XNamespace gxName = "http://www.google.com/kml/ext/2.2";
+            var e = new XElement(rootName + "Placemark",
+                new XElement(rootName + "name", track.ListName));
+            if (track.Count == 1)
+                e.Add(new XElement(rootName + "Point"), new XElement(rootName + "coordinates", String.Format("{0}, {1}, 0", track[0].Longitude, track[0].Latitude)));
+            else if (track[0].TypePoi > 0) // has time
             {
-                manualPointsBuilder.Append(PointToKML(point));
+                var trackNode = new XElement(gxName + "Track");
+                e.Add(trackNode);
+                if (track[0].TypePoi < 2) // no elevation
+                    trackNode.Add(new XElement(rootName + "altitudeMode", "clampToGround"));
+                else
+                    trackNode.Add(new XElement(rootName + "altitudeMode", "absolute"));
+                for (int i = 0; i < track.Count; i++)
+                    if (!track.PointIsTrimmed(i))
+                    {
+                        trackNode.Add(new XElement(rootName + "when", track[i].When));
+                        trackNode.Add(new XElement(gxName + "coord", String.Format("{0} {1} {2}", track[i].Longitude, track[i].Latitude, track[i].Altitude != null ? track[i].Altitude.GetValue(0.0) : 0)));
+                    }
             }
-
-            return String.Format("{0},{1},{2} ",
-                                 point.Longitude.ToString(CultureInfo.InvariantCulture),
-                                 point.Latitude.ToString(CultureInfo.InvariantCulture),
-                                 point.Altitude.GetValue(0.0).ToString(CultureInfo.InvariantCulture));
+            else
+            {
+                var lineNode = new XElement(rootName + "LineString", 
+                    new XElement(rootName + "altitudeMode", "clampToGround"));
+                e.Add(lineNode);
+                var coordNode = new XElement(rootName + "coordinates");
+                lineNode.Add(coordNode);
+                var coords = new List<string>();
+                for (int i = 0; i < track.Count; i++)
+                    if (!track.PointIsTrimmed(i))
+                        coords.Add(String.Format("{0},{1},{2}", track[i].Longitude, track[i].Latitude, track[i].Altitude != null ? track[i].Altitude.GetValue(0.0) : 0));
+                coordNode.Value = String.Join(Environment.NewLine, coords);
+            }
+            return e;
         }
 
         #endregion
