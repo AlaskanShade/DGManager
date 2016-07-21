@@ -51,12 +51,13 @@ namespace DGManager.Backend
                     foreach (var n in trackNode.Elements())
                     {
                         if (n.Name == rootName + "when")
-                            currentPoi.When = DateTime.Parse(n.Value);
+                            currentPoi.When = DateTime.Parse(n.Value, null, DateTimeStyles.AssumeLocal).ToUniversalTime();
                         if (n.Name == gxName + "coord")
                         {
                             string[] parts = n.Value.Split(' ');
                             currentPoi.Longitude = double.Parse(parts[0]);
                             currentPoi.Latitude = double.Parse(parts[1]);
+                            currentPoi.TypePoi = 1;
                             track.Add(currentPoi);
                             currentPoi = new PointOfInterest();
                         }
