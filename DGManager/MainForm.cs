@@ -289,7 +289,7 @@ namespace DGManager
         {
             Log(String.Format("Browser Initialized: {0}", e.IsBrowserInitialized));
             // wait for the page to finish loading
-            //while (browser.IsLoading) { } 
+            while (browser.IsLoading) { } 
             _timerRefreshGoogle.Interval = 1000;
             _timerRefreshGoogle.Start();
         }
@@ -554,6 +554,7 @@ namespace DGManager
         {
             PointsListView.VirtualListSize = 0;
             TracksTreeView.Nodes.Clear();
+            browser.ExecuteScriptAsync("clearPolylines");
             SetWindowTitle(null);
         }
 
@@ -1893,7 +1894,11 @@ namespace DGManager
             }
 
             if (clearFiles)
+            {
                 TracksTreeView.Nodes.Clear();
+                if (browser.IsBrowserInitialized && !browser.IsLoading)
+                    browser.ExecuteScriptAsync("clearPolylines");
+            }
 
             SetWindowTitle(Path.GetFileName(filenames[0]));
 
@@ -2315,6 +2320,7 @@ namespace DGManager
 		{
             int index = 0;
             //while (!browser.IsBrowserInitialized) { }
+            //while (browser.IsLoading) { }
             ShowHideTracks(TracksTreeView.Nodes, ref index);
             var checkedNodes = GetTracksToSave(TracksTreeView.Nodes);
             var bounds = checkedNodes.Select(n => n.CalcBBox(true));
@@ -2491,7 +2497,8 @@ namespace DGManager
             // TODO Add parameter for node collection to allow for structured tree
             PointsListView.VirtualListSize = 0;
 			TracksTreeView.Nodes.Clear();
-			DateTime prevWhen = DateTime.MinValue;
+            browser.ExecuteScriptAsync("clearPolylines");
+            DateTime prevWhen = DateTime.MinValue;
 
 			for (int i = 0; i < AllPoints.Count; i++)
 			{
@@ -3555,7 +3562,8 @@ namespace DGManager
 
             PointsListView.VirtualListSize = 0;
 			TracksTreeView.Nodes.Clear();
-			TracksTreeView.Enabled = false;
+            browser.ExecuteScriptAsync("clearPolylines");
+            TracksTreeView.Enabled = false;
 			Port.Write(command, 0, 11);
 
 			SetWindowTitle(null);

@@ -285,7 +285,7 @@ namespace DGManager.Backend
                     point.Altitude.GetValue(0.0).ToString(CultureInfo.InvariantCulture));
             }
 
-            if (Settings.GpxSaveSpeedData && point.Speed != null)
+            if (Settings.GpxSaveSpeedData && point.Speed != null && point.Speed.HasValue)
             {
                 sb.AppendFormat("    <extensions>{0}       <gpxdgm:pointExtension>{0}", Environment.NewLine);
                 sb.AppendFormat("          <gpxdgm:speed>{0}</gpxdgm:speed>" + Environment.NewLine,

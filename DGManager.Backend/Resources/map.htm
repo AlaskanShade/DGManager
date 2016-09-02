@@ -48,6 +48,11 @@ map.setMapTypeId(google.maps.MapTypeId.TERRAIN)
 			tracks[id].setVisible(false);
 		}
 	}
+	function clearPolylines() {
+	    for (id in tracks) {
+	        tracks[id].setVisible(false);
+	    }
+	}
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&callback=initMap&key=AIzaSyAQyLDstBSVvaQuiiS_RpoOOZjfJqBkaXk" async defer ></script>
   </body>

@@ -113,7 +113,7 @@ namespace DGManager
 						endDate = point.When;
 					}
 
-					if (point.Speed.HasValue)
+					if (point.Speed != null && point.Speed.HasValue)
 					{
 						if (!minSpeed.HasValue || point.Speed.GetValue() < minSpeed.GetValue())
 						{
