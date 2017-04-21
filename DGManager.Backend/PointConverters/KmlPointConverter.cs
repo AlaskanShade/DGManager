@@ -29,7 +29,7 @@ namespace DGManager.Backend
                 if (String.IsNullOrEmpty(track.ListName))
                     track.ListName = String.Format("Track {0}", tracks.Count + 1);
 
-                var coordNode = place.Descendants(rootName + "coordinates");
+                var coordNode = place.Descendants(rootName + "coordinates").Where(n => !String.IsNullOrEmpty(n.Value));
                 if (coordNode != null && coordNode.Count() > 0)
                 {
                     track.AddRange(Regex.Split(coordNode.First().Value.Trim(), "\\s+")
